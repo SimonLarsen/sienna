@@ -10,8 +10,16 @@ function loadMap(name)
 
 	MAPW = map.width*TILEW
 	MAPH = map.height*TILEW
-end
+	START_X = 16
+	START_Y = 192
 
+	for i,v in ipairs(map.objectLayers.obj.objects) do
+		if v.type == "start" then
+			START_X = v.x
+			START_Y = v.y
+		end
+	end
+end
 
 function collidePoint(x,y)
 	return isSolid(floor(x/TILEW), floor(y/TILEW))

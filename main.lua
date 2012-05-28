@@ -3,7 +3,7 @@ HEIGHT = 200
 TILEW = 16
 MAPW = 0
 MAPH = 0
-SCALE = 2
+SCALE = 3
 
 require("resources")
 require("player")
@@ -17,6 +17,7 @@ local lg = love.graphics
 
 function love.load()
 	lg.setMode(WIDTH*SCALE, HEIGHT*SCALE, false, true)
+	lg.setBackgroundColor(71,44,31)
 	lg.setDefaultImageFilter("nearest","nearest")
 
 	loadImages()
@@ -24,7 +25,7 @@ function love.load()
 
 	loadMap("test.tmx")
 
-	player = Player.create(128, 128)
+	player = Player.create(START_X, START_Y)
 end
 
 function love.update(dt)
@@ -33,8 +34,8 @@ end
 
 function love.draw()
 	lg.scale(SCALE)
-	tx = floor(min(max(0, player.x + 6.5 - WIDTH/2), MAPW-WIDTH)*2000)/2000
-	ty = floor(min(max(0, player.y + 10 - HEIGHT/2), MAPH-HEIGHT)*2000)/2000
+	tx = floor(min(max(0, player.x + 6.5 - WIDTH/2), MAPW-WIDTH)*20)/20
+	ty = floor(min(max(0, player.y + 10 - HEIGHT/2), MAPH-HEIGHT)*20)/20
 
 	lg.translate(-tx, -ty)
 
@@ -46,5 +47,11 @@ end
 function love.keypressed(k, uni)
 	if k == "escape" then
 		love.event.quit()
+	else
+		player:keypressed(k, uni)
 	end
+end
+
+function love.keyreleased(k, uni)
+	player:keyreleased(k, uni)
 end
