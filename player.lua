@@ -6,6 +6,7 @@ local MAX_SPEED = 200
 local GRAVITY = 1000
 local JUMP_POWER = 200
 local MAX_JUMP = 32
+local BRAKE_POWER = 1
 local COL_OFFSETS = {{-5.5,  2}, {5.5,  2},
 					 {-5.5, 10}, {5.5, 10},
 					 {-5.5, 20}, {5.5, 20}}
@@ -22,11 +23,13 @@ function Player.create(x,y)
 
 	self.dir = 1 -- -1 or 1
 	self.frame = 0
+	self.acc = 0
 
 	self.xspeed = 0
 	self.yspeed = 0
 	self.onGround = false
 	self.jump = 0
+	self.brake = 0
 	self.onWall = false
 
 	return self
@@ -43,7 +46,14 @@ function Player:update(dt)
 		self.yspeed = MAX_SPEED
 	end
 
-	self.xspeed = self.dir*PLAYER_SPEED
+	self.acc = math.min(self.acc+2*dt, 1)
+	self.brake = math.min(self.brake+dt, BRAKE_POWER)
+
+	if lk.isDown("lshift") and self.brake > 0 then
+		self.acc = self.acc - 3*dt
+		self.brake = self.brake - 3*dt
+	end
+	self.xspeed = self.dir*PLAYER_SPEED*self.acc
 
 	if self.jump > 0 then
 		self.yspeed = -JUMP_POWER
@@ -57,9 +67,9 @@ function Player:update(dt)
 	-- check wall jump
 	self.onWall = false
 	if self.onGround == false then
-		if self.dir == -1 and collidePoint(self.x-6, self.y+19) then
+		if self.dir == -1 and collidePoint(self.x-6, self.y+10) then
 			self.onWall = true
-		elseif self.dir == 1 and collidePoint(self.x+6, self.y+19) then
+		elseif self.dir == 1 and collidePoint(self.x+6, self.y+10) then
 			self.onWall = true
 		end
 	end

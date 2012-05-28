@@ -1,13 +1,14 @@
-WIDTH = 300
-HEIGHT = 200
-TILEW = 16
-MAPW = 0
-MAPH = 0
-SCALE = 3
-
 require("resources")
 require("player")
 require("map")
+require("spike")
+
+local WIDTH = 300
+local HEIGHT = 200
+local SCALE = 3
+TILEW = 16
+MAPW = 0
+MAPH = 0
 
 local love = love
 local min = math.min
@@ -25,11 +26,13 @@ function love.load()
 
 	loadMap("test.tmx")
 
-	player = Player.create(START_X, START_Y)
+	player = Player.create(map.startx, map.starty)
+	sp = Spike.create(2,12)
 end
 
 function love.update(dt)
 	player:update(dt)
+	Spike.update(dt)
 end
 
 function love.draw()
@@ -42,6 +45,10 @@ function love.draw()
 	map:setDrawRange(tx,ty,WIDTH,HEIGHT)
 	map:draw()
 	player:draw()
+
+	for i,v in ipairs(map.spikes) do
+		v:draw()
+	end
 end
 
 function love.keypressed(k, uni)
