@@ -18,8 +18,14 @@ function Player.create(x,y)
 	local self = {}
 	setmetatable(self,Player)
 
-	self.x = x or 0
-	self.y = y or 0
+	self:respawn(x,y)
+
+	return self
+end
+
+function Player:respawn(x,y)
+	self.x = x or map.startx
+	self.y = y or map.starty
 
 	self.dir = 1 -- -1 or 1
 	self.frame = 0
@@ -31,8 +37,6 @@ function Player.create(x,y)
 	self.jump = 0
 	self.brake = 0
 	self.onWall = false
-
-	return self
 end
 
 function Player:update(dt)
@@ -49,7 +53,7 @@ function Player:update(dt)
 	self.acc = math.min(self.acc+2*dt, 1)
 	self.brake = math.min(self.brake+dt, BRAKE_POWER)
 
-	if lk.isDown("lshift") and self.brake > 0 then
+	if lk.isDown("lshift","left") and self.brake > 0 then
 		self.acc = self.acc - 3*dt
 		self.brake = self.brake - 3*dt
 	end
@@ -73,10 +77,16 @@ function Player:update(dt)
 			self.onWall = true
 		end
 	end
+
+	for i,v in ipairs(map.spikes) do
+		if v:collidePlayer(self) then
+			self:respawn()
+		end
+	end
 end
 
 function Player:keypressed(k, uni)
-	if k == " " then
+	if k == " " or k == "up" then
 		if self.onGround == true then
 			self.jump = MAX_JUMP
 		elseif self.onWall == true then
@@ -91,7 +101,7 @@ function Player:keypressed(k, uni)
 end
 
 function Player:keyreleased(k, uni)
-	if k == " " then
+	if k == " " or k == "up" then
 		if self.jump > 0 then
 			self.jump = 0
 		end

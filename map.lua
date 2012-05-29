@@ -8,6 +8,7 @@ function loadMap(name)
 	map = loader.load(name)
 	map.drawObjects = false
 	map.spikes = {}
+	map.particles = {}
 	fgtiles = map.tileLayers.fg.tileData
 
 	MAPW = map.width*TILEW

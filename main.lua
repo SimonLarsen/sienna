@@ -2,10 +2,14 @@ require("resources")
 require("player")
 require("map")
 require("spike")
+require("particles")
 
-local WIDTH = 300
-local HEIGHT = 200
-local SCALE = 3
+local SCREEN_WIDTH = 1024
+local SCREEN_HEIGHT = 768
+local SCALE = 4
+local WIDTH = SCREEN_WIDTH/SCALE
+local HEIGHT = SCREEN_HEIGHT/SCALE
+local SCROLL_SPEED = 300
 TILEW = 16
 MAPW = 0
 MAPH = 0
@@ -26,19 +30,36 @@ function love.load()
 
 	loadMap("test.tmx")
 
+	tx = 0
+	ty = MAPH-HEIGHT
+
 	player = Player.create(map.startx, map.starty)
-	sp = Spike.create(2,12)
 end
 
 function love.update(dt)
+	if love.keyboard.isDown("s") then
+		dt = dt/10
+	end
 	player:update(dt)
 	Spike.update(dt)
+
+	local totx = player.x + 6.5 - WIDTH/2
+	local toty = player.y + 10 - HEIGHT/2
+	tx = min(max(0, tx+(totx-tx)*4*dt), MAPW-WIDTH)
+	ty = min(max(0, ty+(toty-ty)*4*dt), MAPH-HEIGHT)
+
+	for i=#map.particles,1,-1 do
+		local part = map.particles[i]
+		if part.alive == true then
+			part:update(dt)
+		else
+			table.remove(map.particles, i)
+		end
+	end
 end
 
 function love.draw()
 	lg.scale(SCALE)
-	tx = floor(min(max(0, player.x + 6.5 - WIDTH/2), MAPW-WIDTH)*20)/20
-	ty = floor(min(max(0, player.y + 10 - HEIGHT/2), MAPH-HEIGHT)*20)/20
 
 	lg.translate(-tx, -ty)
 
@@ -49,11 +70,17 @@ function love.draw()
 	for i,v in ipairs(map.spikes) do
 		v:draw()
 	end
+
+	for i,v in ipairs(map.particles) do
+		v:draw()
+	end
 end
 
 function love.keypressed(k, uni)
 	if k == "escape" then
 		love.event.quit()
+	elseif k == "r" then
+		player:respawn(map.startx, map.starty)
 	else
 		player:keypressed(k, uni)
 	end
