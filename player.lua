@@ -83,6 +83,23 @@ function Player:update(dt)
 			self:respawn()
 		end
 	end
+	self:checkTiles()
+end
+
+function Player:checkTiles()
+	local bx, by, tile
+	for i=1, #COL_OFFSETS do
+		bx = floor((self.x+COL_OFFSETS[i][1]) / TILEW)
+		by = floor((self.y+COL_OFFSETS[i][2]) / TILEW)
+		tile = fgtiles(bx,by)
+		if tile ~= nil then
+			print(tile.id)
+			if tile.id >= OBJ_SPIKE_S and tile.id <= OBJ_SPIKE_E then
+				self:respawn()
+				return
+			end
+		end
+	end
 end
 
 function Player:keypressed(k, uni)
@@ -109,12 +126,13 @@ function Player:keyreleased(k, uni)
 end
 
 function Player:moveY(dist)
+	local bx, by
 	local newy = self.y + dist
 	local col = false
 
 	for i=1, #COL_OFFSETS do
-		local bx = floor((self.x+COL_OFFSETS[i][1]) / TILEW)
-		local by = floor((newy+COL_OFFSETS[i][2]) / TILEW)
+		bx = floor((self.x+COL_OFFSETS[i][1]) / TILEW)
+		by = floor((newy+COL_OFFSETS[i][2]) / TILEW)
 
 		if isSolid(bx, by) == true then
 			col = true

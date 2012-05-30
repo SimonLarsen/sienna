@@ -1,8 +1,10 @@
+OBJ_ROTSPIKE = 513
+OBJ_SPIKE_S = 33
+OBJ_SPIKE_E = 36
+
+local floor = math.floor
 local loader = require("AdvTiledLoader.Loader")
 loader.path = "maps/"
-
-local OBJ_SPIKE = 513
-local floor = math.floor
 
 function loadMap(name)
 	map = loader.load(name)
@@ -20,7 +22,7 @@ function loadMap(name)
 		if v.type == "start" then
 			map.startx = v.x
 			map.starty = v.y
-		elseif v.gid == OBJ_SPIKE or v.gid == OBJ_SPIKE+1 then
+		elseif v.gid == OBJ_ROTSPIKE or v.gid == OBJ_ROTSPIKE+1 then
 			table.insert(map.spikes, Spike.create(v.x, v.y-16))
 		end
 	end

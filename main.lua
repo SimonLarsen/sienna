@@ -4,9 +4,9 @@ require("map")
 require("spike")
 require("particles")
 
-local SCREEN_WIDTH = 1024
-local SCREEN_HEIGHT = 768
-local SCALE = 4
+local SCREEN_WIDTH = 800
+local SCREEN_HEIGHT = 600
+local SCALE = 3
 local WIDTH = SCREEN_WIDTH/SCALE
 local HEIGHT = SCREEN_HEIGHT/SCALE
 local SCROLL_SPEED = 300
@@ -45,8 +45,8 @@ function love.update(dt)
 
 	local totx = player.x + 6.5 - WIDTH/2
 	local toty = player.y + 10 - HEIGHT/2
-	tx = min(max(0, tx+(totx-tx)*4*dt), MAPW-WIDTH)
-	ty = min(max(0, ty+(toty-ty)*4*dt), MAPH-HEIGHT)
+	tx = min(max(0, tx+(totx-tx)*6*dt), MAPW-WIDTH)
+	ty = min(max(0, ty+(toty-ty)*6*dt), MAPH-HEIGHT)
 
 	for i=#map.particles,1,-1 do
 		local part = map.particles[i]
