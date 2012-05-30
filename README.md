@@ -24,9 +24,9 @@ All maps must contains three layers. Two tile layers, *fg* and *bg*, using tiles
 #### *obj* layer ####
 Currently added object types
 
-+----------------+------------------------------------------+
-| type           | defined as                               |
-|----------------|------------------------------------------|
-| player start   | any object with type "start"             |
-| rotating spike | gid = 513-514, defined by *OBJ_ROTSPIKE* |
-+----------------+------------------------------------------+
+    +----------------+------------------------------------------+
+    | type           | defined as                               |
+    |----------------|------------------------------------------|
+    | player start   | any object with type "start"             |
+    | rotating spike | gid = 513-514, defined by *OBJ_ROTSPIKE* |
+    +----------------+------------------------------------------+
