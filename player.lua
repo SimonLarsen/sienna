@@ -83,7 +83,14 @@ function Player:update(dt)
 			self:respawn()
 		end
 	end
+	for i,v in ipairs(map.entities) do
+		v:collidePlayer(self)
+	end
+
 	self:checkTiles()
+	if self.y > MAPH then
+		self:respawn()
+	end
 end
 
 function Player:checkTiles()
@@ -93,10 +100,11 @@ function Player:checkTiles()
 		by = floor((self.y+COL_OFFSETS[i][2]) / TILEW)
 		tile = fgtiles(bx,by)
 		if tile ~= nil then
-			print(tile.id)
 			if tile.id >= OBJ_SPIKE_S and tile.id <= OBJ_SPIKE_E then
-				self:respawn()
-				return
+				if collideSpike(bx,by,self) then
+					self:respawn()
+					return
+				end
 			end
 		end
 	end

@@ -3,6 +3,7 @@ require("player")
 require("map")
 require("spike")
 require("particles")
+require("checkpoint")
 
 local SCREEN_WIDTH = 800
 local SCREEN_HEIGHT = 600
@@ -68,6 +69,10 @@ function love.draw()
 	player:draw()
 
 	for i,v in ipairs(map.spikes) do
+		v:draw()
+	end
+
+	for i,v in ipairs(map.entities) do
 		v:draw()
 	end
 
