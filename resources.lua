@@ -21,5 +21,5 @@ function createQuads()
 		quads.spike[i] = lg.newQuad(i*16, 0, 16, 16, 128, 128)
 	end
 
-	quads.star = lg.newQuad(64,0,16,16, 128,128)
+	quads.star = lg.newQuad(109,110,19,18, 128,128)
 end

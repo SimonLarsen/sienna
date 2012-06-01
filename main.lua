@@ -49,6 +49,7 @@ function love.update(dt)
 	tx = min(max(0, tx+(totx-tx)*6*dt), MAPW-WIDTH)
 	ty = min(max(0, ty+(toty-ty)*6*dt), MAPH-HEIGHT)
 
+	-- Update particles
 	for i=#map.particles,1,-1 do
 		local part = map.particles[i]
 		if part.alive == true then

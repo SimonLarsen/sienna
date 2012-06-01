@@ -114,12 +114,15 @@ function Player:keypressed(k, uni)
 	if k == " " or k == "up" then
 		if self.onGround == true then
 			self.jump = MAX_JUMP
+			addDust(self.x, self.y+20)
 		elseif self.onWall == true then
 			self.jump = MAX_JUMP
 			if self.dir == 1 then
 				self.dir = -1
+				addDust(self.x+5.5, self.y+10)
 			else
 				self.dir = 1
+				addDust(self.x-5.5, self.y+10)
 			end
 		end
 	end
