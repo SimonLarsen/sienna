@@ -71,14 +71,16 @@ function Player:update(dt)
 	-- check wall jump
 	self.onWall = false
 	if self.onGround == false then
-		if self.dir == -1 and collidePoint(self.x-6, self.y+10) then
+		if self.dir == -1 and collidePoint(self.x-6, self.y+5)
+		or collidePoint(self.x-6, self.y+15) then
 			self.onWall = true
-		elseif self.dir == 1 and collidePoint(self.x+6, self.y+10) then
+		elseif self.dir == 1 and collidePoint(self.x+6, self.y+5)
+		or collidePoint(self.x+6, self.y+15) then
 			self.onWall = true
 		end
 	end
 
-	for i,v in ipairs(map.spikes) do
+	for i,v in ipairs(map.enemies) do
 		if v:collidePlayer(self) then
 			self:respawn()
 		end

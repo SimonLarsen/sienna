@@ -5,6 +5,7 @@ local lg = love.graphics
 function loadImages()
 	imgPlayer = lg.newImage("art/player.png")
 	imgObjects = lg.newImage("art/objects.png")
+	imgEnemies = lg.newImage("art/enemies.png")
 end
 
 function createQuads()
@@ -22,4 +23,6 @@ function createQuads()
 	end
 
 	quads.star = lg.newQuad(109,110,19,18, 128,128)
+
+	quads.bee = lg.newQuad(0,0, 15,19, 128,128)
 end

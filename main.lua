@@ -1,6 +1,7 @@
 require("resources")
-require("player")
 require("map")
+require("player")
+require("enemies")
 require("spike")
 require("particles")
 require("checkpoint")
@@ -42,12 +43,24 @@ function love.update(dt)
 		dt = dt/10
 	end
 	player:update(dt)
-	Spike.update(dt)
+	Spike.globalUpdate(dt)
 
 	local totx = player.x + 6.5 - WIDTH/2
 	local toty = player.y + 10 - HEIGHT/2
 	tx = min(max(0, tx+(totx-tx)*6*dt), MAPW-WIDTH)
 	ty = min(max(0, ty+(toty-ty)*6*dt), MAPH-HEIGHT)
+
+	-- Update enemies
+	for i=#map.enemies,1,-1 do
+		local enem = map.enemies[i]
+		if enem.alive == true then
+			if enem.update then
+				enem:update(dt)
+			end
+		else
+			table.remove(map.enemies, i)
+		end
+	end
 
 	-- Update particles
 	for i=#map.particles,1,-1 do
@@ -69,7 +82,7 @@ function love.draw()
 	map:draw()
 	player:draw()
 
-	for i,v in ipairs(map.spikes) do
+	for i,v in ipairs(map.enemies) do
 		v:draw()
 	end
 

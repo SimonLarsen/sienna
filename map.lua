@@ -12,7 +12,7 @@ function loadMap(name)
 	map.drawObjects = false
 	fgtiles = map.tileLayers.fg.tileData
 
-	map.spikes = {}
+	map.enemies = {}
 	map.particles = {}
 	map.entities = {}
 
@@ -23,9 +23,11 @@ function loadMap(name)
 
 	for i,v in ipairs(map.objectLayers.obj.objects) do
 		if v.gid == OBJ_ROTSPIKE or v.gid == OBJ_ROTSPIKE+1 then
-			table.insert(map.spikes, Spike.create(v.x, v.y-16))
+			table.insert(map.enemies, Spike.create(v.x, v.y-16))
 		elseif v.gid == OBJ_CHECKPOINT then
-			table.insert(map.entities, Checkpoint.create(v.x, v.y-16))
+			table.insert(map.entities, Checkpoint.create(v.x+8, v.y-16))
+		elseif v.type == "bee" then
+			table.insert(map.enemies, Bee.create(v.x, v.y-18, v.properties.dir, v.properties.yint))
 		elseif v.type == "start" then
 			map.startx = v.x
 			map.starty = v.y

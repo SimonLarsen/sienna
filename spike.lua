@@ -4,6 +4,7 @@ Spike.__index = Spike
 function Spike.create(x,y)
 	local self = {}
 
+	self.alive = true
 	self.x = x
 	self.y = y
 
@@ -11,7 +12,7 @@ function Spike.create(x,y)
 	return self
 end
 
-function Spike.update(dt)
+function Spike.globalUpdate(dt)
 	Spike.frame = (Spike.frame + dt*16) % 2
 end
 

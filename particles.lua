@@ -41,16 +41,10 @@ function Sparkle:update(dt)
 end
 
 function Sparkle:draw()
-	if self.alive == false then
-		return
-	end
-
 	lg.setColor(self.color)
-
 	for i,v in ipairs(self.particles) do
 		lg.rectangle("fill", 0.5+v.x, 0.5+v.y, 1, 1)
 	end
-
 	lg.setColor(255,255,255,255)
 end
 
@@ -82,10 +76,6 @@ function Dust:update(dt)
 end
 
 function Dust:draw()
-	if self.alive == false then
-		return
-	end
-
 	lg.setColor(231,231,231)
 	lg.rectangle("fill", self.x-self.time*16, self.y-self.time*16, 1,1)
 	lg.rectangle("fill", self.x+self.time*16, self.y-self.time*16, 1,1)
@@ -121,10 +111,6 @@ function Ring:update(dt)
 end
 
 function Ring:draw()
-	if self.alive == false then
-		return
-	end
-
 	lg.setColor(self.color)
 	for i=1,self.count do
 		local px = self.x + math.cos((i/self.count)*2*math.pi)*(0.25-self.time)*self.radius
