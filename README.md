@@ -29,4 +29,5 @@ Currently added object types
     |----------------|----------------------------------------|
     | player start   | any object with type "start"           |
     | rotating spike | gid = 513-514, defined by OBJ_ROTSPIKE |
-    +----------------+-----------------------------------------+
+	| checkpoint     | gid = OBJ_CHECKPOINT = 517             |
+    +----------------+----------------------------------------+
