@@ -6,21 +6,19 @@ require("spike")
 require("particles")
 require("checkpoint")
 
+local love = love
+local min = math.min
+local max = math.max
+local floor = math.floor
+local lg = love.graphics
+
+TILEW = 16
 local SCREEN_WIDTH = 800
 local SCREEN_HEIGHT = 600
 local SCALE = 3
 local WIDTH = SCREEN_WIDTH/SCALE
 local HEIGHT = SCREEN_HEIGHT/SCALE
 local SCROLL_SPEED = 300
-TILEW = 16
-MAPW = 0
-MAPH = 0
-
-local love = love
-local min = math.min
-local max = math.max
-local floor = math.floor
-local lg = love.graphics
 
 function love.load()
 	lg.setMode(WIDTH*SCALE, HEIGHT*SCALE, false, true)

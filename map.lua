@@ -27,7 +27,7 @@ function loadMap(name)
 		elseif v.gid == OBJ_CHECKPOINT then
 			table.insert(map.entities, Checkpoint.create(v.x+8, v.y-16))
 		elseif v.type == "bee" then
-			table.insert(map.enemies, Bee.create(v.x, v.y-18, v.properties.dir, v.properties.yint))
+			table.insert(map.enemies, Bee.create(v.x, v.y-18, v.properties))
 		elseif v.type == "start" then
 			map.startx = v.x
 			map.starty = v.y

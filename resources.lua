@@ -24,5 +24,7 @@ function createQuads()
 
 	quads.star = lg.newQuad(109,110,19,18, 128,128)
 
-	quads.bee = lg.newQuad(0,0, 15,19, 128,128)
+	quads.bee = {}
+	quads.bee[0] = lg.newQuad(0,0, 15,19, 128,128)
+	quads.bee[1] = lg.newQuad(16,0, 15,19, 128,128)
 end
