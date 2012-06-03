@@ -60,16 +60,15 @@
     <property name="time" value="0"/>
    </properties>
   </object>
-  <object type="start" x="3232" y="208" width="16" height="16"/>
   <object gid="513" x="3824" y="208"/>
   <object gid="513" x="3712" y="224"/>
   <object gid="513" x="3936" y="192"/>
   <object gid="513" x="3936" y="176"/>
   <object gid="513" x="3936" y="96"/>
-  <object gid="513" x="3936" y="112"/>
   <object gid="513" x="3936" y="208"/>
   <object gid="513" x="3936" y="80"/>
   <object gid="513" x="3712" y="208"/>
   <object gid="513" x="3824" y="224"/>
+  <object gid="513" x="3936" y="160"/>
  </objectgroup>
 </map>

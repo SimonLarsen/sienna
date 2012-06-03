@@ -10,8 +10,10 @@ local BRAKE_POWER = 1
 local COL_OFFSETS = {{-5.5,  2}, {5.5,  2},
 					 {-5.5, 10}, {5.5, 10},
 					 {-5.5, 20}, {5.5, 20}}
+local STATE_WAIT = 0    local STATE_RUNNING = 1    local STATE_BURNING = 2
 
 local floor = math.floor
+local min = math.min
 local lk = love.keyboard
 
 function Player.create(x,y)
@@ -27,9 +29,10 @@ function Player:respawn(x,y)
 	self.x = x or map.startx
 	self.y = y or map.starty
 
-	self.dir = 1 -- -1 or 1
+	self.dir = 1 -- -1 = left, 1 = right
 	self.frame = 0
 	self.acc = 0
+	self.state = STATE_RUNNING
 
 	self.xspeed = 0
 	self.yspeed = 0
@@ -40,58 +43,61 @@ function Player:respawn(x,y)
 end
 
 function Player:update(dt)
-	if dt > 0.06 then dt = 0.06 end
-
 	self.frame = self.frame + dt*13
 
-	self.xspeed = 0
-	self.yspeed = self.yspeed + GRAVITY*dt
-	if self.yspeed > MAX_SPEED then
-		self.yspeed = MAX_SPEED
-	end
+	if self.state == STATE_RUNNING then
+		self.xspeed = 0
+		self.yspeed = self.yspeed + GRAVITY*dt
+		self.yspeed = min(self.yspeed, MAX_SPEED)
 
-	self.acc = math.min(self.acc+2*dt, 1)
-	self.brake = math.min(self.brake+dt, BRAKE_POWER)
+		self.acc = min(self.acc+2*dt, 1)
+		self.brake = min(self.brake+dt, BRAKE_POWER)
 
-	if lk.isDown("lshift","left") and self.brake > 0 then
-		self.acc = self.acc - 3*dt
-		self.brake = self.brake - 3*dt
-	end
-	self.xspeed = self.dir*PLAYER_SPEED*self.acc
-
-	if self.jump > 0 then
-		self.yspeed = -JUMP_POWER
-	end
-
-	-- move in X and Y direction
-	self.onGround = false
-	self:moveX(self.xspeed*dt)
-	self:moveY(self.yspeed*dt)
-
-	-- check wall jump
-	self.onWall = false
-	if self.onGround == false then
-		if self.dir == -1 and collidePoint(self.x-6, self.y+5)
-		or collidePoint(self.x-6, self.y+15) then
-			self.onWall = true
-		elseif self.dir == 1 and collidePoint(self.x+6, self.y+5)
-		or collidePoint(self.x+6, self.y+15) then
-			self.onWall = true
+		if lk.isDown("lshift","left") and self.brake > 0 then
+			self.acc = self.acc - 3*dt
+			self.brake = self.brake - 3*dt
 		end
-	end
+		self.xspeed = self.dir*PLAYER_SPEED*self.acc
 
-	for i,v in ipairs(map.enemies) do
-		if v:collidePlayer(self) then
+		if self.jump > 0 then
+			self.yspeed = -JUMP_POWER
+		end
+
+		-- move in X and Y direction
+		self.onGround = false
+		self:moveX(self.xspeed*dt)
+		self:moveY(self.yspeed*dt)
+
+		-- check wall jump
+		self.onWall = false
+		if self.onGround == false then
+			if self.dir == -1 and collidePoint(self.x-6, self.y+5)
+			or collidePoint(self.x-6, self.y+15) then
+				self.onWall = true
+			elseif self.dir == 1 and collidePoint(self.x+6, self.y+5)
+			or collidePoint(self.x+6, self.y+15) then
+				self.onWall = true
+			end
+		end
+
+		for i,v in ipairs(map.enemies) do
+			if v:collidePlayer(self) then
+				self:respawn()
+			end
+		end
+		for i,v in ipairs(map.entities) do
+			v:collidePlayer(self)
+		end
+
+		self:checkTiles()
+		if self.y > MAPH then
 			self:respawn()
 		end
-	end
-	for i,v in ipairs(map.entities) do
-		v:collidePlayer(self)
-	end
 
-	self:checkTiles()
-	if self.y > MAPH then
-		self:respawn()
+	elseif self.state == STATE_BURNING then
+		if self.frame >= 8 then
+			self:respawn()
+		end
 	end
 end
 
@@ -107,9 +113,19 @@ function Player:checkTiles()
 					self:respawn()
 					return
 				end
+			elseif tile.id == TILE_LAVA then
+				if collideLava(bx,by,self) then
+					self:kill(STATE_BURNING)
+					return
+				end
 			end
 		end
 	end
+end
+
+function Player:kill(newstate)
+	self.frame = 0
+	self.state = newstate
 end
 
 function Player:keypressed(k, uni)
@@ -189,18 +205,24 @@ function Player:moveX(dist)
 end
 
 function Player:draw()
-	if self.onGround == true then
-		if self.xspeed == 0 then
-			love.graphics.drawq(imgPlayer, quads.player, self.x, self.y, 0,self.dir,1, 6.5)
+	if self.state == STATE_RUNNING then
+		if self.onGround == true then
+			if self.xspeed == 0 then
+				love.graphics.drawq(imgPlayer, quads.player, self.x, self.y, 0,self.dir,1, 6.5)
+			else
+				local frame = floor(self.frame % 6)
+				love.graphics.drawq(imgPlayer, quads.player_run[frame], self.x, self.y, 0,self.dir,1, 6.5)
+			end
 		else
-			local frame = math.floor(self.frame % 6)
-			love.graphics.drawq(imgPlayer, quads.player_run[frame], self.x, self.y, 0,self.dir,1, 6.5)
+			if self.onWall == true then
+				love.graphics.drawq(imgPlayer, quads.player_wall, self.x, self.y, 0,self.dir,1, 6.5)
+			else
+				love.graphics.drawq(imgPlayer, quads.player_run[5], self.x, self.y, 0,self.dir,1, 6.5)
+			end
 		end
-	else
-		if self.onWall == true then
-			love.graphics.drawq(imgPlayer, quads.player_wall, self.x, self.y, 0,self.dir,1, 6.5)
-		else
-			love.graphics.drawq(imgPlayer, quads.player_run[5], self.x, self.y, 0,self.dir,1, 6.5)
-		end
+	
+	elseif self.state == STATE_BURNING then
+		local frame = floor(self.frame)
+		love.graphics.drawq(imgPlayer, quads.player_burn[frame], self.x, self.y, 0, self.dir, 1, 6.5)
 	end
 end

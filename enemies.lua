@@ -27,7 +27,7 @@ function Bee:draw()
 end
 
 function Bee:collidePlayer(pl)
-	if pl.x-5.5 > self.x+4.5 or pl.x+5.5 < self.x-4.5
+	if pl.x-5.5 > self.x+3.5 or pl.x+5.5 < self.x-3.5
 	or pl.y+2 > self.y+17 or pl.y+20 < self.y+2 then
 		return false
 	else

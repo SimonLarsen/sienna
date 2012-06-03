@@ -37,9 +37,11 @@ function love.load()
 end
 
 function love.update(dt)
+	if dt > 0.06 then dt = 0.06 end
 	if love.keyboard.isDown("s") then
 		dt = dt/10
 	end
+
 	player:update(dt)
 	Spike.globalUpdate(dt)
 

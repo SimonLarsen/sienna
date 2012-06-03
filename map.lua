@@ -2,6 +2,7 @@ OBJ_ROTSPIKE = 513
 OBJ_CHECKPOINT = 517
 OBJ_SPIKE_S = 33
 OBJ_SPIKE_E = 36
+TILE_LAVA = 40
 
 local floor = math.floor
 local loader = require("AdvTiledLoader.Loader")
@@ -44,6 +45,17 @@ function collideSpike(x,y, pl)
 	y = y*TILEW
 	if pl.x-5.5 > x+10 or pl.x+5.5 < x+3
 	or pl.y+2 > y+10 or pl.y+20 < y+3 then
+		return false
+	else
+		return true
+	end
+end
+
+function collideLava(x,y, pl)
+	x = x*TILEW
+	y = y*TILEW
+	if pl.x-5.5 > x+16 or pl.x+5.5 < x
+	or pl.y+2 > y+16 or pl.y+20 < y+8 then
 		return false
 	else
 		return true

@@ -17,6 +17,11 @@ function createQuads()
 		quads.player_run[i] = lg.newQuad(i*16, 32, 13, 20, 128, 128)
 	end
 
+	quads.player_burn = {}
+	for i=0,7 do
+		quads.player_burn[i] = lg.newQuad(i*16, 64, 13, 20, 128, 128)
+	end
+
 	quads.spike = {}
 	for i = 0,1 do
 		quads.spike[i] = lg.newQuad(i*16, 0, 16, 16, 128, 128)
