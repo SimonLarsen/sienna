@@ -25,6 +25,10 @@ function Sparkle.create(x,y,count,color,time)
 	return self
 end
 
+function addSparkle(...)
+	table.insert(map.particles, Sparkle.create(...))
+end
+
 function Sparkle:update(dt)
 	self.time = self.time - dt
 	if self.time < 0 then
@@ -63,8 +67,8 @@ function Dust.create(x,y)
 	return self
 end
 
-function addDust(x,y)
-	table.insert(map.particles, Dust.create(x,y))
+function addDust(...)
+	table.insert(map.particles, Dust.create(...))
 end
 
 function Dust:update(dt)

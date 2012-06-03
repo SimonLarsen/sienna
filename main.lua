@@ -28,7 +28,7 @@ function love.load()
 	loadImages()
 	createQuads()
 
-	loadMap("test.tmx")
+	loadMap("water.tmx")
 
 	tx = 0
 	ty = MAPH-HEIGHT

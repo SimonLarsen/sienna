@@ -2,7 +2,8 @@ OBJ_ROTSPIKE = 513
 OBJ_CHECKPOINT = 517
 OBJ_SPIKE_S = 33
 OBJ_SPIKE_E = 36
-TILE_LAVA = 40
+TILE_LAVA_TOP = 40    TILE_LAVA = 56
+TILE_WATER = 55
 
 local floor = math.floor
 local loader = require("AdvTiledLoader.Loader")

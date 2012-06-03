@@ -27,7 +27,7 @@ function Checkpoint:collidePlayer(pl)
 			self.alive = false
 			map.startx = self.x
 			map.starty = self.y
-			table.insert(map.particles, Sparkle.create(self.x+8, self.y+8, 16))
+			addSparkle(self.x+8, self.y+8, 16)
 
 			return true
 		end

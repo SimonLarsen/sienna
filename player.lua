@@ -37,6 +37,7 @@ function Player:respawn(x,y)
 	self.xspeed = 0
 	self.yspeed = 0
 	self.onGround = false
+	self.inWater = false
 	self.jump = 0
 	self.brake = 0
 	self.onWall = false
@@ -61,6 +62,12 @@ function Player:update(dt)
 
 		if self.jump > 0 then
 			self.yspeed = -JUMP_POWER
+		end
+
+		-- Decrease speed if in water
+		if self.inWater == true then
+			self.xspeed = self.xspeed*0.4
+			self.yspeed = self.yspeed - 0.5*GRAVITY*dt
 		end
 
 		-- move in X and Y direction
@@ -102,6 +109,7 @@ function Player:update(dt)
 end
 
 function Player:checkTiles()
+	local hitWater = false
 	local bx, by, tile
 	for i=1, #COL_OFFSETS do
 		bx = floor((self.x+COL_OFFSETS[i][1]) / TILEW)
@@ -110,17 +118,26 @@ function Player:checkTiles()
 		if tile ~= nil then
 			if tile.id >= OBJ_SPIKE_S and tile.id <= OBJ_SPIKE_E then
 				if collideSpike(bx,by,self) then
+					addSparkle(self.x,self.y+20,32,{204,51,63})
 					self:respawn()
 					return
 				end
-			elseif tile.id == TILE_LAVA then
+			elseif tile.id == TILE_LAVA_TOP then -- Don't check for TILE_LAVA. Shouldn't be necessary
 				if collideLava(bx,by,self) then
 					self:kill(STATE_BURNING)
+					addSparkle(self.x,self.y+20,32,{204,51,63})
 					return
 				end
+			elseif tile.id == TILE_WATER then
+				hitWater = true
 			end
 		end
 	end
+
+	if self.inWater ~= hitWater then
+		addSparkle(self.x,self.y+8,32,{0,160,176})
+	end
+	self.inWater = hitWater
 end
 
 function Player:kill(newstate)
