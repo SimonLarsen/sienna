@@ -16,20 +16,19 @@ local floor = math.floor
 local min = math.min
 local lk = love.keyboard
 
-function Player.create(x,y)
+function Player.create(x,y,dir)
 	local self = {}
 	setmetatable(self,Player)
 
-	self:respawn(x,y)
+	self:respawn(x,y,dir)
 
 	return self
 end
 
-function Player:respawn(x,y)
+function Player:respawn(x,y,dir)
 	self.x = x or map.startx
 	self.y = y or map.starty
-
-	self.dir = 1 -- -1 = left, 1 = right
+	self.dir = dir or map.startdir or 1 -- -1 = left, 1 = right
 	self.frame = 0
 	self.acc = 0
 	self.state = STATE_RUNNING
@@ -54,10 +53,12 @@ function Player:update(dt)
 		self.acc = min(self.acc+2*dt, 1)
 		self.brake = min(self.brake+dt, BRAKE_POWER)
 
+		--[[
 		if lk.isDown("lshift","left") and self.brake > 0 then
 			self.acc = self.acc - 3*dt
 			self.brake = self.brake - 3*dt
 		end
+		--]]
 		self.xspeed = self.dir*PLAYER_SPEED*self.acc
 
 		if self.jump > 0 then
@@ -92,6 +93,7 @@ function Player:update(dt)
 				self:respawn()
 			end
 		end
+
 		for i,v in ipairs(map.entities) do
 			v:collidePlayer(self)
 		end

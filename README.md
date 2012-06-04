@@ -24,10 +24,11 @@ All maps must contains three layers. Two tile layers, *fg* and *bg*, using tiles
 #### *obj* layer ####
 Currently added object types
 
-    +----------------+----------------------------------------+
-    | type           | defined as                             |
-    |----------------|----------------------------------------|
-    | player start   | any object with type "start"           |
-    | rotating spike | gid = 513-514, defined by OBJ_ROTSPIKE |
-	| checkpoint     | gid = OBJ_CHECKPOINT = 517             |
-    +----------------+----------------------------------------+
+    +----------------+----------------------------------------+------------+
+    | type           | defined as                             | properties |
+    |----------------|----------------------------------------|------------|
+    | player start   | any object with type "start"           |            |
+    | rotating spike | gid = 513-514, defined by OBJ_ROTSPIKE |            |
+	| checkpoint     | gid = OBJ_CHECKPOINT = 517             |            |
+	| jumppad        | gid = OBJ_JUMPPAD_S - OBJ_JUMPPAD_E    |            |
+    +----------------+----------------------------------------+------------+

@@ -5,6 +5,7 @@ require("enemies")
 require("spike")
 require("particles")
 require("checkpoint")
+require("jumppad")
 
 local love = love
 local min = math.min
@@ -13,27 +14,25 @@ local floor = math.floor
 local lg = love.graphics
 
 TILEW = 16
-local SCREEN_WIDTH = 800
-local SCREEN_HEIGHT = 600
-local SCALE = 3
-local WIDTH = SCREEN_WIDTH/SCALE
-local HEIGHT = SCREEN_HEIGHT/SCALE
+local SCREEN_WIDTH    local SCREEN_HEIGHT
+local WIDTH           local HEIGHT
+local SCALE
 local SCROLL_SPEED = 300
 
 function love.load()
-	lg.setMode(WIDTH*SCALE, HEIGHT*SCALE, false, true)
+	setResolution(800,600)
 	lg.setBackgroundColor(71,44,31)
 	lg.setDefaultImageFilter("nearest","nearest")
 
 	loadImages()
 	createQuads()
 
-	loadMap("water.tmx")
+	loadMap("test2.tmx")
 
 	tx = 0
 	ty = MAPH-HEIGHT
 
-	player = Player.create(map.startx, map.starty)
+	player = Player.create(map.startx, map.starty, map.startdir)
 end
 
 function love.update(dt)
@@ -44,6 +43,7 @@ function love.update(dt)
 
 	player:update(dt)
 	Spike.globalUpdate(dt)
+	Jumppad.globalUpdate(dt)
 
 	local totx = player.x + 6.5 - WIDTH/2
 	local toty = player.y + 10 - HEIGHT/2
@@ -82,24 +82,21 @@ function love.draw()
 	map:draw()
 	player:draw()
 
-	for i,v in ipairs(map.enemies) do
-		v:draw()
-	end
-
 	for i,v in ipairs(map.entities) do
-		v:draw()
-	end
+		v:draw() end
+
+	for i,v in ipairs(map.enemies) do
+		v:draw() end
 
 	for i,v in ipairs(map.particles) do
-		v:draw()
-	end
+		v:draw() end
 end
 
 function love.keypressed(k, uni)
 	if k == "escape" then
 		love.event.quit()
 	elseif k == "r" then
-		player:respawn(map.startx, map.starty)
+		player:respawn()
 	else
 		player:keypressed(k, uni)
 	end
@@ -107,4 +104,16 @@ end
 
 function love.keyreleased(k, uni)
 	player:keyreleased(k, uni)
+end
+
+function setResolution(w,h)
+	SCREEN_WIDTH = w
+	SCREEN_HEIGHT = h
+	SCALE = 1
+	while (20*16*SCALE) < SCREEN_WIDTH or (16*16*SCALE) < SCREEN_HEIGHT do
+		SCALE = SCALE + 1
+	end
+	WIDTH = SCREEN_WIDTH/SCALE
+	HEIGHT = SCREEN_HEIGHT/SCALE
+	lg.setMode(WIDTH*SCALE, HEIGHT*SCALE, false, true)
 end

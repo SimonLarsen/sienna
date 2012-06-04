@@ -1,13 +1,14 @@
 Checkpoint = {}
 Checkpoint.__index = Checkpoint
 
-function Checkpoint.create(x,y)
+function Checkpoint.create(x,y,prop)
 	local self = {}
 	setmetatable(self, Checkpoint)
 
 	self.x = x
 	self.y = y
 	self.alive = true
+	self.dir = prop.dir or 1
 
 	return self
 end
@@ -27,7 +28,8 @@ function Checkpoint:collidePlayer(pl)
 			self.alive = false
 			map.startx = self.x
 			map.starty = self.y
-			addSparkle(self.x+8, self.y+8, 16)
+			map.startdir = self.dir
+			addSparkle(self.x+8, self.y+8, 32)
 
 			return true
 		end
