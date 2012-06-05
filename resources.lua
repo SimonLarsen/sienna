@@ -7,7 +7,7 @@ COLORS = {
 	red 		= {204,51,63},
 	orange 		= {235,104,65},
 	offwhite 	= {231,231,231},
-	lightblue   = {105,108,188},
+	lightblue   = {105,188,188},
 	darkblue	= {0,160,176}
 }
 

@@ -28,7 +28,7 @@ function love.load()
 	loadImages()
 	createQuads()
 
-	loadMap("test2.tmx")
+	loadMap("test.tmx")
 
 	player = Player.create(map.startx, map.starty, map.startdir)
 end
@@ -94,6 +94,12 @@ function love.keypressed(k, uni)
 	if k == "escape" then
 		love.event.quit()
 	elseif k == "r" then
+		player:respawn()
+	elseif k == "1" then
+		loadMap("test.tmx")
+		player:respawn()
+	elseif k == "2" then
+		loadMap("test2.tmx")
 		player:respawn()
 	else
 		player:keypressed(k, uni)
