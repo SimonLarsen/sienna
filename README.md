@@ -24,11 +24,22 @@ All maps must contains three layers. Two tile layers, *fg* and *bg*, using tiles
 #### *obj* layer ####
 Currently added object types
 
-    +----------------+----------------------------------------+------------+
-    | type           | defined as                             | properties |
-    |----------------|----------------------------------------|------------|
-    | player start   | any object with type "start"           |            |
-    | rotating spike | gid = 513-514, defined by OBJ_ROTSPIKE |            |
-	| checkpoint     | gid = OBJ_CHECKPOINT = 517             |            |
-	| jumppad        | gid = OBJ_JUMPPAD_S - OBJ_JUMPPAD_E    |            |
-    +----------------+----------------------------------------+------------+
+    +----------------+----------------------------------------+-----------------+
+    | type           | defined with                           | properties      |
+    |----------------|----------------------------------------|-----------------|
+	| control entities                                                          |
+    |----------------|----------------------------------------|-----------------|
+    | player start   | type = "start"                         |                 |
+    |----------------|----------------------------------------|-----------------|
+	| hostile entities                                                          |
+    |----------------|----------------------------------------|-----------------|
+    | rotating spike | OBJ_ROTSPIKE <= gid <= OBJ_ROTSPIKE+1  |                 |
+	| bee            | type = "bee"                           | time, dir, yint | 
+	| dog            | type = "dog"                           | dir, jump       |
+    |----------------|----------------------------------------|-----------------|
+	| pickups                                                                   |
+    |----------------|----------------------------------------|-----------------|
+	| checkpoint     | gid = OBJ_CHECKPOINT                   | dir             |
+	| jumppad        | gid = OBJ_JUMPPAD_S - OBJ_JUMPPAD_E    | power           |
+	| orb            | gid = OBJ_ORB                          |                 |
+    +----------------+----------------------------------------+-----------------+

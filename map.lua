@@ -1,9 +1,12 @@
 OBJ_ROTSPIKE = 513
+OBJ_ORB = 516
 OBJ_CHECKPOINT = 517
-OBJ_JUMPPAD_S = 529   OBJ_JUMPPAD_E = 532
+OBJ_JUMPPAD_S = 529
+OBJ_JUMPPAD_E = 532
 OBJ_SPIKE_S = 33
 OBJ_SPIKE_E = 36
-TILE_LAVA_TOP = 40    TILE_LAVA = 56
+TILE_LAVA_TOP = 40
+TILE_LAVA = 56
 TILE_WATER = 55
 
 local floor = math.floor
@@ -30,14 +33,21 @@ function loadMap(name)
 		elseif v.gid == OBJ_CHECKPOINT then
 			table.insert(map.entities, Checkpoint.create(v.x+8, v.y-16, v.properties))
 		elseif v.type == "bee" then
-			table.insert(map.enemies, Bee.create(v.x, v.y-18, v.properties))
+			table.insert(map.enemies, Bee.create(v.x+8, v.y-18, v.properties))
+		elseif v.type == "dog" then
+			table.insert(map.enemies, Dog.create(v.x+8, v.y, v.properties))
 		elseif v.type == "start" then
 			map.startx = v.x
 			map.starty = v.y
 		elseif v.gid >= OBJ_JUMPPAD_S and v.gid <= OBJ_JUMPPAD_E then
 			table.insert(map.entities, Jumppad.create(v.x, v.y-16, v.properties))
+		elseif v.gid == OBJ_ORB then
+			table.insert(map.entities, Orb.create(v.x, v.y-16))
 		end
 	end
+
+	tx = map.startx - WIDTH/2
+	ty = map.starty - HEIGHT/2
 end
 
 function collidePoint(x,y)

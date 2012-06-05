@@ -40,6 +40,8 @@ function Player:respawn(x,y,dir)
 	self.jump = 0
 	self.brake = 0
 	self.onWall = false
+
+	addSparkle(self.x, self.y+10, 32, COLORS.orange)
 end
 
 function Player:update(dt)
@@ -95,7 +97,9 @@ function Player:update(dt)
 		end
 
 		for i,v in ipairs(map.entities) do
-			v:collidePlayer(self)
+			if v.collidePlayer then
+				v:collidePlayer(self)
+			end
 		end
 
 		self:checkTiles()
@@ -120,14 +124,14 @@ function Player:checkTiles()
 		if tile ~= nil then
 			if tile.id >= OBJ_SPIKE_S and tile.id <= OBJ_SPIKE_E then
 				if collideSpike(bx,by,self) then
-					addSparkle(self.x,self.y+20,32,{204,51,63})
+					addSparkle(self.x,self.y+20,32,COLORS.red)
 					self:respawn()
 					return
 				end
 			elseif tile.id == TILE_LAVA_TOP then -- Don't check for TILE_LAVA. Shouldn't be necessary
 				if collideLava(bx,by,self) then
 					self:kill(STATE_BURNING)
-					addSparkle(self.x,self.y+20,32,{204,51,63})
+					addSparkle(self.x,self.y+20,32,COLORS.red)
 					return
 				end
 			elseif tile.id == TILE_WATER then
@@ -137,7 +141,7 @@ function Player:checkTiles()
 	end
 
 	if self.inWater ~= hitWater then
-		addSparkle(self.x,self.y+8,32,{0,160,176})
+		addSparkle(self.x,self.y+8,32,COLORS.darkblue)
 	end
 	self.inWater = hitWater
 end

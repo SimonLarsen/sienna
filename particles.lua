@@ -10,7 +10,7 @@ function Sparkle.create(x,y,count,color,time)
 	self.alive = true
 	self.time = time or 1
 	self.count = count or 5
-	self.color = color or {237,201,81}
+	self.color = color or COLORS.yellow
 
 	self.particles = {}
 	for i=1, self.count do
@@ -80,7 +80,7 @@ function Dust:update(dt)
 end
 
 function Dust:draw()
-	lg.setColor(231,231,231)
+	lg.setColor(COLORS.offwhite)
 	lg.rectangle("fill", self.x-self.time*16, self.y-self.time*16, 1,1)
 	lg.rectangle("fill", self.x+self.time*16, self.y-self.time*16, 1,1)
 	lg.rectangle("fill", self.x-self.time*16, self.y+self.time*16, 1,1)
@@ -101,9 +101,13 @@ function Ring.create(x,y,count,radius,color)
 	self.time = 0.25
 	self.count = count or 8
 	self.radius = radius or 32
-	self.color = color or {231,231,231}
+	self.color = color or COLORS.yellow
 
 	return self
+end
+
+function addRing(...)
+	table.insert(map.particles, Ring.create(...))
 end
 
 function Ring:update(dt)

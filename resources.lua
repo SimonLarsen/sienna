@@ -2,6 +2,15 @@ quads = {}
 
 local lg = love.graphics
 
+COLORS = {
+	yellow 		= {237,201,81},
+	red 		= {204,51,63},
+	orange 		= {235,104,65},
+	offwhite 	= {231,231,231},
+	lightblue   = {105,108,188},
+	darkblue	= {0,160,176}
+}
+
 function loadImages()
 	imgPlayer = lg.newImage("art/player.png")
 	imgObjects = lg.newImage("art/objects.png")
@@ -32,7 +41,10 @@ function createQuads()
 		quads.jumppad[i] = lg.newQuad(i*16, 32, 16, 16, 128, 128)
 	end
 
-	quads.star = lg.newQuad(109,110,19,18, 128,128)
+	quads.star = lg.newQuad(109,110,19,18, 128, 128)
+	quads.orb  = lg.newQuad(48, 0, 16, 16, 128, 128)
+	quads.dog  = lg.newQuad(0, 32, 16, 16, 128, 128)
+	quads.dog_jump = lg.newQuad(16, 32, 16, 19, 128, 128)
 
 	quads.bee = {}
 	quads.bee[0] = lg.newQuad(0,0, 15,19, 128,128)

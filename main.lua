@@ -6,6 +6,7 @@ require("spike")
 require("particles")
 require("checkpoint")
 require("jumppad")
+require("orb")
 
 local love = love
 local min = math.min
@@ -15,9 +16,9 @@ local lg = love.graphics
 
 TILEW = 16
 local SCREEN_WIDTH    local SCREEN_HEIGHT
-local WIDTH           local HEIGHT
 local SCALE
 local SCROLL_SPEED = 300
+local player
 
 function love.load()
 	setResolution(800,600)
@@ -28,9 +29,6 @@ function love.load()
 	createQuads()
 
 	loadMap("test2.tmx")
-
-	tx = 0
-	ty = MAPH-HEIGHT
 
 	player = Player.create(map.startx, map.starty, map.startdir)
 end
@@ -55,7 +53,7 @@ function love.update(dt)
 		local enem = map.enemies[i]
 		if enem.alive == true then
 			if enem.update then
-				enem:update(dt)
+				enem:update(dt,player)
 			end
 		else
 			table.remove(map.enemies, i)
