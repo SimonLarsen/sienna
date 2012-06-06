@@ -92,6 +92,7 @@ function Player:update(dt)
 
 		for i,v in ipairs(map.enemies) do
 			if v:collidePlayer(self) then
+				love.audio.play(sndHurt)
 				self:respawn()
 			end
 		end
@@ -125,6 +126,7 @@ function Player:checkTiles()
 			if tile.id >= OBJ_SPIKE_S and tile.id <= OBJ_SPIKE_E then
 				if collideSpike(bx,by,self) then
 					addSparkle(self.x,self.y+20,32,COLORS.red)
+					love.audio.play(sndHurt)
 					self:respawn()
 					return
 				end
@@ -132,6 +134,7 @@ function Player:checkTiles()
 				if collideLava(bx,by,self) then
 					self:kill(STATE_BURNING)
 					addSparkle(self.x,self.y+20,32,COLORS.red)
+					love.audio.play(sndBurn)
 					return
 				end
 			elseif tile.id == TILE_WATER then
@@ -142,6 +145,7 @@ function Player:checkTiles()
 
 	if self.inWater ~= hitWater then
 		addSparkle(self.x,self.y+8,32,COLORS.darkblue)
+		love.audio.play(sndWater)
 	end
 	self.inWater = hitWater
 end
@@ -156,6 +160,7 @@ function Player:keypressed(k, uni)
 		if self.onGround == true then
 			self.jump = MAX_JUMP
 			addDust(self.x, self.y+20)
+			love.audio.play(sndJump)
 		elseif self.onWall == true then
 			self.jump = MAX_JUMP
 			if self.dir == 1 then
@@ -165,6 +170,7 @@ function Player:keypressed(k, uni)
 				self.dir = 1
 				addDust(self.x-5.5, self.y+10)
 			end
+			love.audio.play(sndJump)
 		end
 	end
 end

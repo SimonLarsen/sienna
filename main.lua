@@ -1,3 +1,4 @@
+require("slam")
 require("resources")
 require("map")
 require("player")
@@ -26,6 +27,7 @@ function love.load()
 	lg.setDefaultImageFilter("nearest","nearest")
 
 	loadImages()
+	loadSounds()
 	createQuads()
 
 	loadMap("test.tmx")

@@ -1,6 +1,7 @@
 quads = {}
 
 local lg = love.graphics
+local la = love.audio
 
 COLORS = {
 	yellow 		= {237,201,81},
@@ -15,6 +16,14 @@ function loadImages()
 	imgPlayer = lg.newImage("art/player.png")
 	imgObjects = lg.newImage("art/objects.png")
 	imgEnemies = lg.newImage("art/enemies.png")
+end
+
+function loadSounds()
+	sndBurn  = la.newSource("sfx/burn.wav",  "static")
+	sndJump  = la.newSource("sfx/jump.wav",  "static")
+	sndHurt  = la.newSource("sfx/hurt.wav",  "static")
+	sndStar  = la.newSource("sfx/star.wav",  "static")
+	sndWater = la.newSource("sfx/water.wav", "static")
 end
 
 function createQuads()
