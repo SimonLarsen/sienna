@@ -23,8 +23,8 @@ local player
 
 function love.load()
 	setResolution(800,600)
-	lg.setBackgroundColor(71,44,31)
 	lg.setDefaultImageFilter("nearest","nearest")
+	lg.setBackgroundColor(COLORS.darkbrown)
 
 	loadImages()
 	loadSounds()
@@ -32,7 +32,7 @@ function love.load()
 
 	loadMap("test.tmx")
 
-	player = Player.create(map.startx, map.starty, map.startdir)
+	player  = Player.create(map.startx, map.starty, map.startdir, 1)
 end
 
 function love.update(dt)
@@ -50,12 +50,14 @@ function love.update(dt)
 	tx = min(max(0, tx+(totx-tx)*6*dt), MAPW-WIDTH)
 	ty = min(max(0, ty+(toty-ty)*6*dt), MAPH-HEIGHT)
 
+	btx = 128+tx*((MAPW-1024)/MAPW)
+
 	-- Update enemies
 	for i=#map.enemies,1,-1 do
 		local enem = map.enemies[i]
 		if enem.alive == true then
 			if enem.update then
-				enem:update(dt,player)
+				enem:update(dt)
 			end
 		else
 			table.remove(map.enemies, i)
@@ -75,11 +77,11 @@ end
 
 function love.draw()
 	lg.scale(SCALE)
-
 	lg.translate(-tx, -ty)
 
 	map:setDrawRange(tx,ty,WIDTH,HEIGHT)
 	map:draw()
+
 	player:draw()
 
 	for i,v in ipairs(map.entities) do
@@ -103,13 +105,23 @@ function love.keypressed(k, uni)
 	elseif k == "2" then
 		loadMap("test2.tmx")
 		player:respawn()
-	else
+	elseif k == " " then
 		player:keypressed(k, uni)
 	end
 end
 
 function love.keyreleased(k, uni)
-	player:keyreleased(k, uni)
+	if k == " " then
+		player:keyreleased(k, uni)
+	end
+end
+
+function love.mousepressed(x,y,button)
+	player:keypressed(" ")
+end
+
+function love.mousereleased(x,y,button)
+	player:keyreleased(" ")
 end
 
 function setResolution(w,h)

@@ -27,6 +27,7 @@ function Jumppad:collidePlayer(pl)
 		return false
 	else
 		pl.yspeed = -self.power
+		love.audio.play(snd.Jumppad)
 		return true
 	end
 end

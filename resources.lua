@@ -1,4 +1,5 @@
 quads = {}
+snd = {}
 
 local lg = love.graphics
 local la = love.audio
@@ -9,21 +10,25 @@ COLORS = {
 	orange 		= {235,104,65},
 	offwhite 	= {231,231,231},
 	lightblue   = {105,188,188},
-	darkblue	= {0,160,176}
+	darkblue	= {0,160,176},
+	darkbrown   = {71,44,31},
+	lightbrown  = {106,75,60}
 }
 
 function loadImages()
 	imgPlayer = lg.newImage("art/player.png")
+	imgPlayer2 = lg.newImage("art/player2.png")
 	imgObjects = lg.newImage("art/objects.png")
 	imgEnemies = lg.newImage("art/enemies.png")
 end
 
 function loadSounds()
-	sndBurn  = la.newSource("sfx/burn.wav",  "static")
-	sndJump  = la.newSource("sfx/jump.wav",  "static")
-	sndHurt  = la.newSource("sfx/hurt.wav",  "static")
-	sndStar  = la.newSource("sfx/star.wav",  "static")
-	sndWater = la.newSource("sfx/water.wav", "static")
+	snd.Burn  	= la.newSource("sfx/burn.wav",  "static")
+	snd.Jump  	= la.newSource("sfx/jump.wav",  "static")
+	snd.Hurt  	= la.newSource("sfx/hurt.wav",  "static")
+	snd.Star  	= la.newSource("sfx/star.wav",  "static")
+	snd.Water 	= la.newSource("sfx/water.wav", "static")
+	snd.Jumppad = la.newSource("sfx/jumppad.wav", "static")
 end
 
 function createQuads()

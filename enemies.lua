@@ -55,16 +55,10 @@ function Dog.create(x,y,prop)
 	return self
 end
 
-function Dog:update(dt,pl)
+function Dog:update(dt)
 	self.time = self.time + dt*4
 
-	if self.state == 0 then
-		local dist = math.pow(pl.x-self.x,2) + math.pow(pl.y-self.y,2)
-		if dist < 1524 then
-			self.state = 1
-			self.time = 0
-		end
-	elseif self.state == 1 then
+	if self.state == 1 then
 		self.y = self.inity - self.jump*math.sin(self.time)
 		if self.time >= math.pi then
 			self.state = 0
@@ -82,6 +76,14 @@ function Dog:draw()
 end
 
 function Dog:collidePlayer(pl)
+	if self.state == 0 then
+		local dist = math.pow(pl.x-self.x,2) + math.pow(pl.y-self.y,2)
+		if dist < 1524 then
+			self.state = 1
+			self.time = 0
+		end
+	end
+
 	if pl.x-5.5 > self.x+3.5 or pl.x+5.5 < self.x-3.5
 	or pl.y+2 > self.y+16 or pl.y+20 < self.y+2 then
 		return false

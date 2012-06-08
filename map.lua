@@ -7,6 +7,7 @@ OBJ_SPIKE_S = 33
 OBJ_SPIKE_E = 36
 TILE_LAVA_TOP = 40
 TILE_LAVA = 56
+TILE_WATER_TOP = 39
 TILE_WATER = 55
 
 local floor = math.floor
@@ -38,7 +39,7 @@ function loadMap(name)
 			table.insert(map.enemies, Dog.create(v.x+8, v.y, v.properties))
 		elseif v.type == "start" then
 			map.startx = v.x
-			map.starty = v.y
+			map.starty = v.y-4.1
 		elseif v.gid >= OBJ_JUMPPAD_S and v.gid <= OBJ_JUMPPAD_E then
 			table.insert(map.entities, Jumppad.create(v.x, v.y-16, v.properties))
 		elseif v.gid == OBJ_ORB then

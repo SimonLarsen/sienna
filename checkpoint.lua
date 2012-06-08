@@ -30,7 +30,7 @@ function Checkpoint:collidePlayer(pl)
 			map.starty = self.y
 			map.startdir = self.dir
 			addSparkle(self.x+8, self.y+8, 32)
-			love.audio.play(sndStar)
+			love.audio.play(snd.Star)
 
 			return true
 		end

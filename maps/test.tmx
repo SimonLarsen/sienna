@@ -20,7 +20,7 @@
   </data>
  </layer>
  <objectgroup name="obj" width="256" height="16">
-  <object type="start" x="16" y="208" width="16" height="16"/>
+  <object type="start" x="16" y="224" width="16" height="16"/>
   <object gid="513" x="256" y="192"/>
   <object gid="513" x="272" y="192"/>
   <object gid="513" x="288" y="192"/>
