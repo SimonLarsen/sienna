@@ -123,7 +123,7 @@ function Player:checkTiles()
 		by = floor((self.y+COL_OFFSETS[i][2]) / TILEW)
 		tile = fgtiles(bx,by)
 		if tile ~= nil then
-			if tile.id >= OBJ_SPIKE_S and tile.id <= OBJ_SPIKE_E then
+			if tile.id >= TILE_SPIKE_S and tile.id <= TILE_SPIKE_E then
 				if collideSpike(bx,by,self) then
 					addSparkle(self.x,self.y+20,32,COLORS.red)
 					love.audio.play(snd.Hurt)
@@ -231,7 +231,7 @@ end
 
 function Player:draw()
 	if self.invul > 0 then
-		if floor(self.invul*INVUL_TIME*16) % 2 == 1 then
+		if floor(self.invul*INVUL_TIME*20) % 2 == 1 then
 			return
 		end
 	end

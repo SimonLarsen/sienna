@@ -3,12 +3,13 @@ OBJ_ORB = 516
 OBJ_CHECKPOINT = 517
 OBJ_JUMPPAD_S = 529
 OBJ_JUMPPAD_E = 532
-OBJ_SPIKE_S = 33
-OBJ_SPIKE_E = 36
-TILE_LAVA_TOP = 40
-TILE_LAVA = 56
-TILE_WATER_TOP = 39
-TILE_WATER = 55
+
+TILE_SPIKE_S = 129
+TILE_SPIKE_E = TILE_SPIKE_S+3
+TILE_WATER_TOP = 135
+TILE_WATER = 151
+TILE_LAVA_TOP = 137
+TILE_LAVA = 153
 
 local floor = math.floor
 local loader = require("AdvTiledLoader.Loader")
@@ -79,7 +80,7 @@ end
 
 function isSolid(x,y)
 	local tile = fgtiles(x,y)
-	if tile ~= nil and tile.id <= 32 then
+	if tile ~= nil and tile.id <= 128 then
 		return true
 	else
 		return false
