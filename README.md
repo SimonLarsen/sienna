@@ -6,8 +6,8 @@ You can follow the development of Sienna on my [devlog](http://simonlarsen.blogs
 
 ## Controls ##
 
-* Jump: Space
-* Slow down: Left shift
+Press space to jump or wall jump.
+The longer you hold the button the higher you jump. This is crucial to the gameplay.
 
 ## Map structure ##
 
@@ -29,20 +29,20 @@ All maps must contains three layers. Two tile layers, *fg* and *bg*, using tiles
 Currently added object types
 
     +----------------+----------------------------------------+-----------------+
-    | type           | defined with                           | properties      |
+    | TYPE           | DEFINED WITH                           | PROPERTIES      |
     |----------------|----------------------------------------|-----------------|
-	| control entities                                                          |
+	| CONTROL ENTITIES                                                          |
     |----------------|----------------------------------------|-----------------|
     | player start   | type = "start"                         |                 |
     |----------------|----------------------------------------|-----------------|
-	| hostile entities                                                          |
+	| HOSTILE ENTITIES                                                          |
     |----------------|----------------------------------------|-----------------|
     | rotating spike | OBJ_ROTSPIKE <= gid <= OBJ_ROTSPIKE+1  |                 |
 	| bee            | type = "bee"                           | time, dir, yint | 
 	| dog            | type = "dog"                           | dir, jump       |
 	| mole           | type = "mole"                          | dir
     |----------------|----------------------------------------|-----------------|
-	| pickups                                                                   |
+	| PICKUPS                                                                   |
     |----------------|----------------------------------------|-----------------|
 	| checkpoint     | gid = OBJ_CHECKPOINT                   | dir             |
 	| jumppad        | gid = OBJ_JUMPPAD_S - OBJ_JUMPPAD_E    | power           |
