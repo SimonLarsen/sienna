@@ -1,5 +1,9 @@
 # Project *Sienna* #
 
+Sienna is a simple, fast-paced platformer currently in development.
+
+You can follow the development of Sienna on my [devlog](http://simonlarsen.blogspot.dk/search/label/sienna).
+
 ## Controls ##
 
 * Jump: Space
@@ -36,6 +40,7 @@ Currently added object types
     | rotating spike | OBJ_ROTSPIKE <= gid <= OBJ_ROTSPIKE+1  |                 |
 	| bee            | type = "bee"                           | time, dir, yint | 
 	| dog            | type = "dog"                           | dir, jump       |
+	| mole           | type = "mole"                          | dir
     |----------------|----------------------------------------|-----------------|
 	| pickups                                                                   |
     |----------------|----------------------------------------|-----------------|

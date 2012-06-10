@@ -38,6 +38,8 @@ function loadMap(name)
 			table.insert(map.enemies, Bee.create(v.x+8, v.y-18, v.properties))
 		elseif v.type == "dog" then
 			table.insert(map.enemies, Dog.create(v.x+8, v.y, v.properties))
+		elseif v.type == "mole" then
+			table.insert(map.enemies, Mole.create(v.x+8, v.y, v.properties))
 		elseif v.type == "start" then
 			map.startx = v.x
 			map.starty = v.y-4.1

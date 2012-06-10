@@ -55,12 +55,8 @@ function love.update(dt)
 	-- Update enemies
 	for i=#map.enemies,1,-1 do
 		local enem = map.enemies[i]
-		if enem.alive == true then
-			if enem.update then
-				enem:update(dt)
-			end
-		else
-			table.remove(map.enemies, i)
+		if enem.update then
+			enem:update(dt)
 		end
 	end
 

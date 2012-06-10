@@ -60,7 +60,12 @@ function createQuads()
 	quads.dog  = lg.newQuad(0, 32, 16, 16, 128, 128)
 	quads.dog_jump = lg.newQuad(16, 32, 16, 19, 128, 128)
 
+	quads.mole = {}
+	for i=0,4 do
+		quads.mole[i] = lg.newQuad(48+i*16, 0, 16, 16, 128,128)
+	end
+
 	quads.bee = {}
-	quads.bee[0] = lg.newQuad(0,0, 15,19, 128,128)
-	quads.bee[1] = lg.newQuad(16,0, 15,19, 128,128)
+	quads.bee[0] = lg.newQuad( 0, 0, 15, 19, 128,128)
+	quads.bee[1] = lg.newQuad(16, 0, 15, 19, 128,128)
 end
