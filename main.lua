@@ -55,8 +55,12 @@ function love.update(dt)
 	-- Update enemies
 	for i=#map.enemies,1,-1 do
 		local enem = map.enemies[i]
-		if enem.update then
-			enem:update(dt)
+		if enem.alive == true then
+			if enem.update then
+				enem:update(dt)
+			end
+		else
+			table.remove(map.enemies, i)
 		end
 	end
 
@@ -84,25 +88,24 @@ function love.draw()
 		v:draw() end
 
 	for i,v in ipairs(map.enemies) do
-		v:draw() end
+		if v.draw then
+			v:draw()
+		end
+	end
 
 	for i,v in ipairs(map.particles) do
 		v:draw() end
 end
 
 function love.keypressed(k, uni)
-	if k == "escape" then
+	if k == " " then
+		player:keypressed(k, uni)
+	elseif k == "escape" then
 		love.event.quit()
 	elseif k == "r" then
 		player:respawn()
-	elseif k == "1" then
-		loadMap("test.tmx")
-		player:respawn()
-	elseif k == "2" then
-		loadMap("test2.tmx")
-		player:respawn()
-	elseif k == " " then
-		player:keypressed(k, uni)
+	elseif k == "f" then
+		addStone(player.x+180, -16)
 	end
 end
 

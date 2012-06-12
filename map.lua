@@ -43,6 +43,8 @@ function loadMap(name)
 		elseif v.type == "start" then
 			map.startx = v.x
 			map.starty = v.y-4.1
+		elseif v.type == "trigger" then
+			table.insert(map.enemies, Trigger.create(v.x, v.y-16, v.width, v.height, v.properties))
 		elseif v.gid >= OBJ_JUMPPAD_S and v.gid <= OBJ_JUMPPAD_E then
 			table.insert(map.entities, Jumppad.create(v.x, v.y-16, v.properties))
 		elseif v.gid == OBJ_ORB then

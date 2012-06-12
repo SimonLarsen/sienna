@@ -8,6 +8,7 @@ function Bee.create(x,y,prop)
 	local self = {}
 	setmetatable(self, Bee)
 
+	self.alive = true
 	self.x = x
 	self.inity = y
 	self.y = y
@@ -47,6 +48,7 @@ function Dog.create(x,y,prop)
 	local self = {}
 	setmetatable(self, Dog)
 
+	self.alive = true
 	self.x = x
 	self.inity = y
 	self.y = y
@@ -105,6 +107,7 @@ function Mole.create(x,y,prop)
 	local self = {}
 	setmetatable(self, Mole)
 
+	self.alive = true
 	self.x = x
 	self.y = y
 	self.dir = prop.dir or -1
@@ -152,5 +155,96 @@ function Mole:collidePlayer(pl)
 		return false
 	else
 		return true
+	end
+end
+
+---------------------------------------------------
+-- Stone : Enemy
+---------------------------------------------------
+Stone = {}
+Stone.__index = Stone
+
+function Stone.create(x, y, yspeed)
+	local self = {}
+	setmetatable(self, Stone)
+
+	self.alive = true
+	self.x = x
+	self.y = y or -10
+	self.yspeed = yspeed or 200
+
+	return self
+end
+
+function addStone(...)
+	table.insert(map.enemies, Stone.create(...))
+end
+
+function Stone:update(dt)
+	self.y = self.y + self.yspeed * dt
+
+	if self.y > MAPH+32 then
+		self.alive = false
+	end
+end
+
+function Stone:draw()
+	love.graphics.drawq(imgEnemies, quads.stone, self.x, self.y, 0,1,1, 14, 14)
+end
+
+function Stone:collidePlayer(pl)
+	if pl.x-5.5 > self.x+10 or pl.x+5.5 < self.x-10
+	or pl.y+2 > self.y+10 or pl.y+20 < self.y-10 then
+		return false
+	else
+		return true
+	end
+end
+
+---------------------------------------------------
+-- Trigger : Enemy
+---------------------------------------------------
+Trigger = {}
+Trigger.__index = Trigger
+
+function Trigger.create(x,y,width,height,prop)
+	local self = {}
+	setmetatable(self, Trigger)
+
+	self.alive = true
+	self.x = x
+	self.y = y
+	self.width = width
+	self.height = height
+	self.cooldown = prop.cooldown or 1 -- in seconds
+	self.cool = 0
+	self.prop = prop
+
+	return self
+end
+
+function Trigger:update(dt)
+	if self.cool > 0 then
+		self.cool = self.cool - dt
+	end
+end
+
+function Trigger:action()
+	if self.cool <= 0 then
+		if self.prop.action == "stone" then
+			addStone(self.prop.x, self.prop.y, self.prop.yspeed)
+		end
+
+		self.cool = self.cooldown
+	end
+end
+
+function Trigger:collidePlayer(pl)
+	if pl.x-5.5 > self.x+self.width or pl.x+5.5 < self.x
+	or pl.y+2 > self.y+self.height or pl.y+20 < self.y then
+		return false
+	else
+		self:action()
+		return false
 	end
 end

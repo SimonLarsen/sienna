@@ -11,7 +11,9 @@ local BRAKE_POWER = 1
 local COL_OFFSETS = {{-5.5,  2}, {5.5,  2},
 					 {-5.5, 10}, {5.5, 10},
 					 {-5.5, 20}, {5.5, 20}}
-local STATE_WAIT = 0    local STATE_RUNNING = 1    local STATE_BURNING = 2
+local STATE_WAIT = 0
+local STATE_RUNNING = 1
+local STATE_BURNING = 2
 
 local floor = math.floor
 local min = math.min

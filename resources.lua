@@ -32,39 +32,38 @@ function loadSounds()
 end
 
 function createQuads()
+	-- Player quads
 	quads.player = lg.newQuad(0,0,13,20,128,128)
 	quads.player_wall = lg.newQuad(16,0,13,19,128,128)
-
 	quads.player_run = {}
 	for i=0,5 do
 		quads.player_run[i] = lg.newQuad(i*16, 32, 13, 20, 128, 128)
 	end
-
 	quads.player_burn = {}
 	for i=0,7 do
 		quads.player_burn[i] = lg.newQuad(i*16, 64, 13, 20, 128, 128)
 	end
 
+	-- Misc. entity quads
+	quads.star = lg.newQuad(109,110,19,18, 128, 128)
 	quads.spike = {}
 	for i = 0,1 do
 		quads.spike[i] = lg.newQuad(i*16, 0, 16, 16, 128, 128)
 	end
-
 	quads.jumppad = {}
 	for i=0,3 do
 		quads.jumppad[i] = lg.newQuad(i*16, 32, 16, 16, 128, 128)
 	end
 
-	quads.star = lg.newQuad(109,110,19,18, 128, 128)
+	-- Enemy quads
 	quads.orb  = lg.newQuad(48, 0, 16, 16, 128, 128)
 	quads.dog  = lg.newQuad(0, 32, 16, 16, 128, 128)
 	quads.dog_jump = lg.newQuad(16, 32, 16, 19, 128, 128)
-
+	quads.stone = lg.newQuad(96,96,28,28,128,128)
 	quads.mole = {}
 	for i=0,4 do
 		quads.mole[i] = lg.newQuad(48+i*16, 0, 16, 16, 128,128)
 	end
-
 	quads.bee = {}
 	quads.bee[0] = lg.newQuad( 0, 0, 15, 19, 128,128)
 	quads.bee[1] = lg.newQuad(16, 0, 15, 19, 128,128)

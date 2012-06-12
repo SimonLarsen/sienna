@@ -40,7 +40,7 @@ Currently added object types
     | rotating spike | OBJ_ROTSPIKE <= gid <= OBJ_ROTSPIKE+1  |                 |
 	| bee            | type = "bee"                           | time, dir, yint | 
 	| dog            | type = "dog"                           | dir, jump       |
-	| mole           | type = "mole"                          | dir
+	| mole           | type = "mole"                          | dir             |
     |----------------|----------------------------------------|-----------------|
 	| PICKUPS                                                                   |
     |----------------|----------------------------------------|-----------------|
