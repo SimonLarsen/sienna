@@ -143,7 +143,7 @@ end
 function Mole:collidePlayer(pl)
 	if self.state == 0 then
 		local dist = math.pow(pl.x-self.x,2) + math.pow(pl.y-self.y,2)
-		if dist < 1524 then
+		if dist < 1800 then
 			self.state = 1
 			self.time = 0
 			addSparkle(self.x, self.y+13, 8, COLORS.lightbrown)
@@ -181,10 +181,13 @@ function addStone(...)
 end
 
 function Stone:update(dt)
-	self.y = self.y + self.yspeed * dt
+	if self.alive then
+		self.y = self.y + self.yspeed * dt
 
-	if self.y > MAPH+32 then
-		self.alive = false
+		if self.y > MAPH+32 then
+			self.alive = false
+			love.audio.play(snd.RockGone)
+		end
 	end
 end
 
@@ -195,6 +198,40 @@ end
 function Stone:collidePlayer(pl)
 	if pl.x-5.5 > self.x+10 or pl.x+5.5 < self.x-10
 	or pl.y+2 > self.y+10 or pl.y+20 < self.y-10 then
+		return false
+	else
+		return true
+	end
+end
+
+---------------------------------------------------
+-- Spider : Enemy
+---------------------------------------------------
+Spider = {}
+Spider.__index = Spider
+
+function Spider.create(x,y,prop)
+	local self = {}
+	setmetatable(self, Spider)
+
+	self.alive = true
+	self.x = x
+	self.y = y
+
+	return self
+end
+
+function Spider:update(dt)
+	
+end
+
+function Spider:draw()
+	love.graphics.drawq(imgEnemies, quads.spider, self.x-5, self.y-2)
+end
+
+function Spider:collidePlayer(pl)
+	if pl.x-5.5 > self.x+16 or pl.x+5.5 < self.x+4
+	or pl.y+2 > self.y+15 or pl.y+20 < self.y+1 then
 		return false
 	else
 		return true
@@ -233,6 +270,7 @@ function Trigger:action()
 	if self.cool <= 0 then
 		if self.prop.action == "stone" then
 			addStone(self.prop.x, self.prop.y, self.prop.yspeed)
+			love.audio.play(snd.RockRelease)
 		end
 
 		self.cool = self.cooldown

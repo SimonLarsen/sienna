@@ -29,6 +29,8 @@ function loadSounds()
 	snd.Star  	= la.newSource("sfx/star.wav",  "static")
 	snd.Water 	= la.newSource("sfx/water.wav", "static")
 	snd.Jumppad = la.newSource("sfx/jumppad.wav", "static")
+	snd.RockRelease = la.newSource("sfx/rockrelease.wav", "static")
+	snd.RockGone = la.newSource("sfx/rockgone.wav", "static")
 end
 
 function createQuads()
@@ -67,4 +69,5 @@ function createQuads()
 	quads.bee = {}
 	quads.bee[0] = lg.newQuad( 0, 0, 15, 19, 128,128)
 	quads.bee[1] = lg.newQuad(16, 0, 15, 19, 128,128)
+	quads.spider = lg.newQuad(48, 32, 25, 24, 128,128)
 end

@@ -6,7 +6,7 @@ Sparkle.__index = Sparkle
 
 local lg = love.graphics
 
-function Sparkle.create(x,y,count,color,time)
+function Sparkle.create(x,y,count,color,time,ysp)
 	local self = {}
 	setmetatable(self, Sparkle)
 
@@ -22,7 +22,7 @@ function Sparkle.create(x,y,count,color,time)
 		self.particles[i].xspeed = math.random(-100,100)
 
 		self.particles[i].y = y
-		self.particles[i].yspeed = math.random(-200,50)
+		self.particles[i].yspeed = math.random(-200,50) + (ysp or 0)
 	end
 
 	return self

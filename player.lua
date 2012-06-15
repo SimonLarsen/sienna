@@ -135,7 +135,7 @@ function Player:checkTiles()
 			elseif tile.id == TILE_LAVA_TOP then -- Don't check for TILE_LAVA. Shouldn't be necessary
 				if collideLava(bx,by,self) then
 					self:kill(STATE_BURNING)
-					addSparkle(self.x,self.y+20,32,COLORS.red)
+					addSparkle(self.x,self.y+20,32,COLORS.red,1,-50)
 					love.audio.play(snd.Burn)
 					return
 				end

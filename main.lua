@@ -30,7 +30,7 @@ function love.load()
 	loadSounds()
 	createQuads()
 
-	loadMap("test3.tmx")
+	loadMap("temple.tmx")
 
 	player  = Player.create(map.startx, map.starty, map.startdir, 1)
 end
