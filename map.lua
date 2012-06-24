@@ -1,8 +1,7 @@
-OBJ_ROTSPIKE = 513
-OBJ_ORB = 516
-OBJ_CHECKPOINT = 517
-OBJ_JUMPPAD_S = 529
-OBJ_JUMPPAD_E = 532
+OBJ_ROTSPIKE = 1281
+OBJ_CHECKPOINT = 1284
+OBJ_JUMPPAD_S = 1297
+OBJ_JUMPPAD_E = 1300
 
 TILE_SPIKE_S = 129
 TILE_SPIKE_E = TILE_SPIKE_S+3
@@ -49,8 +48,10 @@ function loadMap(name)
 			table.insert(map.enemies, Trigger.create(v.x, v.y-16, v.width, v.height, v.properties))
 		elseif v.gid >= OBJ_JUMPPAD_S and v.gid <= OBJ_JUMPPAD_E then
 			table.insert(map.entities, Jumppad.create(v.x, v.y-16, v.properties))
+		--[[
 		elseif v.gid == OBJ_ORB then
 			table.insert(map.entities, Orb.create(v.x, v.y-16))
+		--]]
 		end
 	end
 

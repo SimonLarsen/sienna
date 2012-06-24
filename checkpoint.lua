@@ -15,7 +15,7 @@ end
 
 function Checkpoint:draw()
 	if self.alive == true then
-		love.graphics.drawq(imgObjects, quads.star, self.x-2, self.y-1)
+		love.graphics.drawq(imgObjects, quads.orb, self.x, self.y)
 	end
 end
 
@@ -29,8 +29,8 @@ function Checkpoint:collidePlayer(pl)
 			map.startx = self.x
 			map.starty = self.y
 			map.startdir = self.dir
-			addSparkle(self.x+8, self.y+8, 32)
-			love.audio.play(snd.Star)
+			addSparkle(self.x+8, self.y+8, 32, COLORS.lightblue)
+			love.audio.play(snd.Checkpoint)
 
 			return true
 		end

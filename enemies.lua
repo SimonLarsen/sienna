@@ -271,6 +271,8 @@ function Trigger:action()
 		if self.prop.action == "stone" then
 			addStone(self.prop.x, self.prop.y, self.prop.yspeed)
 			love.audio.play(snd.RockRelease)
+		elseif self.prop.action == "fireball" then
+			addFireball(self.prop.x, self.prop.y, self.prop.top)
 		end
 
 		self.cool = self.cooldown
@@ -284,5 +286,69 @@ function Trigger:collidePlayer(pl)
 	else
 		self:action()
 		return false
+	end
+end
+
+---------------------------------------------------
+-- Fireball : Enemy
+---------------------------------------------------
+Fireball = {}
+Fireball.__index = Fireball
+
+function Fireball.create(x,y,top)
+	local self = {}
+	setmetatable(self, Fireball)
+
+	self.alive = true
+	self.x = x
+	self.y = y
+
+	self.top = top or 64
+	self.moved = 0
+	self.yspeed = -150
+	self.starty = y
+
+	addSparkle(self.x, self.y, 8, COLORS.red)
+	addSparkle(self.x, self.y, 8, COLORS.yellow)
+
+	return self
+end
+
+function addFireball(...)
+	table.insert(map.enemies, Fireball.create(...))
+end
+
+function Fireball:update(dt)
+	if self.moved < self.top then
+		self.moved = self.moved + math.abs(self.yspeed*dt)
+	else
+		self.yspeed = math.min(150, self.yspeed + 1000*dt)
+	end
+
+	self.y = self.y + self.yspeed*dt
+
+	if self.y > self.starty then
+		self.alive = false
+		addSparkle(self.x, self.y, 8, COLORS.red)
+		addSparkle(self.x, self.y, 8, COLORS.yellow)
+	end
+end
+
+function Fireball:draw()
+	if self.yspeed < -50 then
+		love.graphics.drawq(imgEnemies, quads.fireball_moving, self.x, self.y, 0, 1, 1,  3.5, 4)
+	elseif self.yspeed > 50 then
+		love.graphics.drawq(imgEnemies, quads.fireball_moving, self.x, self.y, 0, 1, -1, 3.5, 4)
+	else
+		love.graphics.drawq(imgEnemies, quads.fireball_still, self.x, self.y, 0, 1, 1, 3.5, 4)
+	end
+end
+
+function Fireball:collidePlayer(pl)
+	if pl.x-5.5 > self.x+2.5 or pl.x+5.5 < self.x-2.5
+	or pl.y+2 > self.y+3 or pl.y+20 < self.y-3 then
+		return false
+	else
+		return true
 	end
 end
