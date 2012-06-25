@@ -34,6 +34,7 @@ Currently added object types
 	| CONTROL ENTITIES                                                          |
     |----------------|----------------------------------------|-----------------|
     | player start   | type = "start"                         |                 |
+	| trigger        | type = "trigger"                       | action, x, y    |
     |----------------|----------------------------------------|-----------------|
 	| HOSTILE ENTITIES                                                          |
     |----------------|----------------------------------------|-----------------|
@@ -41,10 +42,12 @@ Currently added object types
 	| bee            | type = "bee"                           | time, dir, yint | 
 	| dog            | type = "dog"                           | dir, jump       |
 	| mole           | type = "mole"                          | dir             |
+	| spider         | type = "spider"                        |                 |
+	| stone          | Only created by trigger                | yspeed          |
+	| fireball       | Only created by trigger                | top             |
     |----------------|----------------------------------------|-----------------|
 	| PICKUPS                                                                   |
     |----------------|----------------------------------------|-----------------|
 	| checkpoint     | gid = OBJ_CHECKPOINT                   | dir             |
 	| jumppad        | gid = OBJ_JUMPPAD_S - OBJ_JUMPPAD_E    | power           |
-	| orb            | gid = OBJ_ORB                          |                 |
     +----------------+----------------------------------------+-----------------+

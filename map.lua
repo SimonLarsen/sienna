@@ -31,8 +31,17 @@ function loadMap(name)
 	for i,v in ipairs(map.objectLayers.obj.objects) do
 		if v.gid == OBJ_ROTSPIKE or v.gid == OBJ_ROTSPIKE+1 then
 			table.insert(map.enemies, Spike.create(v.x, v.y-16))
+
 		elseif v.gid == OBJ_CHECKPOINT then
 			table.insert(map.entities, Checkpoint.create(v.x+8, v.y-16, v.properties))
+
+		elseif v.type == "start" then
+			map.startx = v.x
+			map.starty = v.y-4.1
+
+		elseif v.gid and v.gid >= OBJ_JUMPPAD_S and v.gid <= OBJ_JUMPPAD_E then
+			table.insert(map.entities, Jumppad.create(v.x, v.y-16, v.properties))
+
 		elseif v.type == "bee" then
 			table.insert(map.enemies, Bee.create(v.x+8, v.y-18, v.properties))
 		elseif v.type == "dog" then
@@ -41,17 +50,10 @@ function loadMap(name)
 			table.insert(map.enemies, Mole.create(v.x+8, v.y, v.properties))
 		elseif v.type == "spider" then
 			table.insert(map.enemies, Spider.create(v.x, v.y, v.properties))
-		elseif v.type == "start" then
-			map.startx = v.x
-			map.starty = v.y-4.1
+		elseif v.type == "snake" then
+			table.insert(map.enemies, Snake.create(v.x+8, v.y, v.properties))
 		elseif v.type == "trigger" then
 			table.insert(map.enemies, Trigger.create(v.x, v.y-16, v.width, v.height, v.properties))
-		elseif v.gid >= OBJ_JUMPPAD_S and v.gid <= OBJ_JUMPPAD_E then
-			table.insert(map.entities, Jumppad.create(v.x, v.y-16, v.properties))
-		--[[
-		elseif v.gid == OBJ_ORB then
-			table.insert(map.entities, Orb.create(v.x, v.y-16))
-		--]]
 		end
 	end
 

@@ -31,6 +31,8 @@ function loadSounds()
 	snd.Jumppad = la.newSource("sfx/jumppad.wav", "static")
 	snd.RockRelease = la.newSource("sfx/rockrelease.wav", "static")
 	snd.RockGone = la.newSource("sfx/rockgone.wav", "static")
+	snd.Fireball1 = la.newSource("sfx/fireball.wav", "static")
+	snd.Fireball2 = la.newSource("sfx/fireball2.wav", "static")
 end
 
 function createQuads()
@@ -59,17 +61,28 @@ function createQuads()
 
 	-- Enemy quads
 	quads.orb  = lg.newQuad(48, 0, 16, 16, 128, 128)
+
 	quads.dog  = lg.newQuad(0, 32, 16, 16, 128, 128)
 	quads.dog_jump = lg.newQuad(16, 32, 16, 19, 128, 128)
+
 	quads.stone = lg.newQuad(96,96,28,28,128,128)
+
 	quads.mole = {}
 	for i=0,4 do
 		quads.mole[i] = lg.newQuad(48+i*16, 0, 16, 16, 128,128)
 	end
+
 	quads.bee = {}
-	quads.bee[0] = lg.newQuad( 0, 0, 15, 19, 128,128)
-	quads.bee[1] = lg.newQuad(16, 0, 15, 19, 128,128)
-	quads.spider = lg.newQuad(48, 32, 25, 24, 128,128)
+
+	quads.bee[0] = lg.newQuad( 0, 0, 15, 19, 128, 128)
+	quads.bee[1] = lg.newQuad(16, 0, 15, 19, 128, 128)
+
+	quads.spider = lg.newQuad(48, 32, 25, 24, 128, 128)
+
+	quads.snake = {}
+	for i = 0, 5 do
+		quads.snake[i] = lg.newQuad(i*15, 64, 15, 24, 128, 128)
+	end
 
 	quads.fireball_moving = lg.newQuad(96, 80, 7, 13, 128,128)
 	quads.fireball_still  = lg.newQuad(104, 80, 7, 8, 128,128)

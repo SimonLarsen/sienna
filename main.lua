@@ -24,7 +24,7 @@ local scroll_smooth = true
 local player
 
 function love.load()
-	setResolution(1024,768)
+	setResolution(800,600)
 	lg.setDefaultImageFilter("nearest","nearest")
 	lg.setBackgroundColor(COLORS.darkbrown)
 
@@ -111,8 +111,12 @@ function love.keypressed(k, uni)
 		love.event.quit()
 	elseif k == "r" then
 		player:respawn()
-	elseif k == "f" then
-		addStone(player.x+180, -16)
+	elseif k == "1" then
+		loadMap("mine.tmx")
+		player:respawn()
+	elseif k == "2" then
+		loadMap("temple.tmx")
+		player:respawn()
 	end
 end
 

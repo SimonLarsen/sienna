@@ -150,6 +150,10 @@ function Mole:collidePlayer(pl)
 		end
 	end
 
+	if self.state ~= 1 then
+		return false
+	end
+
 	if pl.x-5.5 > self.x+4 or pl.x+5.5 < self.x-4
 	or pl.y+2 > self.y+16 or pl.y+20 < self.y+3 then
 		return false
@@ -239,6 +243,71 @@ function Spider:collidePlayer(pl)
 end
 
 ---------------------------------------------------
+-- Snake : Enemy
+---------------------------------------------------
+Snake = {}
+Snake.__index = Snake
+
+function Snake.create(x,y,prop)
+	local self = {}
+	setmetatable(self, Snake)
+
+	self.alive = true
+	self.x = x
+	self.y = y
+
+	self.state = 0 -- hiding, 1 = ascending, 2 = descending
+	self.time = 0
+
+	return self
+	
+end
+
+function Snake:update(dt)
+	self.time = self.time + dt
+	if self.state == 1 and self.time > 3 then
+		self.state = 2
+		self.time = 0
+	elseif self.state == 2 and self.time > 0.3 then
+		self.state = 0
+		self.time = 0
+	end
+end
+
+function Snake:draw()
+	if self.state == 0 then
+		love.graphics.drawq(imgEnemies, quads.snake[0], self.x, self.y, 0, 1, 1, 7, 8)
+	elseif self.state == 1 then
+		local frame = math.min(math.floor(self.time*20),5)
+		love.graphics.drawq(imgEnemies, quads.snake[frame], self.x, self.y, 0, 1, 1, 7, 8)
+	elseif self.state == 2 then
+		local frame = math.min(math.floor(self.time*20),5)
+		love.graphics.drawq(imgEnemies, quads.snake[5-frame], self.x, self.y, 0, 1, 1, 7, 8)
+	end
+end
+
+function Snake:collidePlayer(pl)
+	if self.state == 0 then
+		local dist = math.pow(pl.x-self.x,2) + math.pow(pl.y-self.y,2)
+		if dist < 3000 then
+			self.state = 1
+			self.time = 0
+		end
+	end
+	
+	if self.state ~= 1 then
+		return false
+	end
+
+	if pl.x-5.5 > self.x-2 or pl.x+5.5 < self.x+3
+	or pl.y+2 > self.y+4 or pl.y+20 < self.y-8 then
+		return false
+	else
+		return true
+	end
+end
+
+---------------------------------------------------
 -- Trigger : Enemy
 ---------------------------------------------------
 Trigger = {}
@@ -310,6 +379,7 @@ function Fireball.create(x,y,top)
 
 	addSparkle(self.x, self.y, 8, COLORS.red)
 	addSparkle(self.x, self.y, 8, COLORS.yellow)
+	love.audio.play(snd.Fireball1)
 
 	return self
 end
@@ -331,6 +401,7 @@ function Fireball:update(dt)
 		self.alive = false
 		addSparkle(self.x, self.y, 8, COLORS.red)
 		addSparkle(self.x, self.y, 8, COLORS.yellow)
+		love.audio.play(snd.Fireball2)
 	end
 end
 
