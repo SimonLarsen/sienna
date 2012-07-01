@@ -19,6 +19,7 @@ function loadMap(name)
 	map.drawObjects = false
 	fgtiles = map.tileLayers.fg.tileData
 
+	kills = 0
 	map.enemies = {}
 	map.particles = {}
 	map.entities = {}
@@ -89,7 +90,7 @@ end
 
 function isSolid(x,y)
 	local tile = fgtiles(x,y)
-	if tile ~= nil and tile.id <= 128 then
+	if tile ~= nil then
 		return true
 	else
 		return false

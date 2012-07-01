@@ -163,52 +163,6 @@ function Mole:collidePlayer(pl)
 end
 
 ---------------------------------------------------
--- Stone : Enemy
----------------------------------------------------
-Stone = {}
-Stone.__index = Stone
-
-function Stone.create(x, y, yspeed)
-	local self = {}
-	setmetatable(self, Stone)
-
-	self.alive = true
-	self.x = x
-	self.y = y or -10
-	self.yspeed = yspeed or 200
-
-	return self
-end
-
-function addStone(...)
-	table.insert(map.enemies, Stone.create(...))
-end
-
-function Stone:update(dt)
-	if self.alive then
-		self.y = self.y + self.yspeed * dt
-
-		if self.y > MAPH+32 then
-			self.alive = false
-			love.audio.play(snd.RockGone)
-		end
-	end
-end
-
-function Stone:draw()
-	love.graphics.drawq(imgEnemies, quads.stone, self.x, self.y, 0,1,1, 14, 14)
-end
-
-function Stone:collidePlayer(pl)
-	if pl.x-5.5 > self.x+10 or pl.x+5.5 < self.x-10
-	or pl.y+2 > self.y+10 or pl.y+20 < self.y-10 then
-		return false
-	else
-		return true
-	end
-end
-
----------------------------------------------------
 -- Spider : Enemy
 ---------------------------------------------------
 Spider = {}
@@ -326,6 +280,10 @@ function Trigger.create(x,y,width,height,prop)
 	self.cool = 0
 	self.prop = prop
 
+	if self.prop.action == "stalactite" then
+		self.stalactite = addStalactite(self.prop.x, self.prop.y)
+	end
+
 	return self
 end
 
@@ -342,6 +300,8 @@ function Trigger:action()
 			love.audio.play(snd.RockRelease)
 		elseif self.prop.action == "fireball" then
 			addFireball(self.prop.x, self.prop.y, self.prop.top)
+		elseif self.prop.action == "stalactite" then
+			self.stalactite:trigger()
 		end
 
 		self.cool = self.cooldown
@@ -418,6 +378,128 @@ end
 function Fireball:collidePlayer(pl)
 	if pl.x-5.5 > self.x+2.5 or pl.x+5.5 < self.x-2.5
 	or pl.y+2 > self.y+3 or pl.y+20 < self.y-3 then
+		return false
+	else
+		return true
+	end
+end
+
+---------------------------------------------------
+-- Stone : Enemy
+---------------------------------------------------
+Stone = {}
+Stone.__index = Stone
+
+function Stone.create(x, y, yspeed)
+	local self = {}
+	setmetatable(self, Stone)
+
+	self.alive = true
+	self.x = x
+	self.y = y or -10
+	self.yspeed = yspeed or 200
+
+	return self
+end
+
+function addStone(...)
+	table.insert(map.enemies, Stone.create(...))
+end
+
+function Stone:update(dt)
+	if self.alive then
+		self.y = self.y + self.yspeed * dt
+
+		if self.y > MAPH+32 then
+			self.alive = false
+			love.audio.play(snd.RockGone)
+		end
+	end
+end
+
+function Stone:draw()
+	love.graphics.drawq(imgEnemies, quads.stone, self.x, self.y, 0,1,1, 14, 14)
+end
+
+function Stone:collidePlayer(pl)
+	if pl.x-5.5 > self.x+10 or pl.x+5.5 < self.x-10
+	or pl.y+2 > self.y+10 or pl.y+20 < self.y-10 then
+		return false
+	else
+		return true
+	end
+end
+
+---------------------------------------------------
+-- Stalactite : Enemy
+---------------------------------------------------
+Stalactite = {}
+Stalactite.__index = Stalactite
+
+function Stalactite.create(x, y, yspeed)
+	local self = {}
+	setmetatable(self, Stalactite)
+
+	self.alive = true
+	self.x = x
+	self.basey = y
+	self.y = y
+	self.yspeed = yspeed or 200
+	self.state = 0 -- 0 = idle, 1 = falling, 2 = respawning
+	self.time = 0
+
+	return self
+end
+
+function addStalactite(...)
+	local o = Stalactite.create(...)
+	table.insert(map.enemies, o)
+	return o
+end
+
+function Stalactite:update(dt)
+	if self.state == 1 then
+		self.y = self.y + self.yspeed*dt
+
+		if collidePoint(self.x+8, self.y+16) then
+			addSparkle(self.x+8, self.y+16, 16, COLORS.orange)
+			self.y = self.basey
+			self.state = 2
+			self.time = 0
+		end
+	elseif self.state == 2 then
+		self.time = self.time + dt
+		if self.time > 2 then
+			self.state = 0
+		end
+	end
+end
+
+function Stalactite:draw()
+	if self.state == 0 then
+		love.graphics.drawq(imgEnemies, quads.stalactite_whole, self.x, self.basey)
+	elseif self.state == 1 then
+		love.graphics.drawq(imgEnemies, quads.stalactite_base, self.x, self.basey)
+		love.graphics.drawq(imgEnemies, quads.stalactite_tip, self.x, self.y)
+	elseif self.state == 2 then
+		if self.time < 1 or math.floor(self.time*20)%2 == 0 then
+			love.graphics.drawq(imgEnemies, quads.stalactite_base, self.x, self.basey)
+		else
+			love.graphics.drawq(imgEnemies, quads.stalactite_whole, self.x, self.basey)
+		end
+	end
+end
+
+function Stalactite:trigger()
+	if self.state == 0 then
+		self.state = 1
+		addSparkle(self.x+8, self.basey, 16, COLORS.orange)
+	end
+end
+
+function Stalactite:collidePlayer(pl)
+	if pl.x-5.5 > self.x+10 or pl.x+5.5 < self.x+7
+	or pl.y+2 > self.y+14 or pl.y+20 < self.y+1 then
 		return false
 	else
 		return true

@@ -20,6 +20,10 @@ function loadImages()
 	imgPlayer2 = lg.newImage("art/player2.png")
 	imgObjects = lg.newImage("art/objects.png")
 	imgEnemies = lg.newImage("art/enemies.png")
+	imgHUD     = lg.newImage("art/hud.png")
+
+	fontSmall = lg.newImageFont("art/font_small.png", " abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.,-!$:;'")
+	fontMedium = lg.newImageFont("art/font_medium.png", " 0123456789abcdefghijklmnopqrstuvxyzABCDEFGHIJKLMNOPQRSTUVXYZ!-.,$")
 end
 
 function loadSounds()
@@ -36,7 +40,9 @@ function loadSounds()
 end
 
 function createQuads()
+	----------------
 	-- Player quads
+	----------------
 	quads.player = lg.newQuad(0,0,13,20,128,128)
 	quads.player_wall = lg.newQuad(16,0,13,19,128,128)
 	quads.player_run = {}
@@ -48,7 +54,9 @@ function createQuads()
 		quads.player_burn[i] = lg.newQuad(i*16, 64, 13, 20, 128, 128)
 	end
 
+	----------------------
 	-- Misc. entity quads
+	----------------------
 	quads.star = lg.newQuad(109,110,19,18, 128, 128)
 	quads.spike = {}
 	for i = 0,1 do
@@ -59,10 +67,12 @@ function createQuads()
 		quads.jumppad[i] = lg.newQuad(i*16, 32, 16, 16, 128, 128)
 	end
 
+	---------------
 	-- Enemy quads
+	---------------
 	quads.orb  = lg.newQuad(48, 0, 16, 16, 128, 128)
 
-	quads.dog  = lg.newQuad(0, 32, 16, 16, 128, 128)
+	quads.dog      = lg.newQuad( 0, 32, 16, 16, 128, 128)
 	quads.dog_jump = lg.newQuad(16, 32, 16, 19, 128, 128)
 
 	quads.stone = lg.newQuad(96,96,28,28,128,128)
@@ -84,6 +94,15 @@ function createQuads()
 		quads.snake[i] = lg.newQuad(i*15, 64, 15, 24, 128, 128)
 	end
 
-	quads.fireball_moving = lg.newQuad(96, 80, 7, 13, 128,128)
-	quads.fireball_still  = lg.newQuad(104, 80, 7, 8, 128,128)
+	quads.fireball_moving = lg.newQuad( 96, 80, 7, 13, 128,128)
+	quads.fireball_still  = lg.newQuad(104, 80, 7,  8, 128,128)
+
+	quads.stalactite_whole = lg.newQuad(64, 96, 16, 16, 128,128)
+	quads.stalactite_base  = lg.newQuad(80, 96, 16,  3, 128,128)
+	quads.stalactite_tip   = lg.newQuad(80, 100, 16, 16, 128,128)
+
+	-------------
+	-- HUD quads
+	-------------
+	quads.hud_skull = lg.newQuad(0,0, 17,18, 128,128)
 end

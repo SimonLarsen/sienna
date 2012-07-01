@@ -95,7 +95,7 @@ function Player:update(dt)
 		for i,v in ipairs(map.enemies) do
 			if v:collidePlayer(self) and self.invul <= 0 then
 				love.audio.play(snd.Hurt)
-				self:respawn()
+				self:kill()
 			end
 		end
 
@@ -106,15 +106,23 @@ function Player:update(dt)
 		end
 
 		self:checkTiles()
+
+		-- TODO: Replace with win stuff
 		if self.y > MAPH then
-			self:respawn()
+			self:kill()
 		end
 
 	elseif self.state == STATE_BURNING then
 		if self.frame >= 8 then
-			self:respawn()
+			self:kill()
 		end
 	end
+end
+
+function Player:kill(...)
+	kills = kills + 1
+	print(kills)
+	self:respawn(...)
 end
 
 function Player:checkTiles()
@@ -129,12 +137,14 @@ function Player:checkTiles()
 				if collideSpike(bx,by,self) then
 					addSparkle(self.x,self.y+20,32,COLORS.red)
 					love.audio.play(snd.Hurt)
-					self:respawn()
+					self:kill()
 					return
 				end
 			elseif tile.id == TILE_LAVA_TOP then -- Don't check for TILE_LAVA. Shouldn't be necessary
 				if collideLava(bx,by,self) then
 					self:kill(STATE_BURNING)
+					self.frame = 0
+					self.state = STATE_BURNING
 					addSparkle(self.x,self.y+20,32,COLORS.red,1,-50)
 					love.audio.play(snd.Burn)
 					return
@@ -150,11 +160,6 @@ function Player:checkTiles()
 		love.audio.play(snd.Water)
 	end
 	self.inWater = hitWater
-end
-
-function Player:kill(newstate)
-	self.frame = 0
-	self.state = newstate
 end
 
 function Player:keypressed(k, uni)

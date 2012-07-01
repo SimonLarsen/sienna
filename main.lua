@@ -32,7 +32,7 @@ function love.load()
 	loadSounds()
 	createQuads()
 
-	loadMap("temple.tmx")
+	loadMap("cave.tmx")
 
 	player  = Player.create(map.startx, map.starty, map.startdir, 1)
 end
@@ -96,8 +96,7 @@ function love.draw()
 
 	for i,v in ipairs(map.enemies) do
 		if v.draw then
-			v:draw()
-		end
+			v:draw() end
 	end
 
 	for i,v in ipairs(map.particles) do
