@@ -37,6 +37,7 @@ function loadSounds()
 	snd.RockGone = la.newSource("sfx/rockgone.wav", "static")
 	snd.Fireball1 = la.newSource("sfx/fireball.wav", "static")
 	snd.Fireball2 = la.newSource("sfx/fireball2.wav", "static")
+	snd.Coin = la.newSource("sfx/coin.wav", "static")
 end
 
 function createQuads()
@@ -65,6 +66,10 @@ function createQuads()
 	quads.jumppad = {}
 	for i=0,3 do
 		quads.jumppad[i] = lg.newQuad(i*16, 32, 16, 16, 128, 128)
+	end
+	quads.coin = {}
+	for i=0,3 do
+		quads.coin[i] = lg.newQuad(i*16,48, 16,16, 128,128)
 	end
 
 	---------------
@@ -100,6 +105,9 @@ function createQuads()
 	quads.stalactite_whole = lg.newQuad(64, 96, 16, 16, 128,128)
 	quads.stalactite_base  = lg.newQuad(80, 96, 16,  3, 128,128)
 	quads.stalactite_tip   = lg.newQuad(80, 100, 16, 16, 128,128)
+
+	quads.turret = lg.newQuad(112,17, 16, 16, 128, 128)
+	quads.arrow  = lg.newQuad(112,80, 12,  3, 128, 128)
 
 	-------------
 	-- HUD quads

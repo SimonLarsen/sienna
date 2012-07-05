@@ -262,6 +262,105 @@ function Snake:collidePlayer(pl)
 end
 
 ---------------------------------------------------
+-- Turret : Enemy
+---------------------------------------------------
+Turret = {}
+Turret.__index = Turret
+
+function Turret.create(x,y,prop)
+	local self = {}
+	setmetatable(self, Turret)
+
+	self.alive = true
+	self.x = x
+	self.y = y
+	self.range = prop.range
+	self.dir = prop.dir -- -1 = left, 1 = right, 0 = both
+	self.cooldown = prop.cooldown or 1 -- in seconds
+	self.dist = prop.dist or 256
+	self.cool = 0
+
+	return self
+end
+
+function Turret:update(dt)
+	if self.cool > 0 then
+		self.cool = self.cool - dt
+	end
+end
+
+function Turret:draw()
+	love.graphics.drawq(imgEnemies, quads.turret, self.x, self.y)
+end
+
+function Turret:collidePlayer(pl)
+	if pl.y+20 < self.y+1 or pl.y+2 > self.y+5
+	or math.abs(self.x+8-pl.x) > self.range then
+		return false
+	else
+		if self.cool > 0 then
+			return false
+		end
+		self.cool = self.cooldown
+
+		if self.dir == -1 or self.dir == 0 then
+			addArrow(self.x, self.y+3, -1, self.dist)
+		end
+		if self.dir == 1 or self.dir == 0 then
+			addArrow(self.x+16, self.y+3, 1, self.dist)
+		end
+		return false
+	end
+end
+
+---------------------------------------------------
+-- Arrow : Enemy
+---------------------------------------------------
+Arrow = {}
+Arrow.__index = Arrow
+
+function Arrow.create(x,y,dir,dist)
+	local self = {}
+	setmetatable(self, Arrow)
+
+	self.alive = true
+	self.x = x
+	self.y = y
+	self.dir = dir
+	self.dist = dist or 512
+	self.moved = 0
+
+	return self
+end
+
+function addArrow(...)
+	table.insert(map.enemies, Arrow.create(...))
+end
+
+function Arrow:update(dt)
+	self.x = self.x + self.dir*200*dt
+
+	self.moved = self.moved + 200*dt
+	if self.moved > self.dist and self.alive == true then
+		self.alive = false
+		addSparkle(self.x, self.y, 16, COLORS.offwhite)
+	end
+end
+
+function Arrow:draw()
+	love.graphics.drawq(imgEnemies, quads.arrow, self.x, self.y, 0, self.dir, 1, 12, 1)
+end
+
+function Arrow:collidePlayer(pl)
+	if pl.x-5.5 > self.x or pl.x+5.5 < self.x
+	or pl.y+2 > self.y or pl.y+20 < self.y then
+		return false
+	else
+		return true
+	end
+end
+
+---------------------------------------------------
 -- Trigger : Enemy
 ---------------------------------------------------
 Trigger = {}
@@ -330,12 +429,12 @@ function Fireball.create(x,y,top)
 
 	self.alive = true
 	self.x = x
-	self.y = y
+	self.y = y or 240
 
 	self.top = top or 64
 	self.moved = 0
 	self.yspeed = -150
-	self.starty = y
+	self.starty = self.y
 
 	addSparkle(self.x, self.y, 8, COLORS.red)
 	addSparkle(self.x, self.y, 8, COLORS.yellow)

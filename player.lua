@@ -93,14 +93,22 @@ function Player:update(dt)
 		end
 
 		for i,v in ipairs(map.enemies) do
-			if v:collidePlayer(self) and self.invul <= 0 then
-				love.audio.play(snd.Hurt)
-				self:kill()
+			if v.collidePlayer then
+				if v:collidePlayer(self) and self.invul <= 0 then
+					love.audio.play(snd.Hurt)
+					self:kill()
+				end
 			end
 		end
 
 		for i,v in ipairs(map.entities) do
 			if v.collidePlayer then
+				v:collidePlayer(self)
+			end
+		end
+
+		for i,v in ipairs(map.coins) do
+			if v.taken == false then
 				v:collidePlayer(self)
 			end
 		end
@@ -121,7 +129,7 @@ end
 
 function Player:kill(...)
 	kills = kills + 1
-	print(kills)
+	untakeCoins()
 	self:respawn(...)
 end
 
@@ -142,7 +150,6 @@ function Player:checkTiles()
 				end
 			elseif tile.id == TILE_LAVA_TOP then -- Don't check for TILE_LAVA. Shouldn't be necessary
 				if collideLava(bx,by,self) then
-					self:kill(STATE_BURNING)
 					self.frame = 0
 					self.state = STATE_BURNING
 					addSparkle(self.x,self.y+20,32,COLORS.red,1,-50)

@@ -31,6 +31,7 @@ function Checkpoint:collidePlayer(pl)
 			map.startdir = self.dir
 			addSparkle(self.x+8, self.y+8, 32, COLORS.lightblue)
 			love.audio.play(snd.Checkpoint)
+			commitCoins()
 
 			return true
 		end

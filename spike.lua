@@ -3,12 +3,12 @@ Spike.__index = Spike
 
 function Spike.create(x,y)
 	local self = {}
+	setmetatable(self, Spike)
 
 	self.alive = true
 	self.x = x
 	self.y = y
 
-	setmetatable(self, Spike)
 	return self
 end
 

@@ -50,5 +50,10 @@
   <object gid="1284" x="3056" y="224"/>
   <object gid="1284" x="3872" y="176"/>
   <object gid="1284" x="4608" y="208"/>
+  <object gid="1305" x="1280" y="192"/>
+  <object gid="1305" x="4144" y="240"/>
+  <object gid="1305" x="800" y="176"/>
+  <object gid="1305" x="4416" y="192"/>
+  <object gid="1305" x="3024" y="176"/>
  </objectgroup>
 </map>

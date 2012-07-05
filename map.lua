@@ -2,6 +2,7 @@ OBJ_ROTSPIKE = 1281
 OBJ_CHECKPOINT = 1284
 OBJ_JUMPPAD_S = 1297
 OBJ_JUMPPAD_E = 1300
+OBJ_COIN = 1305
 
 TILE_SPIKE_S = 129
 TILE_SPIKE_E = TILE_SPIKE_S+3
@@ -23,6 +24,7 @@ function loadMap(name)
 	map.enemies = {}
 	map.particles = {}
 	map.entities = {}
+	map.coins = {}
 
 	MAPW = map.width*TILEW
 	MAPH = map.height*TILEW
@@ -35,6 +37,9 @@ function loadMap(name)
 
 		elseif v.gid == OBJ_CHECKPOINT then
 			table.insert(map.entities, Checkpoint.create(v.x+8, v.y-16, v.properties))
+		
+		elseif v.gid == OBJ_COIN then
+			table.insert(map.coins, Coin.create(v.x, v.y-16))
 
 		elseif v.type == "start" then
 			map.startx = v.x
@@ -55,6 +60,8 @@ function loadMap(name)
 			table.insert(map.enemies, Snake.create(v.x+8, v.y, v.properties))
 		elseif v.type == "trigger" then
 			table.insert(map.enemies, Trigger.create(v.x, v.y-16, v.width, v.height, v.properties))
+		elseif v.type == "turret" then
+			table.insert(map.enemies, Turret.create(v.x, v.y, v.properties))
 		end
 	end
 
@@ -90,9 +97,25 @@ end
 
 function isSolid(x,y)
 	local tile = fgtiles(x,y)
-	if tile ~= nil then
+	if tile ~= nil and tile.id <= 128 then
 		return true
 	else
 		return false
+	end
+end
+
+function commitCoins()
+	for i,v in ipairs(map.coins) do
+		if v.taken then
+			v:commit()
+		end
+	end
+end
+
+function untakeCoins()
+	for i,v in ipairs(map.coins) do
+		if v.taken == true and v.committed == false then
+			v:untake()
+		end
 	end
 end

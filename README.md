@@ -34,7 +34,8 @@ Currently added object types
 	| CONTROL ENTITIES                                                          |
     |----------------|----------------------------------------|-----------------|
     | player start   | type = "start"                         |                 |
-	| trigger        | type = "trigger"                       | action, x, y    |
+	| trigger        | type = "trigger"                       | action, x, y,   |
+	|                |                                        |  cooldown       |
     |----------------|----------------------------------------|-----------------|
 	| HOSTILE ENTITIES                                                          |
     |----------------|----------------------------------------|-----------------|
@@ -45,6 +46,8 @@ Currently added object types
 	| spider         | type = "spider"                        |                 |
 	| stone          | Only created by trigger                | yspeed          |
 	| fireball       | Only created by trigger                | top             |
+	| turret         | type = "turret"                        | dir, range,     |
+	|                |                                        |  cooldown       |
     |----------------|----------------------------------------|-----------------|
 	| PICKUPS                                                                   |
     |----------------|----------------------------------------|-----------------|

@@ -8,6 +8,7 @@ require("particles")
 require("checkpoint")
 require("jumppad")
 require("orb")
+require("coin")
 
 local love = love
 local min = math.min
@@ -32,7 +33,7 @@ function love.load()
 	loadSounds()
 	createQuads()
 
-	loadMap("cave.tmx")
+	loadMap("temple2.tmx")
 
 	player  = Player.create(map.startx, map.starty, map.startdir, 1)
 end
@@ -46,6 +47,7 @@ function love.update(dt)
 	player:update(dt)
 	Spike.globalUpdate(dt)
 	Jumppad.globalUpdate(dt)
+	Coin.globalUpdate(dt)
 
 	local totx = player.x + 6.5 - WIDTH/2
 	local toty = player.y + 10 - HEIGHT/2
@@ -92,15 +94,22 @@ function love.draw()
 	player:draw()
 
 	for i,v in ipairs(map.entities) do
-		v:draw() end
+		v:draw()
+	end
+
+	for i,v in ipairs(map.coins) do
+		v:draw()
+	end
 
 	for i,v in ipairs(map.enemies) do
 		if v.draw then
-			v:draw() end
+			v:draw()
+		end
 	end
 
 	for i,v in ipairs(map.particles) do
-		v:draw() end
+		v:draw()
+	end
 end
 
 function love.keypressed(k, uni)

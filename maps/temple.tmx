@@ -68,5 +68,10 @@
   <object gid="1281" x="7120" y="192"/>
   <object gid="1281" x="7136" y="208"/>
   <object gid="1281" x="7120" y="224"/>
+  <object gid="1305" x="1552" y="160"/>
+  <object gid="1305" x="4160" y="48"/>
+  <object gid="1305" x="6928" y="208"/>
+  <object gid="1305" x="6032" y="192"/>
+  <object gid="1305" x="880" y="240"/>
  </objectgroup>
 </map>
