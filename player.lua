@@ -49,6 +49,9 @@ function Player:respawn(x,y,dir,player)
 	self.jump = 0
 	self.invul = INVUL_TIME
 	self.onWall = false
+	
+	self.hasGhosts = false
+	self.ghosts = {}
 
 	addSparkle(self.x, self.y+10, 32, COLORS.orange)
 end
@@ -173,9 +176,12 @@ function Player:keypressed(k, uni)
 	if self.onGround == true then
 		self.jump = MAX_JUMP
 		addDust(self.x, self.y+20)
+		self:addGhost()
 		love.audio.play(snd.Jump)
+
 	elseif self.onWall == true then
 		self.jump = MAX_JUMP
+		self:addGhost()
 		if self.dir == 1 then
 			self.dir = -1
 			addDust(self.x+5.5, self.y+10)
@@ -198,6 +204,7 @@ function Player:moveY(dist)
 	local newy = self.y + dist
 	local col = false
 
+	-- Check the maximum y offset for each colliding tile
 	for i=1, #COL_OFFSETS do
 		bx = floor((self.x+COL_OFFSETS[i][1]) / TILEW)
 		by = floor((newy+COL_OFFSETS[i][2]) / TILEW)
@@ -216,6 +223,11 @@ function Player:moveY(dist)
 		self.yspeed = 0
 		if dist > 0 then
 			self.onGround = true
+
+			-- remove ghosts if any
+			if self.hasGhosts then
+				self:removeGhosts()
+			end
 		end
 	end
 	if dist < 0 then
@@ -243,29 +255,61 @@ function Player:moveX(dist)
 	self.x = newx
 end
 
-function Player:draw()
-	if self.invul > 0 then
-		if floor(self.invul*INVUL_TIME*20) % 2 == 1 then
-			return
-		end
+function Player:addGhost()
+	if self.onWall == true then
+		table.insert(self.ghosts, {self.x,self.y,quads.player_wall,self.dir})
+	else
+		local frame = floor(self.frame % 6)
+		table.insert(self.ghosts, {self.x,self.y,quads.player_run[frame],self.dir})
 	end
+	self.hasGhosts = true
+end
+
+function Player:removeGhosts()
+	for i,v in ipairs(self.ghosts) do
+		addSparkle(v[1],v[2]+10,8,COLORS.yellow)
+	end
+	self.hasGhosts = false
+	self.ghosts = {}
+end
+
+function Player:draw()
+	local blink = false
 
 	if self.state == STATE_RUNNING then
-		if self.onGround == true then
-			if self.xspeed == 0 then
-				love.graphics.drawq(self.img, quads.player, self.x, self.y, 0,self.dir,1, 6.5)
-			else
-				local frame = floor(self.frame % 6)
-				love.graphics.drawq(self.img, quads.player_run[frame], self.x, self.y, 0,self.dir,1, 6.5)
-			end
-		else
-			if self.onWall == true then
-				love.graphics.drawq(self.img, quads.player_wall, self.x, self.y, 0,self.dir,1, 6.5)
-			else
-				love.graphics.drawq(self.img, quads.player_run[5], self.x, self.y, 0,self.dir,1, 6.5)
+		-- Blink
+		if self.invul > 0 then
+			if floor(self.invul*INVUL_TIME*20) % 2 == 1 then
+				blink = true
 			end
 		end
 	
+		-- draw ghosts
+		if self.hasGhosts == true then
+			love.graphics.setColor(COLORS.yellow)
+			for i,v in ipairs(self.ghosts) do
+				love.graphics.drawq(imgPlayerW, v[3], v[1], v[2], 0,v[4],1,6.5)
+			end
+			love.graphics.setColor(255,255,255,255)
+		end
+		-- Draw player
+		if blink == false then
+			if self.onGround == true then
+				if self.xspeed == 0 then
+					love.graphics.drawq(self.img, quads.player, self.x, self.y, 0,self.dir,1, 6.5)
+				else
+					local frame = floor(self.frame % 6)
+					love.graphics.drawq(self.img, quads.player_run[frame], self.x, self.y, 0,self.dir,1, 6.5)
+				end
+			else
+				if self.onWall == true then
+					love.graphics.drawq(self.img, quads.player_wall, self.x, self.y, 0,self.dir,1, 6.5)
+				else
+					love.graphics.drawq(self.img, quads.player_run[5], self.x, self.y, 0,self.dir,1, 6.5)
+				end
+			end
+		end
+
 	elseif self.state == STATE_BURNING then
 		local frame = floor(self.frame)
 		love.graphics.drawq(self.img, quads.player_burn[frame], self.x, self.y, 0, self.dir, 1, 6.5)

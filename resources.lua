@@ -18,6 +18,7 @@ COLORS = {
 function loadImages()
 	imgPlayer = lg.newImage("art/player.png")
 	imgPlayer2 = lg.newImage("art/player2.png")
+	imgPlayerW = lg.newImage("art/player_white.png")
 	imgObjects = lg.newImage("art/objects.png")
 	imgEnemies = lg.newImage("art/enemies.png")
 	imgHUD     = lg.newImage("art/hud.png")

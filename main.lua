@@ -19,7 +19,7 @@ local lg = love.graphics
 TILEW = 16
 local SCREEN_WIDTH    local SCREEN_HEIGHT
 local SCALE
-local SCROLL_SPEED = 6
+local SCROLL_SPEED = 8
 local scroll_smooth = true
 
 local player
@@ -58,8 +58,6 @@ function love.update(dt)
 		tx = min(max(0, totx), MAPW-WIDTH)
 		ty = min(max(0, toty), MAPH-HEIGHT)
 	end
-
-	btx = 128+tx*((MAPW-1024)/MAPW)
 
 	-- Update enemies
 	for i=#map.enemies,1,-1 do
