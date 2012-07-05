@@ -19,13 +19,13 @@ local lg = love.graphics
 TILEW = 16
 local SCREEN_WIDTH    local SCREEN_HEIGHT
 local SCALE
-local SCROLL_SPEED = 8
+local SCROLL_SPEED = 7
 local scroll_smooth = true
 
 local player
 
 function love.load()
-	setResolution(800,600)
+	setResolution(900,600)
 	lg.setDefaultImageFilter("nearest","nearest")
 	lg.setBackgroundColor(COLORS.darkbrown)
 
