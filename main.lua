@@ -21,13 +21,13 @@ WIDTH = 300
 HEIGHT = 200
 local SCREEN_WIDTH, SCREEN_HEIGHT
 local SCALE
-local SCROLL_SPEED = 7
+local SCROLL_SPEED = 6
 local scroll_smooth = true
 
 local player
 
 function love.load()
-	setScale(2)
+	setScale(3)
 	lg.setDefaultImageFilter("nearest","nearest")
 	lg.setBackgroundColor(COLORS.darkbrown)
 
@@ -113,23 +113,25 @@ function love.draw()
 end
 
 function love.keypressed(k, uni)
-	if k == " " then
+	if k == " " or k == "z" or k == "x" then
 		player:keypressed(k, uni)
 	elseif k == "escape" then
 		love.event.quit()
 	elseif k == "r" then
 		player:respawn()
-	elseif k == "1" then
-		loadMap("mine.tmx")
-		player:respawn()
-	elseif k == "2" then
-		loadMap("temple.tmx")
-		player:respawn()
+	elseif k == "f1" then
+		setScale(1)
+	elseif k == "f2" then
+		setScale(2)
+	elseif k == "f3" then
+		setScale(3)
+	elseif k == "f4" then
+		setScale(4)
 	end
 end
 
 function love.keyreleased(k, uni)
-	if k == " " then
+	if k == " " or k == "z" or k == "x" then
 		player:keyreleased(k, uni)
 	end
 end

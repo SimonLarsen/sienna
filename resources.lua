@@ -46,7 +46,9 @@ function createQuads()
 	----------------
 	-- Player quads
 	----------------
-	quads.player = lg.newQuad(0,0,13,20,128,128)
+	quads.player_wait1 = lg.newQuad(32,0,13,20,128,128)
+	quads.player_wait2 = lg.newQuad(0,0,13,20,128,128)
+
 	quads.player_wall = lg.newQuad(16,0,13,19,128,128)
 	quads.player_run = {}
 	for i=0,5 do

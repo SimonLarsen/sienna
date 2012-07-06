@@ -40,7 +40,7 @@ function Player:respawn(x,y,dir,player)
 	self.dir = dir or map.startdir or 1 -- -1 = left, 1 = right
 
 	self.frame = 0
-	self.state = STATE_RUNNING
+	self.state = STATE_WAIT
 
 	self.xspeed = 0
 	self.yspeed = 0
@@ -53,7 +53,7 @@ function Player:respawn(x,y,dir,player)
 	self.hasGhosts = false
 	self.ghosts = {}
 
-	addSparkle(self.x, self.y+10, 32, COLORS.orange)
+	--addSparkle(self.x, self.y+10, 32, COLORS.orange)
 end
 
 function Player:update(dt)
@@ -63,12 +63,13 @@ function Player:update(dt)
 	end
 
 	if self.state == STATE_RUNNING then
-		self.xspeed = 0
+		-- Set horizontal speed according to direction
+		self.xspeed = self.dir*PLAYER_SPEED
+
 		self.yspeed = self.yspeed + GRAVITY*dt
 		self.yspeed = min(self.yspeed, MAX_SPEED)
 
-		self.xspeed = self.dir*PLAYER_SPEED
-
+		-- Keep vertical speed if still jumping
 		if self.jump > 0 then
 			self.yspeed = -JUMP_POWER
 		end
@@ -121,6 +122,13 @@ function Player:update(dt)
 		if self.y > MAPH then
 			self:kill()
 		end
+	
+	elseif self.state == STATE_WAIT then
+		self.frame = self.frame + dt
+		if self.frame > 8 then
+			self.state = STATE_RUNNING
+			self.frame = 0
+		end
 
 	elseif self.state == STATE_BURNING then
 		if self.frame >= 8 then
@@ -143,6 +151,7 @@ function Player:checkTiles()
 		by = floor((self.y+COL_OFFSETS[i][2]) / TILEW)
 		tile = fgtiles(bx,by)
 		if tile ~= nil then
+			-- Check collision with spikes
 			if tile.id >= TILE_SPIKE_S and tile.id <= TILE_SPIKE_E then
 				if collideSpike(bx,by,self) then
 					addSparkle(self.x,self.y+20,32,COLORS.red)
@@ -150,7 +159,8 @@ function Player:checkTiles()
 					self:kill()
 					return
 				end
-			elseif tile.id == TILE_LAVA_TOP then -- Don't check for TILE_LAVA. Shouldn't be necessary
+			-- Check collision with lava
+			elseif tile.id == TILE_LAVA_TOP then -- Don't check for TILE_LAVA, shouldn't be necessary
 				if collideLava(bx,by,self) then
 					self.frame = 0
 					self.state = STATE_BURNING
@@ -158,6 +168,7 @@ function Player:checkTiles()
 					love.audio.play(snd.Burn)
 					return
 				end
+			-- Check collision with water
 			elseif tile.id == TILE_WATER or tile.id == TILE_WATER_TOP then
 				hitWater = true
 			end
@@ -217,18 +228,20 @@ function Player:moveY(dist)
 			end
 		end
 	end
+	-- Move allowed distance
 	self.y = newy
+	-- Set new state if colliding with ground
 	if col == true then
 		self.yspeed = 0
 		if dist > 0 then
 			self.onGround = true
-
 			-- remove ghosts if any
 			if self.hasGhosts then
 				self:removeGhosts()
 			end
 		end
 	end
+	-- Remove dist from jumping power
 	if dist < 0 then
 		self.jump = self.jump + dist
 	end
@@ -308,6 +321,9 @@ function Player:draw()
 				end
 			end
 		end
+	
+	elseif self.state == STATE_WAIT then
+			love.graphics.drawq(self.img, quads.player_wait1, self.x, self.y, 0, self.dir, 1, 6.5)
 
 	elseif self.state == STATE_BURNING then
 		local frame = floor(self.frame)
