@@ -17,7 +17,9 @@ local floor = math.floor
 local lg = love.graphics
 
 TILEW = 16
-local SCREEN_WIDTH    local SCREEN_HEIGHT
+WIDTH = 300
+HEIGHT = 200
+local SCREEN_WIDTH, SCREEN_HEIGHT
 local SCALE
 local SCROLL_SPEED = 7
 local scroll_smooth = true
@@ -25,7 +27,7 @@ local scroll_smooth = true
 local player
 
 function love.load()
-	setResolution(900,600)
+	setScale(2)
 	lg.setDefaultImageFilter("nearest","nearest")
 	lg.setBackgroundColor(COLORS.darkbrown)
 
@@ -33,7 +35,7 @@ function love.load()
 	loadSounds()
 	createQuads()
 
-	loadMap("temple2.tmx")
+	loadMap("temple3.tmx")
 
 	player  = Player.create(map.startx, map.starty, map.startdir, 1)
 end
@@ -138,6 +140,14 @@ end
 
 function love.mousereleased(x,y,button)
 	player:keyreleased(" ")
+end
+
+function setScale(scale)
+	SCALE = scale
+	SCREEN_WIDTH  = WIDTH*SCALE
+	SCREEN_HEIGHT = HEIGHT*SCALE
+
+	lg.setMode(SCREEN_WIDTH, SCREEN_HEIGHT, false, true)
 end
 
 function setResolution(w,h)

@@ -39,6 +39,7 @@ function loadSounds()
 	snd.Fireball1 = la.newSource("sfx/fireball.wav", "static")
 	snd.Fireball2 = la.newSource("sfx/fireball2.wav", "static")
 	snd.Coin = la.newSource("sfx/coin.wav", "static")
+	snd.Turret = la.newSource("sfx/turret.wav", "static")
 end
 
 function createQuads()

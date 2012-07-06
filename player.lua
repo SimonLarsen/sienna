@@ -118,7 +118,6 @@ function Player:update(dt)
 
 		self:checkTiles()
 
-		-- TODO: Replace with win stuff
 		if self.y > MAPH then
 			self:kill()
 		end

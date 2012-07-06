@@ -304,9 +304,11 @@ function Turret:collidePlayer(pl)
 		self.cool = self.cooldown
 
 		if self.dir == -1 or self.dir == 0 then
+			love.audio.play(snd.Turret)
 			addArrow(self.x, self.y+3, -1, self.dist)
 		end
 		if self.dir == 1 or self.dir == 0 then
+			love.audio.play(snd.Turret)
 			addArrow(self.x+16, self.y+3, 1, self.dist)
 		end
 		return false
