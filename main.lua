@@ -9,6 +9,7 @@ require("checkpoint")
 require("jumppad")
 require("orb")
 require("coin")
+require("menu")
 
 local love = love
 local min = math.min
@@ -19,12 +20,12 @@ local lg = love.graphics
 TILEW = 16
 WIDTH = 300
 HEIGHT = 200
-local SCREEN_WIDTH, SCREEN_HEIGHT
-local SCALE
-local SCROLL_SPEED = 6
-local scroll_smooth = true
 
-local player
+SCROLL_SPEED = 4 -- 3 - 8, 9 = none
+
+STATE_MAINMENU = 0
+STATE_INGAME_MENU = 1
+STATE_INGAME = 2
 
 function love.load()
 	setScale(3)
@@ -34,58 +35,79 @@ function love.load()
 	loadImages()
 	loadSounds()
 	createQuads()
+	createMenus()
+
+	player  = Player.create(1)
 
 	loadMap("temple3.tmx")
 
-	player  = Player.create(map.startx, map.starty, map.startdir, 1)
+	gamestate = STATE_INGAME
 end
 
 function love.update(dt)
-	if dt > 0.06 then dt = 0.06 end
-	if love.keyboard.isDown("s") then
-		dt = dt/10
-	end
-
-	player:update(dt)
-	Spike.globalUpdate(dt)
-	Jumppad.globalUpdate(dt)
-	Coin.globalUpdate(dt)
-
-	local totx = player.x + 6.5 - WIDTH/2
-	local toty = player.y + 10 - HEIGHT/2
-	if scroll_smooth == true then
-		tx = min(max(0, tx+(totx-tx)*SCROLL_SPEED*dt), MAPW-WIDTH)
-		ty = min(max(0, ty+(toty-ty)*SCROLL_SPEED*dt), MAPH-HEIGHT)
-	else
-		tx = min(max(0, totx), MAPW-WIDTH)
-		ty = min(max(0, toty), MAPH-HEIGHT)
-	end
-
-	-- Update enemies
-	for i=#map.enemies,1,-1 do
-		local enem = map.enemies[i]
-		if enem.alive == true then
-			if enem.update then
-				enem:update(dt)
-			end
-		else
-			table.remove(map.enemies, i)
+	if gamestate == STATE_INGAME then
+		if dt > 0.06 then dt = 0.06 end
+		if love.keyboard.isDown("s") then
+			dt = dt/10
 		end
-	end
 
-	-- Update particles
-	for i=#map.particles,1,-1 do
-		local part = map.particles[i]
-		if part.alive == true then
-			part:update(dt)
+		player:update(dt)
+		Spike.globalUpdate(dt)
+		Jumppad.globalUpdate(dt)
+		Coin.globalUpdate(dt)
+
+		local totx = player.x + 6.5 - WIDTH/2
+		local toty = player.y + 10 - HEIGHT/2
+		if SCROLL_SPEED == 9 then
+			tx = min(max(0, totx), MAPW-WIDTH)
+			ty = min(max(0, toty), MAPH-HEIGHT)
 		else
-			table.remove(map.particles, i)
+			tx = min(max(0, tx+(totx-tx)*SCROLL_SPEED*dt), MAPW-WIDTH)
+			ty = min(max(0, ty+(toty-ty)*SCROLL_SPEED*dt), MAPH-HEIGHT)
+		end
+
+		-- Update enemies
+		for i=#map.enemies,1,-1 do
+			local enem = map.enemies[i]
+			if enem.alive == true then
+				if enem.update then
+					enem:update(dt)
+				end
+			else
+				table.remove(map.enemies, i)
+			end
+		end
+
+		-- Update particles
+		for i=#map.particles,1,-1 do
+			local part = map.particles[i]
+			if part.alive == true then
+				part:update(dt)
+			else
+				table.remove(map.particles, i)
+			end
 		end
 	end
 end
 
 function love.draw()
 	lg.scale(SCALE)
+
+	-- STATE: In game
+	if gamestate == STATE_INGAME then
+		drawIngame()
+	elseif gamestate == STATE_INGAME_MENU then
+		lg.push()
+		drawIngame()
+		lg.pop()
+		current_menu:draw()
+	elseif gamestate == STATE_MAINMENU then
+		love.graphics.drawq(imgTitle, quads.title, 0,0, 0, WIDTH/900)
+		current_menu:draw()
+	end
+end
+
+function drawIngame()
 	lg.translate(-tx, -ty)
 
 	map:setDrawRange(tx,ty,WIDTH,HEIGHT)
@@ -113,26 +135,27 @@ function love.draw()
 end
 
 function love.keypressed(k, uni)
-	if k == " " or k == "z" or k == "x" then
-		player:keypressed(k, uni)
-	elseif k == "escape" then
-		love.event.quit()
-	elseif k == "r" then
-		player:respawn()
-	elseif k == "f1" then
-		setScale(1)
-	elseif k == "f2" then
-		setScale(2)
-	elseif k == "f3" then
-		setScale(3)
-	elseif k == "f4" then
-		setScale(4)
+	if gamestate == STATE_INGAME then
+		if k == "escape" then
+			gamestate = STATE_INGAME_MENU
+			current_menu = ingame_menu
+		elseif k == "r" then
+			player:respawn()
+		elseif k == "return" then
+			reloadMap()
+		else
+			player:keypressed(k, uni)
+		end
+	elseif gamestate == STATE_INGAME_MENU or gamestate == STATE_MAINMENU then
+		current_menu:keypressed(k,uni)
 	end
 end
 
 function love.keyreleased(k, uni)
-	if k == " " or k == "z" or k == "x" then
-		player:keyreleased(k, uni)
+	if gamestate == STATE_INGAME then
+		if k ~= "escape" and k ~= "r" then
+			player:keyreleased(k, uni)
+		end
 	end
 end
 
@@ -144,7 +167,16 @@ function love.mousereleased(x,y,button)
 	player:keyreleased(" ")
 end
 
+function love.focus(f)
+	if f == false and gamestate == STATE_INGAME then
+		gamestate = STATE_INGAME_MENU
+		current_menu = ingame_menu
+	end
+end
+
 function setScale(scale)
+	if scale < 1 or scale == SCALE then return end
+
 	SCALE = scale
 	SCREEN_WIDTH  = WIDTH*SCALE
 	SCREEN_HEIGHT = HEIGHT*SCALE

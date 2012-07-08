@@ -16,6 +16,8 @@ local loader = require("AdvTiledLoader.Loader")
 loader.path = "maps/"
 
 function loadMap(name)
+	current_map = name
+
 	map = loader.load(name)
 	map.drawObjects = false
 	fgtiles = map.tileLayers.fg.tileData
@@ -67,6 +69,12 @@ function loadMap(name)
 
 	tx = map.startx - WIDTH/2
 	ty = map.starty - HEIGHT/2
+
+	player:respawn()
+end
+
+function reloadMap()
+	loadMap(current_map)
 end
 
 function collidePoint(x,y)

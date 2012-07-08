@@ -29,12 +29,11 @@ function Player.create(x,y,dir,player)
 	else
 		self.img = imgPlayer2
 	end
-	self:respawn(x,y,dir)
 
 	return self
 end
 
-function Player:respawn(x,y,dir,player)
+function Player:respawn(x,y,dir)
 	self.x = x or map.startx
 	self.y = y or map.starty
 	self.dir = dir or map.startdir or 1 -- -1 = left, 1 = right

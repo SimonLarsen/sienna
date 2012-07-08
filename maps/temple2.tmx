@@ -20,7 +20,7 @@
   </data>
  </layer>
  <objectgroup name="obj" width="436" height="16">
-  <object type="start" x="0" y="208" width="16" height="16"/>
+  <object type="start" x="16" y="208" width="16" height="16"/>
   <object type="turret" x="288" y="208" width="16" height="16">
    <properties>
     <property name="dir" value="-1"/>

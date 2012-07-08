@@ -22,9 +22,15 @@ function loadImages()
 	imgObjects = lg.newImage("art/objects.png")
 	imgEnemies = lg.newImage("art/enemies.png")
 	imgHUD     = lg.newImage("art/hud.png")
+	imgTitle   = lg.newImage("art/titlescreen.png")
+	imgTitle:setFilter("linear","linear")
 
-	fontSmall = lg.newImageFont("art/font_small.png", " abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.,-!$:;'")
-	fontMedium = lg.newImageFont("art/font_medium.png", " 0123456789abcdefghijklmnopqrstuvxyzABCDEFGHIJKLMNOPQRSTUVXYZ!-.,$")
+	local imgFontSmall = lg.newImage("art/font_small.png")
+	local imgFontBold = lg.newImage("art/font_bold.png")
+	local imgFontMedium = lg.newImage("art/font_medium.png")
+	fontSmall = lg.newImageFont(imgFontSmall, " abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.,-!$:;'")
+	fontMedium = lg.newImageFont(imgFontMedium, " 0123456789abcdefghijklmnopqrstuvxyzABCDEFGHIJKLMNOPQRSTUVXYZ!-.,$")
+	fontBold = lg.newImageFont(imgFontBold, " ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789*:|=-<>")
 end
 
 function loadSounds()
@@ -117,4 +123,5 @@ function createQuads()
 	-- HUD quads
 	-------------
 	quads.hud_skull = lg.newQuad(0,0, 17,18, 128,128)
+	quads.title = lg.newQuad(0,0, 900, 600, 1024, 1024)
 end
