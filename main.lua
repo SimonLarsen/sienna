@@ -21,7 +21,7 @@ TILEW = 16
 WIDTH = 300
 HEIGHT = 200
 
-SCROLL_SPEED = 4 -- 3 - 8, 9 = none
+SCROLL_SPEED = 5 -- 3 to 8 = smooth, 9 = none
 
 STATE_MAINMENU = 0
 STATE_INGAME_MENU = 1
@@ -39,9 +39,10 @@ function love.load()
 
 	player  = Player.create(1)
 
-	loadMap("temple3.tmx")
+	loadMap("temple4.tmx")
 
 	gamestate = STATE_INGAME
+	current_menu = main_menu
 end
 
 function love.update(dt)
@@ -160,11 +161,15 @@ function love.keyreleased(k, uni)
 end
 
 function love.mousepressed(x,y,button)
-	player:keypressed(" ")
+	if gamestate == STATE_INGAME then
+		player:keypressed(" ")
+	end
 end
 
 function love.mousereleased(x,y,button)
-	player:keyreleased(" ")
+	if gamestate == STATE_INGAME then
+		player:keyreleased(" ")
+	end
 end
 
 function love.focus(f)

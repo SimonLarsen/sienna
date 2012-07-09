@@ -79,9 +79,11 @@ function createMenus()
 		{"SCALE: X", "CAMERA SPEED: |=======|",
 		"MUSIC VOLUME: |==========|", "SOUND VOLUME: |==========|", "BACK"},
 		{nil,nil,nil,nil,
-		function() current_menu = ingame_menu end},
+		function() if gamestate == STATE_INGAME_MENU then current_menu = ingame_menu
+			else current_menu = main_menu end end},
 
-		function() current_menu = ingame_menu end
+		function() if gamestate == STATE_INGAME_MENU then current_menu = ingame_menu
+			else current_menu = main_menu end end
 	)
 
 	function options_menu:update()
@@ -119,12 +121,13 @@ function createMenus()
 	-- MAIN MENU
 	main_menu = Menu.create(
 		{"START GAME", "CHALLENGES", "OPTIONS", "CREDITS", "QUIT GAME"},
-		{nil, nil,
-		function() current_menu = options_menu end,
-		nil,
-		function() love.event.quit() end},
+		{function() gamestate = STATE_INGAME reloadMap() end,
+		 nil,
+		 function() current_menu = options_menu end,
+		 nil,
+		 function() love.event.quit() end},
 
-		function() love.event.quit() end
+		 function() love.event.quit() end
 	)
 
 	function main_menu:draw()
