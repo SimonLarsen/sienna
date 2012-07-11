@@ -141,7 +141,7 @@ function love.keypressed(k, uni)
 			gamestate = STATE_INGAME_MENU
 			current_menu = ingame_menu
 		elseif k == "r" then
-			player:respawn()
+			player:kill()
 		elseif k == "return" then
 			reloadMap()
 		else

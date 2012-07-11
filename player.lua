@@ -184,7 +184,6 @@ end
 function Player:keypressed(k, uni)
 	if self.onGround == true then
 		self.jump = MAX_JUMP
-		addDust(self.x, self.y+20)
 		self:addGhost()
 		love.audio.play(snd.Jump)
 
@@ -193,10 +192,8 @@ function Player:keypressed(k, uni)
 		self:addGhost()
 		if self.dir == 1 then
 			self.dir = -1
-			addDust(self.x+5.5, self.y+10)
 		else
 			self.dir = 1
-			addDust(self.x-5.5, self.y+10)
 		end
 		love.audio.play(snd.Jump)
 	end
@@ -232,12 +229,15 @@ function Player:moveY(dist)
 	-- Set new state if colliding with ground
 	if col == true then
 		self.yspeed = 0
+
 		if dist > 0 then
 			self.onGround = true
 			-- remove ghosts if any
 			if self.hasGhosts then
 				self:removeGhosts()
 			end
+		elseif dist < 0 then
+			self.jump = 0
 		end
 	end
 	-- Remove dist from jumping power
