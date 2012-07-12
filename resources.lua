@@ -30,7 +30,7 @@ function loadImages()
 	local imgFontMedium = lg.newImage("art/font_medium.png")
 	fontSmall = lg.newImageFont(imgFontSmall, " abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.,-!$:;'")
 	fontMedium = lg.newImageFont(imgFontMedium, " 0123456789abcdefghijklmnopqrstuvxyzABCDEFGHIJKLMNOPQRSTUVXYZ!-.,$")
-	fontBold = lg.newImageFont(imgFontBold, " ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789*:|=-<>")
+	fontBold = lg.newImageFont(imgFontBold, " ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789*:|=-<>.")
 end
 
 function loadSounds()

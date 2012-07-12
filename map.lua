@@ -17,6 +17,7 @@ loader.path = "maps/"
 
 function loadMap(name)
 	current_map = name
+	gamestate = STATE_INGAME
 
 	map = loader.load(name)
 	map.drawObjects = false

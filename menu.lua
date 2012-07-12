@@ -65,10 +65,11 @@ end
 function createMenus()
 	-- INGAME MENU
 	ingame_menu = Menu.create(
-		{"CONTINUE", "RESTART LEVEL", "OPTIONS", "EXIT LEVEL"},
+		{"CONTINUE", "RESTART LEVEL", "OPTIONS", "EXIT LEVEL", "QUIT GAME"},
 		{function() gamestate = STATE_INGAME end,
 		 function() reloadMap() gamestate = STATE_INGAME end,
 		 function() current_menu = options_menu end,
+		 function() gamestate = STATE_MAINMENU current_menu = level_menu end,
 		 function() love.event.quit() end},
 
 		 function() gamestate = STATE_INGAME end
@@ -121,7 +122,7 @@ function createMenus()
 	-- MAIN MENU
 	main_menu = Menu.create(
 		{"START GAME", "CHALLENGES", "OPTIONS", "CREDITS", "QUIT GAME"},
-		{function() gamestate = STATE_INGAME reloadMap() end,
+		{function() current_menu = level_menu end,
 		 nil,
 		 function() current_menu = options_menu end,
 		 nil,
@@ -149,4 +150,16 @@ function createMenus()
 			end
 		end
 	end
+
+	-- level menu
+	level_menu = Menu.create(
+		{"TEMPLE2.TMX","TEMPLE3.TMX","TEMPLE4.TMX","TEMPLE5.TMX","MINE.TMX"},
+		{function() loadMap("temple2.tmx") end,
+		 function() loadMap("temple3.tmx") end,
+		 function() loadMap("temple4.tmx") end,
+		 function() loadMap("temple5.tmx") end,
+		 function() loadMap("mine.tmx") end},
+
+		 function() current_menu = main_menu end
+	)
 end
