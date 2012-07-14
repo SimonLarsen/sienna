@@ -41,7 +41,7 @@ function love.load()
 
 	loadMap("temple5.tmx")
 
-	gamestate = STATE_MAINMENU
+	gamestate = STATE_INGAME
 	current_menu = main_menu
 end
 
