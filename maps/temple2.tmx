@@ -36,7 +36,7 @@
     <property name="y" value="240"/>
    </properties>
   </object>
-  <object gid="1284" x="848" y="192"/>
+  <object gid="1284" x="848" y="208"/>
   <object type="snake" x="976" y="192" width="16" height="16"/>
   <object type="turret" x="1264" y="192" width="16" height="16">
    <properties>
@@ -52,7 +52,7 @@
     <property name="range" value="86"/>
    </properties>
   </object>
-  <object gid="1284" x="1936" y="224"/>
+  <object gid="1284" x="1936" y="240"/>
   <object gid="1305" x="1920" y="176"/>
   <object gid="1305" x="1328" y="192"/>
   <object type="trigger" x="2128" y="64" width="16" height="176">
@@ -97,7 +97,7 @@
     <property name="x" value="2504"/>
    </properties>
   </object>
-  <object gid="1284" x="2992" y="96"/>
+  <object gid="1284" x="2992" y="112"/>
   <object type="turret" x="2736" y="224" width="16" height="16">
    <properties>
     <property name="dir" value="-1"/>
@@ -125,12 +125,12 @@
   <object type="dog" x="3712" y="224" width="16" height="16"/>
   <object type="dog" x="3616" y="224" width="16" height="16"/>
   <object gid="1305" x="3616" y="192"/>
-  <object gid="1284" x="3760" y="224"/>
+  <object gid="1284" x="3760" y="240"/>
   <object gid="1297" x="3952" y="240"/>
   <object gid="1297" x="4064" y="160"/>
   <object gid="1297" x="4288" y="160"/>
   <object gid="1305" x="4400" y="192"/>
-  <object gid="1284" x="4848" y="144"/>
+  <object gid="1284" x="4848" y="160"/>
   <object type="turret" x="5136" y="224" width="16" height="16">
    <properties>
     <property name="dir" value="-1"/>
@@ -149,7 +149,7 @@
     <property name="range" value="64"/>
    </properties>
   </object>
-  <object gid="1284" x="5840" y="128"/>
+  <object gid="1284" x="5840" y="144"/>
   <object gid="1305" x="6368" y="224"/>
  </objectgroup>
 </map>

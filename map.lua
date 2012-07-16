@@ -39,7 +39,7 @@ function loadMap(name)
 			table.insert(map.enemies, Spike.create(v.x, v.y-16))
 
 		elseif v.gid == OBJ_CHECKPOINT then
-			table.insert(map.entities, Checkpoint.create(v.x, v.y-4.1, v.properties))
+			table.insert(map.entities, Checkpoint.create(v.x, v.y-20, v.properties))
 		
 		elseif v.gid == OBJ_COIN then
 			table.insert(map.coins, Coin.create(v.x, v.y-16))

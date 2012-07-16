@@ -39,7 +39,7 @@ function love.load()
 
 	player  = Player.create(1)
 
-	loadMap("mine2.tmx")
+	loadMap("mine3.tmx")
 
 	gamestate = STATE_INGAME
 	current_menu = main_menu
@@ -47,25 +47,19 @@ end
 
 function love.update(dt)
 	if gamestate == STATE_INGAME then
+		-- Upper bound on frame delay
 		if dt > 0.06 then dt = 0.06 end
+
+		-- Slow motion function. Only used for debugging
 		if love.keyboard.isDown("s") then
 			dt = dt/10
 		end
 
+		-- Update entitites
 		player:update(dt)
 		Spike.globalUpdate(dt)
 		Jumppad.globalUpdate(dt)
 		Coin.globalUpdate(dt)
-
-		local totx = player.x + 6.5 - WIDTH/2
-		local toty = player.y + 10 - HEIGHT/2
-		if SCROLL_SPEED == 9 then
-			tx = min(max(0, totx), MAPW-WIDTH)
-			ty = min(max(0, toty), MAPH-HEIGHT)
-		else
-			tx = min(max(0, tx+(totx-tx)*SCROLL_SPEED*dt), MAPW-WIDTH)
-			ty = min(max(0, ty+(toty-ty)*SCROLL_SPEED*dt), MAPH-HEIGHT)
-		end
 
 		-- Update enemies
 		for i=#map.enemies,1,-1 do
@@ -87,6 +81,18 @@ function love.update(dt)
 			else
 				table.remove(map.particles, i)
 			end
+		end
+
+		-- Target screen translation
+		local totx = player.x + 6.5 - WIDTH/2
+		local toty = player.y + 10 - HEIGHT/2
+		-- Calculate new screen translation
+		if SCROLL_SPEED == 9 then
+			tx = min(max(0, totx), MAPW-WIDTH)
+			ty = min(max(0, toty), MAPH-HEIGHT)
+		else
+			tx = min(max(0, tx+(totx-tx)*SCROLL_SPEED*dt), MAPW-WIDTH)
+			ty = min(max(0, ty+(toty-ty)*SCROLL_SPEED*dt), MAPH-HEIGHT)
 		end
 	end
 end

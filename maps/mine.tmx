@@ -45,11 +45,11 @@
   <object type="dog" x="4416" y="208" width="16" height="16"/>
   <object type="dog" x="4544" y="208" width="16" height="16"/>
   <object type="spider" x="1296" y="176" width="16" height="16"/>
-  <object gid="1284" x="960" y="176"/>
-  <object gid="1284" x="1920" y="208"/>
-  <object gid="1284" x="3056" y="224"/>
-  <object gid="1284" x="3872" y="176"/>
-  <object gid="1284" x="4608" y="208"/>
+  <object gid="1284" x="960" y="192"/>
+  <object gid="1284" x="1920" y="224"/>
+  <object gid="1284" x="3056" y="240"/>
+  <object gid="1284" x="3872" y="192"/>
+  <object gid="1284" x="4608" y="224"/>
   <object gid="1305" x="1280" y="192"/>
   <object gid="1305" x="4144" y="240"/>
   <object gid="1305" x="800" y="176"/>

@@ -26,10 +26,10 @@ function Checkpoint:collidePlayer(pl)
 			return false
 		else
 			self.alive = false
-			map.startx = self.x
-			map.starty = self.y
+			map.startx = self.x+8
+			map.starty = self.y-0.01
 			map.startdir = self.dir
-			addSparkle(self.x+8, self.y+8, 32, COLORS.lightblue)
+			addSparkle(self.x+8, self.y, 32, COLORS.lightblue)
 			love.audio.play(snd.Checkpoint)
 			commitCoins()
 

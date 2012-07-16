@@ -31,7 +31,7 @@
     <property name="x" value="1000"/>
    </properties>
   </object>
-  <object gid="1284" x="1040" y="192"/>
+  <object gid="1284" x="1040" y="208"/>
   <object type="dog" x="1296" y="48" width="16" height="16"/>
   <object type="snake" x="1712" y="208" width="16" height="16"/>
   <object type="trigger" x="1792" y="128" width="16" height="96">
@@ -55,7 +55,7 @@
     <property name="x" value="1952"/>
    </properties>
   </object>
-  <object gid="1284" x="2176" y="112"/>
+  <object gid="1284" x="2176" y="128"/>
   <object type="turret" x="2448" y="192" width="16" height="16">
    <properties>
     <property name="dir" value="-1"/>
@@ -91,7 +91,7 @@
     <property name="range" value="64"/>
    </properties>
   </object>
-  <object gid="1284" x="3440" y="208"/>
+  <object gid="1284" x="3440" y="224"/>
   <object type="trigger" x="3575" y="161" width="16" height="80">
    <properties>
     <property name="action" value="fireball"/>
@@ -122,9 +122,9 @@
    </properties>
   </object>
   <object gid="1297" x="3840" y="240"/>
-  <object gid="1284" x="4976" y="224"/>
+  <object gid="1284" x="4976" y="240"/>
   <object gid="1297" x="5616" y="224"/>
-  <object gid="1284" x="6160" y="112"/>
+  <object gid="1284" x="6160" y="128"/>
   <object type="bee" x="6384" y="128" width="16" height="16"/>
   <object type="turret" x="6592" y="112" width="16" height="16">
    <properties>
@@ -140,6 +140,5 @@
   <object gid="1297" x="7168" y="240"/>
   <object gid="1305" x="2368" y="160"/>
   <object gid="1305" x="4272" y="192"/>
-  <object type="start" x="4976" y="224" width="16" height="16"/>
  </objectgroup>
 </map>
