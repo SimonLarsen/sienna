@@ -39,7 +39,7 @@ function love.load()
 
 	player  = Player.create(1)
 
-	loadMap("mine3.tmx")
+	loadMap("mine4.tmx")
 
 	gamestate = STATE_INGAME
 	current_menu = main_menu

@@ -125,7 +125,7 @@ function createMenus()
 		{function() current_menu = level_menu end,
 		 nil,
 		 function() current_menu = options_menu end,
-		 nil,
+		 function() current_menu = credits_menu end,
 		 function() love.event.quit() end},
 
 		 function() love.event.quit() end
@@ -170,4 +170,29 @@ function createMenus()
 
 		 function() current_menu = main_menu end
 	)
+
+	-- credits menu
+	credits_menu = Menu.create(
+		{"GRAPHICS AND PROGRAMMING","SIMON LARSEN","TITLE SCREEN","LUKAS HANSEN","MUSIC","XXX"},
+		nil,nil
+	)
+	function credits_menu:draw()
+		local top = (HEIGHT-self.height)/2
+
+		lg.setColor(0,0,0,200)
+		lg.rectangle("fill",(WIDTH-self.width)/2-6, top-6, self.width+12, self.height+12)
+		lg.setColor(255,255,255,255)
+
+		lg.setFont(fontBold)
+		local offset = top+8
+		for i=1,self.length do
+			lg.printf(self.names[i], 0, offset, WIDTH, "center")
+			offset = offset + 10
+			if (i%2) == 0 then offset = offset + 8 end
+		end
+	end
+
+	function credits_menu:keypressed(k,uni)
+		current_menu = main_menu
+	end
 end
