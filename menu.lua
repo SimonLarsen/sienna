@@ -153,12 +153,13 @@ function createMenus()
 
 	-- level menu
 	level_menu = Menu.create(
-		{"MINE.TMX","MINE2.TMX","MINE3.TMX",
+		{"MINE.TMX","MINE2.TMX","MINE3.TMX", "MINE4.TMX",
 		 "TEMPLE.TMX","TEMPLE2.TMX","TEMPLE3.TMX","TEMPLE4.TMX","TEMPLE5.TMX",
 	 	 "BOXES.TMX"},
 		{function() loadMap("mine.tmx") end,
 		 function() loadMap("mine2.tmx") end,
 		 function() loadMap("mine3.tmx") end,
+		 function() loadMap("mine4.tmx") end,
 
 		 function() loadMap("temple.tmx") end,
 		 function() loadMap("temple2.tmx") end,
