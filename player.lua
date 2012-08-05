@@ -14,6 +14,7 @@ local COL_OFFSETS = {{-5.5,  2}, {5.5,  2},
 local STATE_WAIT = 0
 local STATE_RUNNING = 1
 local STATE_BURNING = 2
+local STATE_WON = 3
 
 local floor = math.floor
 local min = math.min
@@ -119,8 +120,10 @@ function Player:update(dt)
 		self:checkTiles()
 
 		if self.y > MAPH then
-			self:kill()
-		end
+			self:kill() end
+
+		if self.x > MAPW +6 then
+			self.state = STATE_WON end
 	
 	elseif self.state == STATE_WAIT then
 		self.frame = self.frame + dt
@@ -137,7 +140,8 @@ function Player:update(dt)
 end
 
 function Player:kill(...)
-	kills = kills + 1
+	deaths = deaths + 1
+	map.deaths = map.deaths + 1
 	untakeCoins()
 	self:respawn(...)
 end

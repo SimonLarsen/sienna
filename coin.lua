@@ -27,6 +27,7 @@ end
 function Coin:untake()
 	if self.committed == false then
 		self.taken = false
+		map.numcoins = map.numcoins - 1
 	end
 end
 
@@ -37,13 +38,14 @@ function Coin:commit()
 end
 
 function Coin:collidePlayer(pl)
-	if pl.x-5.5 > self.x+11 or pl.x+5.5 < self.x+5
+	if self.tame == true or pl.x-5.5 > self.x+11 or pl.x+5.5 < self.x+5
 	or pl.y+2 > self.y+14 or pl.y+20 < self.y+3 then
 		return false
 	else
 		love.audio.play(snd.Coin)
 		addSparkle(self.x+8,self.y+8,32,COLORS.yellow)
 		self.taken = true
+		map.numcoins = map.numcoins + 1
 		return true
 	end
 end

@@ -15,19 +15,24 @@ local floor = math.floor
 local loader = require("AdvTiledLoader.Loader")
 loader.path = "maps/"
 
-function loadMap(name)
-	current_map = name
+map_files = {"mine1.tmx","mine2.tmx","mine3.tmx","mine4.tmx",
+		"temple1.tmx","temple2.tmx","temple3.tmx","temple4.tmx","temple5.tmx"}
+
+function loadMap(level)
+	current_map = level
 	gamestate = STATE_INGAME
 
-	map = loader.load(name)
+	map = loader.load(map_files[level])
 	map.drawObjects = false
 	fgtiles = map.tileLayers.fg.tileData
 
-	kills = 0
 	map.enemies = {}
 	map.particles = {}
 	map.entities = {}
 	map.coins = {}
+
+	map.deaths = 0
+	map.numcoins = 0
 
 	MAPW = map.width*TILEW
 	MAPH = map.height*TILEW

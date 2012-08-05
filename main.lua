@@ -10,6 +10,7 @@ require("jumppad")
 require("orb")
 require("coin")
 require("menu")
+require("levelselection")
 
 local love = love
 local min = math.min
@@ -26,23 +27,32 @@ SCROLL_SPEED = 5 -- 3 to 8 = smooth, 9 = none
 STATE_MAINMENU = 0
 STATE_INGAME_MENU = 1
 STATE_INGAME = 2
+STATE_LEVEL_MENU = 3
 
 function love.load()
 	setScale(3)
 	lg.setDefaultImageFilter("nearest","nearest")
 	lg.setBackgroundColor(COLORS.darkbrown)
+	lg.setLineStyle("rough")
 
 	loadImages()
 	loadSounds()
 	createQuads()
 	createMenus()
 
-	player  = Player.create(1)
+	player = Player.create(1)
 
-	loadMap("mine4.tmx")
+	loadData()
 
-	gamestate = STATE_INGAME
+	--loadMap("mine4.tmx")
+
+	gamestate = STATE_MAINMENU
 	current_menu = main_menu
+end
+
+function loadData()
+	unlocked = 3
+	deaths = 0
 end
 
 function love.update(dt)
@@ -111,10 +121,13 @@ function love.draw()
 	elseif gamestate == STATE_MAINMENU then
 		love.graphics.drawq(imgTitle, quads.title, 0,0, 0, WIDTH/900)
 		current_menu:draw()
+	elseif gamestate == STATE_LEVEL_MENU then
+		LevelSelection.draw()
 	end
 end
 
 function drawIngame()
+	lg.push()
 	lg.translate(-tx, -ty)
 
 	map:setDrawRange(tx,ty,WIDTH,HEIGHT)
@@ -139,6 +152,18 @@ function drawIngame()
 	for i,v in ipairs(map.particles) do
 		v:draw()
 	end
+
+	-- Draw death and coin count
+	lg.pop()
+	lg.drawq(imgHUD, quads.hud_coin, 9, 10)
+	lg.drawq(imgHUD, quads.hud_skull, 48, 10)
+
+	lg.setColor(0,0,0,255)
+	lg.print(map.numcoins.."/5", 21, 14)
+	lg.print(map.deaths, 67, 14)
+	lg.setColor(255,255,255,255)
+	lg.print(map.numcoins.."/5", 21, 13)
+	lg.print(map.deaths, 67, 13)
 end
 
 function love.keypressed(k, uni)
@@ -155,6 +180,8 @@ function love.keypressed(k, uni)
 		end
 	elseif gamestate == STATE_INGAME_MENU or gamestate == STATE_MAINMENU then
 		current_menu:keypressed(k,uni)
+	elseif gamestate == STATE_LEVEL_MENU then
+		LevelSelection.keypressed(k,uni)
 	end
 end
 
@@ -163,18 +190,6 @@ function love.keyreleased(k, uni)
 		if k ~= "escape" and k ~= "r" then
 			player:keyreleased(k, uni)
 		end
-	end
-end
-
-function love.mousepressed(x,y,button)
-	if gamestate == STATE_INGAME then
-		player:keypressed(" ")
-	end
-end
-
-function love.mousereleased(x,y,button)
-	if gamestate == STATE_INGAME then
-		player:keyreleased(" ")
 	end
 end
 

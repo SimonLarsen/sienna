@@ -24,13 +24,16 @@ function loadImages()
 	imgHUD     = lg.newImage("art/hud.png")
 	imgTitle   = lg.newImage("art/titlescreen.png")
 	imgTitle:setFilter("linear","linear")
+	imgLevels  = lg.newImage("art/levelscreen.png")
+	imgLevels:setFilter("linear","linear")
 
 	local imgFontSmall = lg.newImage("art/font_small.png")
 	local imgFontBold = lg.newImage("art/font_bold.png")
 	local imgFontMedium = lg.newImage("art/font_medium.png")
 	fontSmall = lg.newImageFont(imgFontSmall, " abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.,-!$:;'")
 	fontMedium = lg.newImageFont(imgFontMedium, " 0123456789abcdefghijklmnopqrstuvxyzABCDEFGHIJKLMNOPQRSTUVXYZ!-.,$")
-	fontBold = lg.newImageFont(imgFontBold, " ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789*:|=-<>.")
+	fontBold = lg.newImageFont(imgFontBold, " ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789*:|=-<>./")
+	lg.setFont(fontBold)
 end
 
 function loadSounds()
@@ -46,6 +49,7 @@ function loadSounds()
 	snd.Fireball2 = la.newSource("sfx/fireball2.wav", "static")
 	snd.Coin = la.newSource("sfx/coin.wav", "static")
 	snd.Turret = la.newSource("sfx/turret.wav", "static")
+	snd.Blip = la.newSource("sfx/blip.wav", "static")
 end
 
 function createQuads()
@@ -122,6 +126,11 @@ function createQuads()
 	-------------
 	-- HUD quads
 	-------------
-	quads.hud_skull = lg.newQuad(0,0, 17,18, 128,128)
+	quads.hud_skull = lg.newQuad(0,0, 15,12, 128,128)
+	quads.hud_coin  = lg.newQuad(16, 0, 8, 13, 128,128)
+	quads.hud_clock = lg.newQuad(0,16,13,13,128,128)
 	quads.title = lg.newQuad(0,0, 900, 600, 1024, 1024)
+	quads.level_unlocked = lg.newQuad(32,0, 18,18, 128,128)
+	quads.level_locked = lg.newQuad(64,0, 18,18, 128,128)
+	quads.level_selected = lg.newQuad(96,0, 22,22, 128,128)
 end
