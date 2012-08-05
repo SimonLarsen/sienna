@@ -11,6 +11,7 @@ require("orb")
 require("coin")
 require("menu")
 require("levelselection")
+require("data")
 
 local love = love
 local min = math.min
@@ -22,15 +23,16 @@ TILEW = 16
 WIDTH = 300
 HEIGHT = 200
 
-SCROLL_SPEED = 5 -- 3 to 8 = smooth, 9 = none
-
 STATE_MAINMENU = 0
 STATE_INGAME_MENU = 1
 STATE_INGAME = 2
 STATE_LEVEL_MENU = 3
+STATE_LEVEL_COMPLETED = 4
 
 function love.load()
-	setScale(3)
+	loadSettings()
+	loadData()
+
 	lg.setDefaultImageFilter("nearest","nearest")
 	lg.setBackgroundColor(COLORS.darkbrown)
 	lg.setLineStyle("rough")
@@ -40,19 +42,10 @@ function love.load()
 	createQuads()
 	createMenus()
 
-	player = Player.create(1)
-
-	loadData()
-
-	--loadMap("mine4.tmx")
-
 	gamestate = STATE_MAINMENU
 	current_menu = main_menu
-end
 
-function loadData()
-	unlocked = 3
-	deaths = 0
+	player = Player.create()
 end
 
 function love.update(dt)
@@ -67,6 +60,10 @@ function love.update(dt)
 
 		-- Update entitites
 		player:update(dt)
+		if player.x > MAPW+6 then
+			gamestate = STATE_LEVEL_COMPLETED
+		end
+
 		Spike.globalUpdate(dt)
 		Jumppad.globalUpdate(dt)
 		Coin.globalUpdate(dt)
@@ -112,7 +109,10 @@ function love.draw()
 
 	-- STATE: In game
 	if gamestate == STATE_INGAME then
+		lg.push()
 		drawIngame()
+		lg.pop()
+		drawIngameHUD()
 	elseif gamestate == STATE_INGAME_MENU then
 		lg.push()
 		drawIngame()
@@ -123,11 +123,15 @@ function love.draw()
 		current_menu:draw()
 	elseif gamestate == STATE_LEVEL_MENU then
 		LevelSelection.draw()
+	elseif gamestate == STATE_LEVEL_COMPLETED then
+		lg.push()
+		drawIngame()
+		lg.pop()
+		drawCompletionHUD()
 	end
 end
 
 function drawIngame()
-	lg.push()
 	lg.translate(-tx, -ty)
 
 	map:setDrawRange(tx,ty,WIDTH,HEIGHT)
@@ -152,9 +156,10 @@ function drawIngame()
 	for i,v in ipairs(map.particles) do
 		v:draw()
 	end
+end
 
+function drawIngameHUD()
 	-- Draw death and coin count
-	lg.pop()
 	lg.drawq(imgHUD, quads.hud_coin, 9, 10)
 	lg.drawq(imgHUD, quads.hud_skull, 48, 10)
 
@@ -166,22 +171,43 @@ function drawIngame()
 	lg.print(map.deaths, 67, 13)
 end
 
+function drawCompletionHUD()
+	lg.setColor(0,0,0,200)
+	lg.rectangle("fill", 0,0, WIDTH,HEIGHT)
+	lg.setColor(255,255,255,255)
+	lg.drawq(imgHUD, quads.text_level, 48,40)
+	lg.drawq(imgHUD, quads.text_cleared, 140,40)
+
+	lg.print("COINS:", 106,75)
+	lg.print(map.numcoins.."/5", 170,75)
+	lg.print("DEATHS:", 106,95)
+	lg.print(map.deaths, 170,95)
+	lg.print("TIME:", 106,115)
+	lg.print("1:32", 170,115)
+
+	lg.print("PRESS ANY KEY TO CONTINUE", 55, 165)
+end
+
 function love.keypressed(k, uni)
 	if gamestate == STATE_INGAME then
-		if k == "escape" then
+		if k == " " or k == "z" or k == "x" then
+			player:keypressed(k, uni)
+		elseif k == "escape" then
 			gamestate = STATE_INGAME_MENU
 			current_menu = ingame_menu
 		elseif k == "r" then
 			player:kill()
 		elseif k == "return" then
 			reloadMap()
-		else
-			player:keypressed(k, uni)
+		elseif k == "c" then
+			gamestate = STATE_LEVEL_COMPLETED
 		end
 	elseif gamestate == STATE_INGAME_MENU or gamestate == STATE_MAINMENU then
 		current_menu:keypressed(k,uni)
 	elseif gamestate == STATE_LEVEL_MENU then
 		LevelSelection.keypressed(k,uni)
+	elseif gamestate == STATE_LEVEL_COMPLETED then
+		levelCompleted()
 	end
 end
 
@@ -228,4 +254,8 @@ function setResolution(w,h)
 	end
 	WIDTH = SCREEN_WIDTH/SCALE
 	HEIGHT = SCREEN_HEIGHT/SCALE
+end
+
+function love.quit()
+	saveSettings()
 end

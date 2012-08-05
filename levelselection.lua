@@ -1,4 +1,5 @@
 LevelSelection = {selected = 1}
+local ls = LevelSelection
 
 local positions = {
 	{51,182},
@@ -45,14 +46,16 @@ function LevelSelection.draw()
 			lg.drawq(imgHUD, quads.level_locked, positions[i][1]-8, positions[i][2]-8)
 		end
 	end
-	lg.drawq(imgHUD, quads.level_selected, positions[LevelSelection.selected][1]-10, positions[LevelSelection.selected][2]-10)
+	lg.drawq(imgHUD, quads.level_selected, positions[ls.selected][1]-10, positions[ls.selected][2]-10)
 
 	lg.drawq(imgHUD, quads.hud_coin, 19,13)
-	lg.print("2/5", 36,16)
 	lg.drawq(imgHUD, quads.hud_skull, 15,30)
-	lg.print("28", 36,33)
 	lg.drawq(imgHUD, quads.hud_clock, 17,47)
-	lg.print("1:23", 36,50)
+
+	-- Draw current level stats
+	lg.print(level_status[ls.selected].coins.."/5", 36,16)
+	lg.print(level_status[ls.selected].deaths or "--", 36,33)
+	lg.print(level_status[ls.selected].time or "--", 36,50)
 end
 
 function LevelSelection.keypressed(k, uni)

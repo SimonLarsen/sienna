@@ -121,9 +121,6 @@ function Player:update(dt)
 
 		if self.y > MAPH then
 			self:kill() end
-
-		if self.x > MAPW +6 then
-			self.state = STATE_WON end
 	
 	elseif self.state == STATE_WAIT then
 		self.frame = self.frame + dt
