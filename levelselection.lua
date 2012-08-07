@@ -51,11 +51,11 @@ function LevelSelection.draw()
 	lg.drawq(imgHUD, quads.hud_coin, 19,13)
 	lg.drawq(imgHUD, quads.hud_skull, 15,30)
 	lg.drawq(imgHUD, quads.hud_clock, 17,47)
-
+	
 	-- Draw current level stats
 	lg.print(level_status[ls.selected].coins.."/5", 36,16)
 	lg.print(level_status[ls.selected].deaths or "--", 36,33)
-	lg.print(level_status[ls.selected].time or "--", 36,50)
+	lg.print(level_status[ls.selected].time and getTimerString(level_status[ls.selected].time) or "--", 36,50)
 end
 
 function LevelSelection.keypressed(k, uni)
@@ -65,7 +65,7 @@ function LevelSelection.keypressed(k, uni)
 	elseif k == "left" or k == "down" then
 		LevelSelection.selected = math.max(LevelSelection.selected-1, 1)
 		love.audio.play(snd.Blip)
-	elseif k == "return" then
+	elseif k == "return" or k == " " then
 		loadMap(LevelSelection.selected)
 	elseif k == "escape" then
 		gamestate = STATE_MAINMENU

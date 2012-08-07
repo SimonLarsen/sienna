@@ -132,15 +132,6 @@ function createMenus()
 	)
 
 	function main_menu:draw()
-		lg.setFont(fontBold)
-		lg.setColor(0,0,0,255)
-		for i=1,self.length do
-			if i == self.selected then
-				lg.printf("* "..self.names[i].." *", 123, 60+(i-1)*12, 166, "center")
-			else
-				lg.printf(self.names[i], 123, 60+(i-1)*12, 166, "center")
-			end
-		end
 		lg.setColor(255,255,255,255)
 		for i=1,self.length do
 			if i == self.selected then
@@ -153,7 +144,8 @@ function createMenus()
 
 	-- credits menu
 	credits_menu = Menu.create(
-		{"GRAPHICS AND PROGRAMMING","SIMON LARSEN","TITLE SCREEN","LUKAS HANSEN","MUSIC","XXX"},
+		{"GRAPHICS AND PROGRAMMING","SIMON LARSEN","TITLE SCREEN",
+		 "LUKAS HANSEN","MUSIC","XXX","SEE LICENCE.TXT FOR MORE INFO"},
 		nil,nil
 	)
 	function credits_menu:draw()

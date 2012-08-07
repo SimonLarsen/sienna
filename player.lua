@@ -52,8 +52,6 @@ function Player:respawn(x,y,dir)
 	
 	self.hasGhosts = false
 	self.ghosts = {}
-
-	--addSparkle(self.x, self.y+10, 32, COLORS.orange)
 end
 
 function Player:update(dt)
@@ -183,26 +181,33 @@ function Player:checkTiles()
 end
 
 function Player:keypressed(k, uni)
-	if self.onGround == true then
-		self.jump = MAX_JUMP
-		self:addGhost()
-		love.audio.play(snd.Jump)
+	if self.state == STATE_RUNNING then
+		if self.onGround == true then
+			self.jump = MAX_JUMP
+			self:addGhost()
+			love.audio.play(snd.Jump)
 
-	elseif self.onWall == true then
-		self.jump = MAX_JUMP
-		self:addGhost()
-		if self.dir == 1 then
-			self.dir = -1
-		else
-			self.dir = 1
+		elseif self.onWall == true then
+			self.jump = MAX_JUMP
+			self:addGhost()
+			if self.dir == 1 then
+				self.dir = -1
+			else
+				self.dir = 1
+			end
+			love.audio.play(snd.Jump)
 		end
-		love.audio.play(snd.Jump)
+	elseif self.state == STATE_WAIT then
+		self.state = STATE_RUNNING
+		self.frame = 0
 	end
 end
 
 function Player:keyreleased(k, uni)
-	if self.jump > 0 then
-		self.jump = 0
+	if self.state == STATE_RUNNING then
+		if self.jump > 0 then
+			self.jump = 0
+		end
 	end
 end
 

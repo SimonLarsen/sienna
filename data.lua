@@ -59,10 +59,17 @@ function levelCompleted()
 	end
 
 	level_status[current_map].coins = math.max(level_status[current_map].coins, map.numcoins)
+
 	if level_status[current_map].deaths == nil then
 		level_status[current_map].deaths = map.deaths
 	else
 		level_status[current_map].deaths = math.min(level_status[current_map].deaths, map.deaths)
+	end
+
+	if level_status[current_map].time == nil then
+		level_status[current_map].time = map.time
+	else
+		level_status[current_map].time = math.min(level_status[current_map].time, map.time)
 	end
 
 	saveData()

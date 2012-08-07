@@ -33,6 +33,7 @@ function loadMap(level)
 
 	map.deaths = 0
 	map.numcoins = 0
+	map.time = 0
 
 	MAPW = map.width*TILEW
 	MAPH = map.height*TILEW

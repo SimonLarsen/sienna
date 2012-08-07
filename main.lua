@@ -53,10 +53,12 @@ function love.update(dt)
 		-- Upper bound on frame delay
 		if dt > 0.06 then dt = 0.06 end
 
-		-- Slow motion function. Only used for debugging
 		if love.keyboard.isDown("s") then
-			dt = dt/10
+			dt = dt/100
 		end
+
+		-- Progress timer
+		map.time = map.time + dt
 
 		-- Update entitites
 		player:update(dt)
@@ -159,16 +161,15 @@ function drawIngame()
 end
 
 function drawIngameHUD()
-	-- Draw death and coin count
+	local time = getTimerString(map.time)
+
+	-- Draw text
 	lg.drawq(imgHUD, quads.hud_coin, 9, 10)
 	lg.drawq(imgHUD, quads.hud_skull, 48, 10)
-
-	lg.setColor(0,0,0,255)
-	lg.print(map.numcoins.."/5", 21, 14)
-	lg.print(map.deaths, 67, 14)
 	lg.setColor(255,255,255,255)
 	lg.print(map.numcoins.."/5", 21, 13)
 	lg.print(map.deaths, 67, 13)
+	lg.printf(time, WIDTH-120, 13, 100, "right")
 end
 
 function drawCompletionHUD()
@@ -178,14 +179,49 @@ function drawCompletionHUD()
 	lg.drawq(imgHUD, quads.text_level, 48,40)
 	lg.drawq(imgHUD, quads.text_cleared, 140,40)
 
-	lg.print("COINS:", 106,75)
-	lg.print(map.numcoins.."/5", 170,75)
-	lg.print("DEATHS:", 106,95)
-	lg.print(map.deaths, 170,95)
-	lg.print("TIME:", 106,115)
-	lg.print("1:32", 170,115)
+	lg.print("COINS:", 86,75)
+	lg.print(map.numcoins.."/5", 150,75)
+	lg.print("DEATHS:", 86,95)
+	lg.print(map.deaths, 150,95)
+	lg.print("TIME:", 86,115)
+	lg.print(getTimerString(map.time), 150,115)
 
+	-- Draw coins difference
+	if map.numcoins > level_status[current_map].coins then
+		lg.setColor(COLORS.green)
+		lg.print("+"..map.numcoins-level_status[current_map].coins, 180, 75)
+	end
+	-- Draw deaths difference
+	if level_status[current_map].deaths then
+		if map.deaths > level_status[current_map].deaths then
+			lg.setColor(COLORS.red)
+			lg.print("+"..map.deaths-level_status[current_map].deaths, 168, 95)
+		elseif map.deaths < level_status[current_map].deaths then
+			lg.setColor(COLORS.green)
+			lg.print("-"..level_status[current_map].deaths-map.deaths, 168, 95)
+		end
+	end
+	-- Draw time difference
+	if level_status[current_map].time then
+		if map.time > level_status[current_map].time then
+			lg.setColor(COLORS.red)
+			lg.print("+"..getTimerString(map.time-level_status[current_map].time), 214, 115)
+		elseif map.time < level_status[current_map].time then
+			lg.setColor(COLORS.green)
+			lg.print("-"..getTimerString(level_status[current_map].time-map.time), 214, 115)
+		end
+	end
+
+
+	lg.setColor(255,255,255,255)
 	lg.print("PRESS ANY KEY TO CONTINUE", 55, 165)
+end
+
+function getTimerString(time)
+	local msec = math.floor((time % 1)*100)
+	local sec = math.floor(time % 60)
+	local min = math.floor(time/60)
+	return string.format("%02d'%02d\"%02d",min,sec,msec)
 end
 
 function love.keypressed(k, uni)

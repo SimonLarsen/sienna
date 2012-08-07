@@ -12,7 +12,8 @@ COLORS = {
 	lightblue   = {105,188,188},
 	darkblue	= {0,160,176},
 	darkbrown   = {71,44,31},
-	lightbrown  = {106,75,60}
+	lightbrown  = {106,75,60},
+	green       = {105,188,109}
 }
 
 function loadImages()
@@ -32,7 +33,7 @@ function loadImages()
 	local imgFontMedium = lg.newImage("art/font_medium.png")
 	fontSmall = lg.newImageFont(imgFontSmall, " abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.,-!$:;'")
 	fontMedium = lg.newImageFont(imgFontMedium, " 0123456789abcdefghijklmnopqrstuvxyzABCDEFGHIJKLMNOPQRSTUVXYZ!-.,$")
-	fontBold = lg.newImageFont(imgFontBold, " ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789*:|=-<>./")
+	fontBold = lg.newImageFont(imgFontBold, " ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789*:|=-<>./'\"+")
 	lg.setFont(fontBold)
 end
 
