@@ -69,5 +69,6 @@ function LevelSelection.keypressed(k, uni)
 		loadMap(LevelSelection.selected)
 	elseif k == "escape" then
 		gamestate = STATE_MAINMENU
+		current_menu = main_menu
 	end
 end

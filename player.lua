@@ -45,7 +45,6 @@ function Player:respawn(x,y,dir)
 	self.xspeed = 0
 	self.yspeed = 0
 	self.onGround = false
-	self.inWater = false
 	self.jump = 0
 	self.invul = INVUL_TIME
 	self.onWall = false
@@ -70,11 +69,6 @@ function Player:update(dt)
 		-- Keep vertical speed if still jumping
 		if self.jump > 0 then
 			self.yspeed = -JUMP_POWER
-		end
-
-		-- Decrease speed if in water
-		if self.inWater == true then
-			self.xspeed = self.xspeed*0.4
 		end
 
 		-- move in X and Y direction
@@ -142,7 +136,6 @@ function Player:kill(...)
 end
 
 function Player:checkTiles()
-	local hitWater = false
 	local bx, by, tile
 	for i=1, #COL_OFFSETS do
 		bx = floor((self.x+COL_OFFSETS[i][1]) / TILEW)
@@ -166,18 +159,9 @@ function Player:checkTiles()
 					love.audio.play(snd.Burn)
 					return
 				end
-			-- Check collision with water
-			elseif tile.id == TILE_WATER or tile.id == TILE_WATER_TOP then
-				hitWater = true
 			end
 		end
 	end
-
-	if hitWater == true and self.inWater == false then
-		addSparkle(self.x,self.y+8,32,COLORS.darkblue)
-		love.audio.play(snd.Water)
-	end
-	self.inWater = hitWater
 end
 
 function Player:keypressed(k, uni)
@@ -186,6 +170,7 @@ function Player:keypressed(k, uni)
 			self.jump = MAX_JUMP
 			self:addGhost()
 			love.audio.play(snd.Jump)
+			jumps = jumps + 1
 
 		elseif self.onWall == true then
 			self.jump = MAX_JUMP
@@ -196,6 +181,7 @@ function Player:keypressed(k, uni)
 				self.dir = 1
 			end
 			love.audio.play(snd.Jump)
+			jumps = jumps + 1
 		end
 	elseif self.state == STATE_WAIT then
 		self.state = STATE_RUNNING

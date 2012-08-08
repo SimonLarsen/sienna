@@ -294,4 +294,5 @@ end
 
 function love.quit()
 	saveSettings()
+	saveData()
 end

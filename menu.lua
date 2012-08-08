@@ -28,19 +28,23 @@ end
 function Menu:keypressed(k,uni)
 	if k == "down" then
 		self.selected = self.selected + 1
+		love.audio.play(snd.Blip)
 		if self.selected > self.length then
 			self.selected = 1
 		end
 	elseif k == "up" then
 		self.selected = self.selected - 1
+		love.audio.play(snd.Blip)
 		if self.selected == 0 then
 			self.selected = self.length
 		end
 	elseif k == "return" then
+		love.audio.play(snd.Blip)
 		if self.functions[self.selected] then
 			self.functions[self.selected](self)
 		end
 	elseif k == "escape" then
+		love.audio.play(snd.Blip)
 		self.escape_function(self)
 	end
 end
@@ -91,8 +95,8 @@ function createMenus()
 		self.names = {
 			"SCALE: "..SCALE,
 			"CAMERA SPEED: |"..string.rep("=",SCROLL_SPEED-2)..string.rep("-",9-SCROLL_SPEED).."|",
-			"MUSIC VOLUME: |==========|",
-			"SOUND VOLUME: |==========|",
+			"MUSIC VOLUME: |"..string.rep("=",music_volume*10)..string.rep("-",10-music_volume*10).."|",
+			"SOUND VOLUME: |"..string.rep("=",sound_volume*10)..string.rep("-",10-sound_volume*10).."|",
 			"BACK"
 		}
 	end
@@ -103,15 +107,59 @@ function createMenus()
 		if k == "left" then
 			if self.selected == 1 then
 				setScale(SCALE-1)
+				love.audio.play(snd.Blip)
 			elseif self.selected == 2 then
-				SCROLL_SPEED = math.max(3,SCROLL_SPEED-1)
+				if SCROLL_SPEED > 3 then
+					SCROLL_SPEED = SCROLL_SPEED - 1
+					love.audio.play(snd.Blip)
+				else
+					love.audio.play(snd.Blip2)
+				end
+			elseif self.selected == 3 then
+				if music_volume >= 0.1 then
+					music_volume = music_volume - 0.1
+					updateVolumes()
+					love.audio.play(snd.Blip)
+				else
+					love.audio.play(snd.Blip2)
+				end
+			elseif self.selected == 4 then
+				if sound_volume >= 0.1 then
+					sound_volume = sound_volume - 0.1
+					updateVolumes()
+					love.audio.play(snd.Blip)
+				else
+					love.audio.play(snd.Blip2)
+				end
 			end
 			self:update()
 		elseif k == "right" then
 			if self.selected == 1 then
 				setScale(SCALE+1)
+				love.audio.play(snd.Blip)
 			elseif self.selected == 2 then
-				SCROLL_SPEED = math.min(9,SCROLL_SPEED+1)
+				if SCROLL_SPEED < 9 then
+					SCROLL_SPEED = SCROLL_SPEED + 1
+					love.audio.play(snd.Blip)
+				else
+					love.audio.play(snd.Blip2)
+				end
+			elseif self.selected == 3 then
+				if music_volume <= 0.9 then
+					music_volume = music_volume + 0.1
+					updateVolumes()
+					love.audio.play(snd.Blip)
+				else
+					love.audio.play(snd.Blip2)
+				end
+			elseif self.selected == 4 then
+				if sound_volume <= 0.9 then
+					sound_volume = sound_volume + 0.1
+					updateVolumes()
+					love.audio.play(snd.Blip)
+				else
+					love.audio.play(snd.Blip2)
+				end
 			end
 			self:update()
 		else
@@ -121,10 +169,10 @@ function createMenus()
 
 	-- MAIN MENU
 	main_menu = Menu.create(
-		{"START GAME", "CHALLENGES", "OPTIONS", "CREDITS", "QUIT GAME"},
+		{"START GAME", "OPTIONS", "STATS", "CREDITS", "QUIT GAME"},
 		{function() gamestate = STATE_LEVEL_MENU end,
-		 nil,
 		 function() current_menu = options_menu end,
+		 function() current_menu = stats_menu end,
 		 function() current_menu = credits_menu end,
 		 function() love.event.quit() end},
 
@@ -145,7 +193,7 @@ function createMenus()
 	-- credits menu
 	credits_menu = Menu.create(
 		{"GRAPHICS AND PROGRAMMING","SIMON LARSEN","TITLE SCREEN",
-		 "LUKAS HANSEN","MUSIC","XXX","SEE LICENCE.TXT FOR MORE INFO"},
+		 "LUKAS HANSEN","MUSIC","RUGAR - A SCENT OF EUROPE","SEE LICENCE.TXT FOR MORE INFO"},
 		nil,nil
 	)
 	function credits_menu:draw()
@@ -165,6 +213,30 @@ function createMenus()
 	end
 
 	function credits_menu:keypressed(k,uni)
+		love.audio.play(snd.Blip)
+		current_menu = main_menu
+	end
+
+	-- stats menu
+	stats_menu = Menu.create(
+		{"TOTAL DEATHS: XXX", "TOTAL JUMPS: XXXX", "COINS COLLECTED: 00/45"},
+		nil, nil
+	)
+	function stats_menu:draw()
+		local top = (HEIGHT-self.height)/2
+
+		lg.setColor(0,0,0,200)
+		lg.rectangle("fill",(WIDTH-self.width)/2-6, top-6, self.width+12, self.height+12)
+		lg.setColor(255,255,255,255)
+
+		lg.setFont(fontBold)
+		lg.printf("TOTAL DEATHS: "..deaths, 0, top, WIDTH, "center")
+		lg.printf("TOTAL JUMPS: "..jumps, 0, top+16, WIDTH, "center")
+		lg.printf("COINS COLLECTED: "..coins.."/45", 0, top+32, WIDTH, "center")
+	end
+
+	function stats_menu:keypressed(k,uni)
+		love.audio.play(snd.Blip)
 		current_menu = main_menu
 	end
 end

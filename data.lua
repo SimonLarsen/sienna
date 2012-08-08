@@ -6,9 +6,13 @@ function loadSettings()
 		local set = TSerial.unpack(data)
 		setScale(set.scale)
 		SCROLL_SPEED = set.scroll_speed
+		music_volume = set.music_volume
+		sound_volume = set.sound_volume
 	else
 		setScale(3)
 		SCROLL_SPEED = 5 -- 3 to 8 = smooth, 9 = none
+		music_volume = 0.6
+		sound_volume = 1
 	end
 end
 
@@ -16,6 +20,8 @@ function saveSettings()
 	local set = {}
 	set.scale = SCALE
 	set.scroll_speed = SCROLL_SPEED
+	set.music_volume = music_volume
+	set.sound_volume = sound_volume
 
 	local data = TSerial.pack(set)
 	love.filesystem.write("settings", data)
@@ -27,11 +33,16 @@ function loadData()
 		local set = TSerial.unpack(data)
 
 		unlocked = set.unlocked
-		deaths = set.deaths
 		level_status = set.level_status
+
+		deaths = set.deaths
+		jumps = set.jumps
+		coins = set.coins
 	else
 		unlocked = 1
 		deaths = 0
+		jumps = 0
+		coins = 0
 
 		level_status = {}
 		for i=1,9 do
@@ -48,6 +59,8 @@ function saveData()
 	set.unlocked = unlocked
 	set.deaths = deaths
 	set.level_status = level_status
+	set.jumps = jumps
+	set.coins = coins
 
 	local data = TSerial.pack(set)
 	love.filesystem.write("status", data)
@@ -70,6 +83,11 @@ function levelCompleted()
 		level_status[current_map].time = map.time
 	else
 		level_status[current_map].time = math.min(level_status[current_map].time, map.time)
+	end
+
+	coins = 0
+	for i = 1,9 do
+		coins = coins + level_status[i].coins
 	end
 
 	saveData()

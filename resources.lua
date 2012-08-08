@@ -42,7 +42,6 @@ function loadSounds()
 	snd.Jump  	= la.newSource("sfx/jump.wav",  "static")
 	snd.Hurt  	= la.newSource("sfx/hurt.wav",  "static")
 	snd.Checkpoint = la.newSource("sfx/checkpoint.wav", "static")
-	snd.Water 	= la.newSource("sfx/water.wav", "static")
 	snd.Jumppad = la.newSource("sfx/jumppad.wav", "static")
 	snd.RockRelease = la.newSource("sfx/rockrelease.wav", "static")
 	snd.RockGone = la.newSource("sfx/rockgone.wav", "static")
@@ -51,6 +50,22 @@ function loadSounds()
 	snd.Coin = la.newSource("sfx/coin.wav", "static")
 	snd.Turret = la.newSource("sfx/turret.wav", "static")
 	snd.Blip = la.newSource("sfx/blip.wav", "static")
+	snd.Blip2 = la.newSource("sfx/blip2.wav", "static")
+
+	for i,v in pairs(snd) do
+		v:addTags("sfx")
+	end
+
+	snd.Music = la.newSource("sfx/rugar-a_scent_of_europe.ogg", "stream")
+	snd.Music:addTags("music")
+
+	updateVolumes()
+	love.audio.play(snd.Music)
+end
+
+function updateVolumes()
+	love.audio.tags["sfx"].setVolume(sound_volume)
+	love.audio.tags["music"].setVolume(music_volume)
 end
 
 function createQuads()
