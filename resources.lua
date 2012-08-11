@@ -58,6 +58,7 @@ function loadSounds()
 
 	snd.Music = la.newSource("sfx/rugar-a_scent_of_europe.ogg", "stream")
 	snd.Music:addTags("music")
+	snd.Music:setLooping(true)
 
 	updateVolumes()
 	love.audio.play(snd.Music)

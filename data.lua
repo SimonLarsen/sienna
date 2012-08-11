@@ -16,17 +16,6 @@ function loadSettings()
 	end
 end
 
-function saveSettings()
-	local set = {}
-	set.scale = SCALE
-	set.scroll_speed = SCROLL_SPEED
-	set.music_volume = music_volume
-	set.sound_volume = sound_volume
-
-	local data = TSerial.pack(set)
-	love.filesystem.write("settings", data)
-end
-
 function loadData()
 	if love.filesystem.exists("status") then
 		local data = love.filesystem.read("status")
@@ -56,6 +45,7 @@ end
 
 function saveData()
 	local set = {}
+	set.version = 1.0
 	set.unlocked = unlocked
 	set.deaths = deaths
 	set.level_status = level_status
@@ -64,6 +54,18 @@ function saveData()
 
 	local data = TSerial.pack(set)
 	love.filesystem.write("status", data)
+end
+
+function saveSettings()
+	local set = {}
+	set.version = 1.0
+	set.scale = SCALE
+	set.scroll_speed = SCROLL_SPEED
+	set.music_volume = music_volume
+	set.sound_volume = sound_volume
+
+	local data = TSerial.pack(set)
+	love.filesystem.write("settings", data)
 end
 
 function levelCompleted()

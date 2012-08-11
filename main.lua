@@ -179,36 +179,36 @@ function drawCompletionHUD()
 	lg.drawq(imgHUD, quads.text_level, 48,40)
 	lg.drawq(imgHUD, quads.text_cleared, 140,40)
 
-	lg.print("COINS:", 86,75)
-	lg.print(map.numcoins.."/5", 150,75)
-	lg.print("DEATHS:", 86,95)
-	lg.print(map.deaths, 150,95)
-	lg.print("TIME:", 86,115)
-	lg.print(getTimerString(map.time), 150,115)
+	lg.print("COINS:", 66,75)
+	lg.print(map.numcoins.."/5", 130,75)
+	lg.print("DEATHS:", 66,95)
+	lg.print(map.deaths, 130,95)
+	lg.print("TIME:", 66,115)
+	lg.print(getTimerString(map.time), 130,115)
 
 	-- Draw coins difference
 	if map.numcoins > level_status[current_map].coins then
 		lg.setColor(COLORS.green)
-		lg.print("+"..map.numcoins-level_status[current_map].coins, 180, 75)
+		lg.print("+"..map.numcoins-level_status[current_map].coins, 160, 75)
 	end
 	-- Draw deaths difference
 	if level_status[current_map].deaths then
 		if map.deaths > level_status[current_map].deaths then
 			lg.setColor(COLORS.red)
-			lg.print("+"..map.deaths-level_status[current_map].deaths, 168, 95)
+			lg.print("+"..map.deaths-level_status[current_map].deaths, 148, 95)
 		elseif map.deaths < level_status[current_map].deaths then
 			lg.setColor(COLORS.green)
-			lg.print("-"..level_status[current_map].deaths-map.deaths, 168, 95)
+			lg.print("-"..level_status[current_map].deaths-map.deaths, 148, 95)
 		end
 	end
 	-- Draw time difference
 	if level_status[current_map].time then
 		if map.time > level_status[current_map].time then
 			lg.setColor(COLORS.red)
-			lg.print("+"..getTimerString(map.time-level_status[current_map].time), 214, 115)
+			lg.print("+"..getTimerString(map.time-level_status[current_map].time), 194, 115)
 		elseif map.time < level_status[current_map].time then
 			lg.setColor(COLORS.green)
-			lg.print("-"..getTimerString(level_status[current_map].time-map.time), 214, 115)
+			lg.print("-"..getTimerString(level_status[current_map].time-map.time), 194, 115)
 		end
 	end
 
@@ -231,6 +231,7 @@ function love.keypressed(k, uni)
 		elseif k == "escape" then
 			gamestate = STATE_INGAME_MENU
 			current_menu = ingame_menu
+			ingame_menu.selected = 1
 		elseif k == "r" then
 			player:kill()
 		elseif k == "return" then
@@ -259,6 +260,7 @@ function love.focus(f)
 	if f == false and gamestate == STATE_INGAME then
 		gamestate = STATE_INGAME_MENU
 		current_menu = ingame_menu
+		ingame_menu.selected = 1
 	end
 end
 
