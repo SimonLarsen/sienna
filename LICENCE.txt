@@ -10,9 +10,8 @@ All other assets (sprites, textures, sound effects etc.)
 are licensed under the CC BY-NC 3.0 licence.
 See http://creativecommons.org/licenses/by-nc/3.0/
 
-All source code for Sienna with the exception of the modules slam.lua and
-TSerial.lua are licensed under the ZLIB licence included in this document.
-See slam.lua and TSerial.lua for their respective licenses.
+All source code for Sienna with the exception of the modules TSerial.lua, slam.lua,
+and AdvTiledLoader are licensed under the ZLIB licence included in this document.
 
 --| ZLIB licence |----------------------------------------------------------------
   Copyright (C) 1995-2012 Jean-loup Gailly and Mark Adler
