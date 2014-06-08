@@ -1,15 +1,22 @@
 function love.conf(t)
-    t.title = "Sienna"
-    t.author = "Simon Larsen"
-    t.url = "simonlarsen.blogspot.dk"
-    t.identity = "sienna"
-    t.version = "0.8.0"
+    t.identity = "siena"
+    t.version = "0.9.1"
     t.console = false
-    t.release = false
-    t.screen.width = 900
-    t.screen.height = 600
-    t.screen.fullscreen = false
-    t.screen.vsync = true
-    t.screen.fsaa = 0
+
+    t.window.title = "Sienna"
+    t.window.icon = nil
+    t.window.width = 900
+    t.window.height = 600
+    t.window.borderless = false
+    t.window.resizable = false
+    t.window.minwidth = 1
+    t.window.minheight = 1
+    t.window.fullscreen = false
+    t.window.fullscreentype = "normal"
+    t.window.vsync = true
+    t.window.fsaa = 0
+    t.window.display = 1
+    t.window.highdpi = false
+    t.window.srgb = false
     t.modules.physics = false
 end

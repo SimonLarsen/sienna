@@ -33,7 +33,7 @@ function love.load()
 	loadSettings()
 	loadData()
 
-	lg.setDefaultImageFilter("nearest","nearest")
+	lg.setDefaultFilter("nearest","nearest")
 	lg.setBackgroundColor(COLORS.darkbrown)
 	lg.setLineStyle("rough")
 
@@ -121,7 +121,7 @@ function love.draw()
 		lg.pop()
 		current_menu:draw()
 	elseif gamestate == STATE_MAINMENU then
-		love.graphics.drawq(imgTitle, quads.title, 0,0, 0, WIDTH/900)
+		love.graphics.draw(imgTitle, quads.title, 0,0, 0, WIDTH/900)
 		current_menu:draw()
 	elseif gamestate == STATE_LEVEL_MENU then
 		LevelSelection.draw()
@@ -164,8 +164,8 @@ function drawIngameHUD()
 	local time = getTimerString(map.time)
 
 	-- Draw text
-	lg.drawq(imgHUD, quads.hud_coin, 9, 10)
-	lg.drawq(imgHUD, quads.hud_skull, 48, 10)
+	lg.draw(imgHUD, quads.hud_coin, 9, 10)
+	lg.draw(imgHUD, quads.hud_skull, 48, 10)
 	lg.setColor(255,255,255,255)
 	lg.print(map.numcoins.."/5", 21, 13)
 	lg.print(map.deaths, 67, 13)
@@ -176,8 +176,8 @@ function drawCompletionHUD()
 	lg.setColor(0,0,0,200)
 	lg.rectangle("fill", 0,0, WIDTH,HEIGHT)
 	lg.setColor(255,255,255,255)
-	lg.drawq(imgHUD, quads.text_level, 48,40)
-	lg.drawq(imgHUD, quads.text_cleared, 140,40)
+	lg.draw(imgHUD, quads.text_level, 48,40)
+	lg.draw(imgHUD, quads.text_cleared, 140,40)
 
 	lg.print("COINS:", 66,75)
 	lg.print(map.numcoins.."/5", 130,75)
@@ -224,10 +224,10 @@ function getTimerString(time)
 	return string.format("%02d'%02d\"%02d",min,sec,msec)
 end
 
-function love.keypressed(k, uni)
+function love.keypressed(k)
 	if gamestate == STATE_INGAME then
 		if k == " " or k == "z" or k == "x" then
-			player:keypressed(k, uni)
+			player:keypressed(k)
 		elseif k == "escape" then
 			gamestate = STATE_INGAME_MENU
 			current_menu = ingame_menu
@@ -240,18 +240,18 @@ function love.keypressed(k, uni)
 			gamestate = STATE_LEVEL_COMPLETED
 		end
 	elseif gamestate == STATE_INGAME_MENU or gamestate == STATE_MAINMENU then
-		current_menu:keypressed(k,uni)
+		current_menu:keypressed(k)
 	elseif gamestate == STATE_LEVEL_MENU then
-		LevelSelection.keypressed(k,uni)
+		LevelSelection.keypressed(k)
 	elseif gamestate == STATE_LEVEL_COMPLETED then
 		levelCompleted()
 	end
 end
 
-function love.keyreleased(k, uni)
+function love.keyreleased(k)
 	if gamestate == STATE_INGAME then
 		if k ~= "escape" and k ~= "r" then
-			player:keyreleased(k, uni)
+			player:keyreleased(k)
 		end
 	end
 end
@@ -271,16 +271,16 @@ function setScale(scale)
 	SCREEN_WIDTH  = WIDTH*SCALE
 	SCREEN_HEIGHT = HEIGHT*SCALE
 
-	lg.setMode(SCREEN_WIDTH, SCREEN_HEIGHT, false, true)
+	love.window.setMode(SCREEN_WIDTH, SCREEN_HEIGHT, {fullscreen=false, vsync=true})
 end
 
 function setResolution(w,h)
-	lg.setMode(w, h, false, true)
+	love.window.setMode(w, h, {fullscreen=false, vsync=true})
 
 	if w == 0 and h == 0 then
 		SCREEN_WIDTH = lg.getWidth()
 		SCREEN_HEIGHT = lg.getHeight()
-		lg.setMode(SCREEN_WIDTH, SCREEN_HEIGHT, false, true)
+		love.window.setMode(SCREEN_WIDTH, SCREEN_HEIGHT, {fullscreen=false, vsync=true})
 	else
 		SCREEN_WIDTH = w
 		SCREEN_HEIGHT = h

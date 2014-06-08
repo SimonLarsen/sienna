@@ -26,7 +26,7 @@ end
 
 function Bee:draw()
 	local frame = math.floor(self.time*4) % 2
-	love.graphics.drawq(imgEnemies, quads.bee[frame], self.x, self.y, 0,self.dir,1, 7.5)
+	love.graphics.draw(imgEnemies, quads.bee[frame], self.x, self.y, 0,self.dir,1, 7.5)
 end
 
 function Bee:collidePlayer(pl)
@@ -74,9 +74,9 @@ end
 
 function Dog:draw()
 	if self.state == 0 then
-		love.graphics.drawq(imgEnemies, quads.dog, self.x, self.y, 0, self.dir, 1, 8)
+		love.graphics.draw(imgEnemies, quads.dog, self.x, self.y, 0, self.dir, 1, 8)
 	elseif self.state == 1 then
-		love.graphics.drawq(imgEnemies, quads.dog_jump, self.x, self.y, 0, self.dir, 1, 8)
+		love.graphics.draw(imgEnemies, quads.dog_jump, self.x, self.y, 0, self.dir, 1, 8)
 	end
 end
 
@@ -130,13 +130,13 @@ end
 
 function Mole:draw()
 	if self.state == 0 then
-		love.graphics.drawq(imgEnemies, quads.mole[0], self.x, self.y, 0, self.dir, 1, 8)
+		love.graphics.draw(imgEnemies, quads.mole[0], self.x, self.y, 0, self.dir, 1, 8)
 	elseif self.state == 1 then
 		local frame = math.min(math.floor(self.time*20), 4)
-		love.graphics.drawq(imgEnemies, quads.mole[frame], self.x, self.y, 0, self.dir, 1, 8)
+		love.graphics.draw(imgEnemies, quads.mole[frame], self.x, self.y, 0, self.dir, 1, 8)
 	elseif self.state == 2 then
 		local frame = math.min(math.floor(self.time*20), 4)
-		love.graphics.drawq(imgEnemies, quads.mole[4-frame], self.x, self.y, 0, self.dir, 1, 8)
+		love.graphics.draw(imgEnemies, quads.mole[4-frame], self.x, self.y, 0, self.dir, 1, 8)
 	end
 end
 
@@ -184,7 +184,7 @@ function Spider:update(dt)
 end
 
 function Spider:draw()
-	love.graphics.drawq(imgEnemies, quads.spider, self.x-5, self.y-2)
+	love.graphics.draw(imgEnemies, quads.spider, self.x-5, self.y-2)
 end
 
 function Spider:collidePlayer(pl)
@@ -230,13 +230,13 @@ end
 
 function Snake:draw()
 	if self.state == 0 then
-		love.graphics.drawq(imgEnemies, quads.snake[0], self.x, self.y, 0, 1, 1, 7, 8)
+		love.graphics.draw(imgEnemies, quads.snake[0], self.x, self.y, 0, 1, 1, 7, 8)
 	elseif self.state == 1 then
 		local frame = math.min(math.floor(self.time*20),5)
-		love.graphics.drawq(imgEnemies, quads.snake[frame], self.x, self.y, 0, 1, 1, 7, 8)
+		love.graphics.draw(imgEnemies, quads.snake[frame], self.x, self.y, 0, 1, 1, 7, 8)
 	elseif self.state == 2 then
 		local frame = math.min(math.floor(self.time*20),5)
-		love.graphics.drawq(imgEnemies, quads.snake[5-frame], self.x, self.y, 0, 1, 1, 7, 8)
+		love.graphics.draw(imgEnemies, quads.snake[5-frame], self.x, self.y, 0, 1, 1, 7, 8)
 	end
 end
 
@@ -290,7 +290,7 @@ function Turret:update(dt)
 end
 
 function Turret:draw()
-	love.graphics.drawq(imgEnemies, quads.turret, self.x, self.y)
+	love.graphics.draw(imgEnemies, quads.turret, self.x, self.y)
 end
 
 function Turret:collidePlayer(pl)
@@ -350,7 +350,7 @@ function Arrow:update(dt)
 end
 
 function Arrow:draw()
-	love.graphics.drawq(imgEnemies, quads.arrow, self.x, self.y, 0, self.dir, 1, 12, 1)
+	love.graphics.draw(imgEnemies, quads.arrow, self.x, self.y, 0, self.dir, 1, 12, 1)
 end
 
 function Arrow:collidePlayer(pl)
@@ -468,11 +468,11 @@ end
 
 function Fireball:draw()
 	if self.yspeed < -50 then
-		love.graphics.drawq(imgEnemies, quads.fireball_moving, self.x, self.y, 0, 1, 1,  3.5, 4)
+		love.graphics.draw(imgEnemies, quads.fireball_moving, self.x, self.y, 0, 1, 1,  3.5, 4)
 	elseif self.yspeed > 50 then
-		love.graphics.drawq(imgEnemies, quads.fireball_moving, self.x, self.y, 0, 1, -1, 3.5, 4)
+		love.graphics.draw(imgEnemies, quads.fireball_moving, self.x, self.y, 0, 1, -1, 3.5, 4)
 	else
-		love.graphics.drawq(imgEnemies, quads.fireball_still, self.x, self.y, 0, 1, 1, 3.5, 4)
+		love.graphics.draw(imgEnemies, quads.fireball_still, self.x, self.y, 0, 1, 1, 3.5, 4)
 	end
 end
 
@@ -519,7 +519,7 @@ function Stone:update(dt)
 end
 
 function Stone:draw()
-	love.graphics.drawq(imgEnemies, quads.stone, self.x, self.y, 0,1,1, 14, 14)
+	love.graphics.draw(imgEnemies, quads.stone, self.x, self.y, 0,1,1, 14, 14)
 end
 
 function Stone:collidePlayer(pl)
@@ -578,15 +578,15 @@ end
 
 function Stalactite:draw()
 	if self.state == 0 then
-		love.graphics.drawq(imgEnemies, quads.stalactite_whole, self.x, self.basey)
+		love.graphics.draw(imgEnemies, quads.stalactite_whole, self.x, self.basey)
 	elseif self.state == 1 then
-		love.graphics.drawq(imgEnemies, quads.stalactite_base, self.x, self.basey)
-		love.graphics.drawq(imgEnemies, quads.stalactite_tip, self.x, self.y)
+		love.graphics.draw(imgEnemies, quads.stalactite_base, self.x, self.basey)
+		love.graphics.draw(imgEnemies, quads.stalactite_tip, self.x, self.y)
 	elseif self.state == 2 then
 		if self.time < 1 or math.floor(self.time*20)%2 == 0 then
-			love.graphics.drawq(imgEnemies, quads.stalactite_base, self.x, self.basey)
+			love.graphics.draw(imgEnemies, quads.stalactite_base, self.x, self.basey)
 		else
-			love.graphics.drawq(imgEnemies, quads.stalactite_whole, self.x, self.basey)
+			love.graphics.draw(imgEnemies, quads.stalactite_whole, self.x, self.basey)
 		end
 	end
 end

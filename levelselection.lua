@@ -16,7 +16,7 @@ local positions = {
 local lg = love.graphics
 
 function LevelSelection.draw()
-	lg.drawq(imgLevels, quads.title, 0,0, 0, WIDTH/900)
+	lg.draw(imgLevels, quads.title, 0,0, 0, WIDTH/900)
 
 	lg.setLineWidth(4)
 	lg.setColor(0,0,0)
@@ -41,16 +41,16 @@ function LevelSelection.draw()
 
 	for i=1,9 do
 		if i <= unlocked then
-			lg.drawq(imgHUD, quads.level_unlocked, positions[i][1]-8, positions[i][2]-8)
+			lg.draw(imgHUD, quads.level_unlocked, positions[i][1]-8, positions[i][2]-8)
 		else
-			lg.drawq(imgHUD, quads.level_locked, positions[i][1]-8, positions[i][2]-8)
+			lg.draw(imgHUD, quads.level_locked, positions[i][1]-8, positions[i][2]-8)
 		end
 	end
-	lg.drawq(imgHUD, quads.level_selected, positions[ls.selected][1]-10, positions[ls.selected][2]-10)
+	lg.draw(imgHUD, quads.level_selected, positions[ls.selected][1]-10, positions[ls.selected][2]-10)
 
-	lg.drawq(imgHUD, quads.hud_coin, 19,13)
-	lg.drawq(imgHUD, quads.hud_skull, 15,30)
-	lg.drawq(imgHUD, quads.hud_clock, 17,47)
+	lg.draw(imgHUD, quads.hud_coin, 19,13)
+	lg.draw(imgHUD, quads.hud_skull, 15,30)
+	lg.draw(imgHUD, quads.hud_clock, 17,47)
 	
 	-- Draw current level stats
 	lg.print(level_status[ls.selected].coins.."/5", 36,16)
@@ -58,7 +58,7 @@ function LevelSelection.draw()
 	lg.print(level_status[ls.selected].time and getTimerString(level_status[ls.selected].time) or "--", 36,50)
 end
 
-function LevelSelection.keypressed(k, uni)
+function LevelSelection.keypressed(k)
 	if k == "right" or k == "up" then
 		LevelSelection.selected = math.min(LevelSelection.selected + 1, unlocked)
 		love.audio.play(snd.Blip)

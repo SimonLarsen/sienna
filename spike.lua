@@ -18,7 +18,7 @@ function Spike.globalUpdate(dt)
 end
 
 function Spike:draw()
-	love.graphics.drawq(imgObjects, quads.spike[Spike.flframe], self.x, self.y)
+	love.graphics.draw(imgObjects, quads.spike[Spike.flframe], self.x, self.y)
 end
 
 function Spike:collidePlayer(pl)

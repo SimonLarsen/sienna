@@ -164,7 +164,7 @@ function Player:checkTiles()
 	end
 end
 
-function Player:keypressed(k, uni)
+function Player:keypressed(k)
 	if self.state == STATE_RUNNING then
 		if self.onGround == true then
 			self.jump = MAX_JUMP
@@ -189,7 +189,7 @@ function Player:keypressed(k, uni)
 	end
 end
 
-function Player:keyreleased(k, uni)
+function Player:keyreleased(k)
 	if self.state == STATE_RUNNING then
 		if self.jump > 0 then
 			self.jump = 0
@@ -291,7 +291,7 @@ function Player:draw()
 		if self.hasGhosts == true then
 			love.graphics.setColor(COLORS.yellow)
 			for i,v in ipairs(self.ghosts) do
-				love.graphics.drawq(imgPlayerW, v[3], v[1], v[2], 0,v[4],1,6.5)
+				love.graphics.draw(imgPlayerW, v[3], v[1], v[2], 0,v[4],1,6.5)
 			end
 			love.graphics.setColor(255,255,255,255)
 		end
@@ -299,25 +299,25 @@ function Player:draw()
 		if blink == false then
 			if self.onGround == true then
 				if self.xspeed == 0 then
-					love.graphics.drawq(self.img, quads.player, self.x, self.y, 0,self.dir,1, 6.5)
+					love.graphics.draw(self.img, quads.player, self.x, self.y, 0,self.dir,1, 6.5)
 				else
 					local frame = floor(self.frame % 6)
-					love.graphics.drawq(self.img, quads.player_run[frame], self.x, self.y, 0,self.dir,1, 6.5)
+					love.graphics.draw(self.img, quads.player_run[frame], self.x, self.y, 0,self.dir,1, 6.5)
 				end
 			else
 				if self.onWall == true then
-					love.graphics.drawq(self.img, quads.player_wall, self.x, self.y, 0,self.dir,1, 6.5)
+					love.graphics.draw(self.img, quads.player_wall, self.x, self.y, 0,self.dir,1, 6.5)
 				else
-					love.graphics.drawq(self.img, quads.player_run[5], self.x, self.y, 0,self.dir,1, 6.5)
+					love.graphics.draw(self.img, quads.player_run[5], self.x, self.y, 0,self.dir,1, 6.5)
 				end
 			end
 		end
 	
 	elseif self.state == STATE_WAIT then
-			love.graphics.drawq(self.img, quads.player_wait1, self.x, self.y, 0, self.dir, 1, 6.5)
+			love.graphics.draw(self.img, quads.player_wait1, self.x, self.y, 0, self.dir, 1, 6.5)
 
 	elseif self.state == STATE_BURNING then
 		local frame = floor(self.frame)
-		love.graphics.drawq(self.img, quads.player_burn[frame], self.x, self.y, 0, self.dir, 1, 6.5)
+		love.graphics.draw(self.img, quads.player_burn[frame], self.x, self.y, 0, self.dir, 1, 6.5)
 	end
 end

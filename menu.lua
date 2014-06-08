@@ -25,7 +25,7 @@ function Menu.create(names, functions, escape_function)
 	return self
 end
 
-function Menu:keypressed(k,uni)
+function Menu:keypressed(k)
 	if k == "down" then
 		self.selected = self.selected + 1
 		love.audio.play(snd.Blip)
@@ -103,7 +103,7 @@ function createMenus()
 	options_menu:update()
 
 	options_menu.metakeypressed = options_menu.keypressed
-	function options_menu:keypressed(k,uni)
+	function options_menu:keypressed(k)
 		if k == "left" then
 			if self.selected == 1 then
 				setScale(SCALE-1)
@@ -163,7 +163,7 @@ function createMenus()
 			end
 			self:update()
 		else
-			self:metakeypressed(k,uni)
+			self:metakeypressed(k)
 		end
 	end
 
@@ -212,7 +212,7 @@ function createMenus()
 		end
 	end
 
-	function credits_menu:keypressed(k,uni)
+	function credits_menu:keypressed(k)
 		love.audio.play(snd.Blip)
 		current_menu = main_menu
 	end
@@ -235,7 +235,7 @@ function createMenus()
 		lg.printf("COINS COLLECTED: "..coins.."/45", 0, top+32, WIDTH, "center")
 	end
 
-	function stats_menu:keypressed(k,uni)
+	function stats_menu:keypressed(k)
 		love.audio.play(snd.Blip)
 		current_menu = main_menu
 	end

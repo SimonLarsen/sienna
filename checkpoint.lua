@@ -15,7 +15,7 @@ end
 
 function Checkpoint:draw()
 	if self.alive == true then
-		love.graphics.drawq(imgObjects, quads.orb, self.x, self.y)
+		love.graphics.draw(imgObjects, quads.orb, self.x, self.y)
 	end
 end
 

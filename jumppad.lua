@@ -18,7 +18,7 @@ function Jumppad.globalUpdate(dt)
 end
 
 function Jumppad:draw()
-	love.graphics.drawq(imgObjects, quads.jumppad[Jumppad.flframe], self.x, self.y)
+	love.graphics.draw(imgObjects, quads.jumppad[Jumppad.flframe], self.x, self.y)
 end
 
 function Jumppad:collidePlayer(pl)

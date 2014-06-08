@@ -20,7 +20,7 @@ end
 
 function Coin:draw()
 	if self.taken == false then
-		love.graphics.drawq(imgObjects, quads.coin[Coin.flframe], self.x, self.y)
+		love.graphics.draw(imgObjects, quads.coin[Coin.flframe], self.x, self.y)
 	end
 end
 
