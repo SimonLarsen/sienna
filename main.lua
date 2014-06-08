@@ -106,8 +106,10 @@ function love.update(dt)
 	end
 end
 
+local scale_x, scale_y
+
 function love.draw()
-	lg.scale(SCALE)
+	lg.scale(scale_x, scale_y)
 
 	-- STATE: In game
 	if gamestate == STATE_INGAME then
@@ -331,6 +333,15 @@ function setScale(scale)
 	if scale < 1 or scale == SCALE then return end
 
 	SCALE = scale
+
+	if love.system.getOS() == 'Android' then
+		scale_x = love.window.getWidth() / WIDTH
+		scale_y = love.window.getHeight() / HEIGHT
+	else
+		scale_x = scale
+		scale_y = scale
+	end
+
 	SCREEN_WIDTH  = WIDTH*SCALE
 	SCREEN_HEIGHT = HEIGHT*SCALE
 
