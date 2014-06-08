@@ -256,6 +256,24 @@ function love.keyreleased(k)
 	end
 end
 
+function love.touchpressed(id, x, y)
+	if gamestate == STATE_INGAME then
+		player:keypressed(' ')
+	elseif gamestate == STATE_INGAME_MENU or gamestate == STATE_MAINMENU then
+		current_menu:keypressed('return')
+	elseif gamestate == STATE_LEVEL_MENU then
+		LevelSelection.keypressed('return')
+	elseif gamestate == STATE_LEVEL_COMPLETED then
+		levelCompleted()
+	end
+end
+
+function love.touchreleased(id, x, y)
+	if gamestate == STATE_INGAME then
+		player:keyreleased(' ')
+	end
+end
+
 function love.focus(f)
 	if f == false and gamestate == STATE_INGAME then
 		gamestate = STATE_INGAME_MENU
