@@ -256,21 +256,66 @@ function love.keyreleased(k)
 	end
 end
 
+local touches = {}
+
 function love.touchpressed(id, x, y)
+	table.insert(touches, {id = id, x = x, y = y})
 	if gamestate == STATE_INGAME then
 		player:keypressed(' ')
-	elseif gamestate == STATE_INGAME_MENU or gamestate == STATE_MAINMENU then
-		current_menu:keypressed('return')
-	elseif gamestate == STATE_LEVEL_MENU then
-		LevelSelection.keypressed('return')
-	elseif gamestate == STATE_LEVEL_COMPLETED then
-		levelCompleted()
 	end
 end
 
 function love.touchreleased(id, x, y)
-	if gamestate == STATE_INGAME then
-		player:keyreleased(' ')
+	local ignore = false
+	for i = #touches, 1, -1 do
+		if touches[i].moved then
+			ignore = true
+		end
+		if touches[i].id == id then
+			table.remove(touches, i)
+		end
+	end
+	if not ignore then
+		if gamestate == STATE_INGAME then
+			player:keyreleased(' ')
+		elseif gamestate == STATE_INGAME_MENU or gamestate == STATE_MAINMENU then
+			current_menu:keypressed('return')
+		elseif gamestate == STATE_LEVEL_MENU then
+			LevelSelection.keypressed('return')
+		elseif gamestate == STATE_LEVEL_COMPLETED then
+			levelCompleted()
+		end
+	end
+end
+
+function love.touchmoved(id, x, y)
+	for i, v in ipairs(touches) do
+		if v.id == id and not v.moved then
+			v.moved = true
+			local xv = x - v.x
+			local yv = y - v.y
+			local function send(key)
+				if gamestate == STATE_INGAME_MENU or gamestate == STATE_MAINMENU then
+					current_menu:keypressed(key)
+				elseif gamestate == STATE_LEVEL_MENU then
+					LevelSelection.keypressed(key)
+				end
+			end
+			if math.abs(yv) > math.abs(xv) then
+				if yv > 0 then
+					send('down')
+				elseif yv < 0 then
+					send('up')
+				end
+			else
+				if xv > 0 then
+					send('right')
+				elseif xv < 0 then
+					send('left')
+				end
+			end
+			return
+		end
 	end
 end
 
