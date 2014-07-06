@@ -293,9 +293,19 @@ end
 function love.touchmoved(id, x, y)
 	for i, v in ipairs(touches) do
 		if v.id == id and not v.moved then
-			v.moved = true
 			local xv = x - v.x
 			local yv = y - v.y
+			local axv = math.abs(xv)
+			local ayv = math.abs(yv)
+
+			-- Ignore touchmoves below a certain threshold
+			local threshold = 0.08
+
+			if axv < threshold and ayv < threshold then
+				return
+			end
+
+			v.moved = true
 			local function send(key)
 				if gamestate == STATE_INGAME_MENU or gamestate == STATE_MAINMENU then
 					current_menu:keypressed(key)
@@ -303,7 +313,7 @@ function love.touchmoved(id, x, y)
 					LevelSelection.keypressed(key)
 				end
 			end
-			if math.abs(yv) > math.abs(xv) then
+			if ayv > axv then
 				if yv > 0 then
 					send('down')
 				elseif yv < 0 then
