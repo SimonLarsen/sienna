@@ -24,6 +24,7 @@ function loadMap(level)
 
 	map = loader.load(map_files[level])
 	map.drawObjects = false
+	map.useSpriteBatch = true
 	fgtiles = map.tileLayers.fg.tileData
 
 	map.enemies = {}
@@ -46,7 +47,7 @@ function loadMap(level)
 
 		elseif v.gid == OBJ_CHECKPOINT then
 			table.insert(map.entities, Checkpoint.create(v.x, v.y-20, v.properties))
-		
+
 		elseif v.gid == OBJ_COIN then
 			table.insert(map.coins, Coin.create(v.x, v.y-16))
 
