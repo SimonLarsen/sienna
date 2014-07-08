@@ -13,6 +13,8 @@ require("menu")
 require("levelselection")
 require("data")
 
+local host = require('hostinfo')
+
 local love = love
 local min = math.min
 local max = math.max
@@ -344,7 +346,7 @@ function setScale(scale)
 
 	SCALE = scale
 
-	if love.system.getOS() == 'Android' then
+	if host.isTouchDevice() then
 		scale_x = love.window.getWidth() / WIDTH
 		scale_y = love.window.getHeight() / HEIGHT
 	else
