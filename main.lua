@@ -357,16 +357,28 @@ function setScale(scale)
 	SCREEN_WIDTH  = WIDTH*SCALE
 	SCREEN_HEIGHT = HEIGHT*SCALE
 
-	love.window.setMode(SCREEN_WIDTH, SCREEN_HEIGHT, {fullscreen=false, vsync=true})
+	love.window.setMode(SCREEN_WIDTH, SCREEN_HEIGHT, {
+		fullscreen=false,
+		vsync=true,
+		borderless = host.isTouchDevice()
+	})
 end
 
 function setResolution(w,h)
-	love.window.setMode(w, h, {fullscreen=false, vsync=true})
+	love.window.setMode(w, h, {
+		fullscreen=false,
+		vsync=true,
+		borderless = host.isTouchDevice()
+	})
 
 	if w == 0 and h == 0 then
 		SCREEN_WIDTH = lg.getWidth()
 		SCREEN_HEIGHT = lg.getHeight()
-		love.window.setMode(SCREEN_WIDTH, SCREEN_HEIGHT, {fullscreen=false, vsync=true})
+		love.window.setMode(SCREEN_WIDTH, SCREEN_HEIGHT, {
+			fullscreen=false,
+			vsync=true,
+			borderless = host.isTouchDevice()
+		})
 	else
 		SCREEN_WIDTH = w
 		SCREEN_HEIGHT = h
