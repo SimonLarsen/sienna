@@ -19,4 +19,6 @@ function love.conf(t)
     t.window.highdpi = false
     t.window.srgb = false
     t.modules.physics = false
+    t.modules.joystick = false
+    t.modules.thread = false
 end
