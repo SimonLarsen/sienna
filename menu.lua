@@ -66,10 +66,18 @@ function Menu:draw()
 	end
 end
 
+local host = require('hostinfo')
+
 function createMenus()
 	-- INGAME MENU
+	local menuItems = {"CONTINUE", "RESTART LEVEL", "OPTIONS", "EXIT LEVEL", "QUIT GAME"}
+
+	if host.isTouchDevice() then
+		table.remove(menuItems, #menuItems)
+	end
+
 	ingame_menu = Menu.create(
-		{"CONTINUE", "RESTART LEVEL", "OPTIONS", "EXIT LEVEL", "QUIT GAME"},
+		menuItems,
 		{function() gamestate = STATE_INGAME end,
 		 function() reloadMap() gamestate = STATE_INGAME end,
 		 function() current_menu = options_menu end,
@@ -168,8 +176,14 @@ function createMenus()
 	end
 
 	-- MAIN MENU
+	local menuItems = {"START GAME", "OPTIONS", "STATS", "CREDITS", "QUIT GAME"}
+
+	if host.isTouchDevice() then
+		table.remove(menuItems, #menuItems)
+	end
+
 	main_menu = Menu.create(
-		{"START GAME", "OPTIONS", "STATS", "CREDITS", "QUIT GAME"},
+		menuItems,
 		{function() gamestate = STATE_LEVEL_MENU end,
 		 function() current_menu = options_menu end,
 		 function() current_menu = stats_menu end,
