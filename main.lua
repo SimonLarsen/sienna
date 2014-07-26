@@ -13,6 +13,8 @@ require("menu")
 require("levelselection")
 require("data")
 
+local host = require('hostinfo')
+
 local love = love
 local min = math.min
 local max = math.max
@@ -106,8 +108,10 @@ function love.update(dt)
 	end
 end
 
+local scale_x, scale_y
+
 function love.draw()
-	lg.scale(SCALE)
+	lg.scale(scale_x, scale_y)
 
 	-- STATE: In game
 	if gamestate == STATE_INGAME then
@@ -256,6 +260,79 @@ function love.keyreleased(k)
 	end
 end
 
+local touches = {}
+
+function love.touchpressed(id, x, y)
+	table.insert(touches, {id = id, x = x, y = y})
+	if gamestate == STATE_INGAME then
+		player:keypressed(' ')
+	end
+end
+
+function love.touchreleased(id, x, y)
+	local ignore = false
+	for i = #touches, 1, -1 do
+		if touches[i].moved then
+			ignore = true
+		end
+		if touches[i].id == id then
+			table.remove(touches, i)
+		end
+	end
+	if not ignore then
+		if gamestate == STATE_INGAME then
+			player:keyreleased(' ')
+		elseif gamestate == STATE_INGAME_MENU or gamestate == STATE_MAINMENU then
+			current_menu:keypressed('return')
+		elseif gamestate == STATE_LEVEL_MENU then
+			LevelSelection.keypressed('return')
+		elseif gamestate == STATE_LEVEL_COMPLETED then
+			levelCompleted()
+		end
+	end
+end
+
+function love.touchmoved(id, x, y)
+	for i, v in ipairs(touches) do
+		if v.id == id and not v.moved then
+			local xv = x - v.x
+			local yv = y - v.y
+			local axv = math.abs(xv)
+			local ayv = math.abs(yv)
+
+			-- Ignore touchmoves below a certain threshold
+			local threshold = 0.08
+
+			if axv < threshold and ayv < threshold then
+				return
+			end
+
+			v.moved = true
+			local function send(key)
+				if gamestate == STATE_INGAME_MENU or gamestate == STATE_MAINMENU then
+					current_menu:keypressed(key)
+				elseif gamestate == STATE_LEVEL_MENU then
+					LevelSelection.keypressed(key)
+				end
+			end
+			if ayv > axv then
+				if yv > 0 then
+					send('down')
+				elseif yv < 0 then
+					send('up')
+				end
+			else
+				if xv > 0 then
+					send('right')
+				elseif xv < 0 then
+					send('left')
+				end
+			end
+			return
+		end
+	end
+end
+
 function love.focus(f)
 	if f == false and gamestate == STATE_INGAME then
 		gamestate = STATE_INGAME_MENU
@@ -268,19 +345,40 @@ function setScale(scale)
 	if scale < 1 or scale == SCALE then return end
 
 	SCALE = scale
+
+	if host.isTouchDevice() then
+		scale_x = love.window.getWidth() / WIDTH
+		scale_y = love.window.getHeight() / HEIGHT
+	else
+		scale_x = scale
+		scale_y = scale
+	end
+
 	SCREEN_WIDTH  = WIDTH*SCALE
 	SCREEN_HEIGHT = HEIGHT*SCALE
 
-	love.window.setMode(SCREEN_WIDTH, SCREEN_HEIGHT, {fullscreen=false, vsync=true})
+	love.window.setMode(SCREEN_WIDTH, SCREEN_HEIGHT, {
+		fullscreen=false,
+		vsync=true,
+		borderless = host.isTouchDevice()
+	})
 end
 
 function setResolution(w,h)
-	love.window.setMode(w, h, {fullscreen=false, vsync=true})
+	love.window.setMode(w, h, {
+		fullscreen=false,
+		vsync=true,
+		borderless = host.isTouchDevice()
+	})
 
 	if w == 0 and h == 0 then
 		SCREEN_WIDTH = lg.getWidth()
 		SCREEN_HEIGHT = lg.getHeight()
-		love.window.setMode(SCREEN_WIDTH, SCREEN_HEIGHT, {fullscreen=false, vsync=true})
+		love.window.setMode(SCREEN_WIDTH, SCREEN_HEIGHT, {
+			fullscreen=false,
+			vsync=true,
+			borderless = host.isTouchDevice()
+		})
 	else
 		SCREEN_WIDTH = w
 		SCREEN_HEIGHT = h
