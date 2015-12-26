@@ -347,8 +347,8 @@ function setScale(scale)
 	SCALE = scale
 
 	if host.isTouchDevice() then
-		scale_x = love.window.getWidth() / WIDTH
-		scale_y = love.window.getHeight() / HEIGHT
+		scale_x = love.graphics.getWidth() / WIDTH
+		scale_y = love.graphics.getHeight() / HEIGHT
 	else
 		scale_x = scale
 		scale_y = scale

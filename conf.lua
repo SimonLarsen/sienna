@@ -1,6 +1,6 @@
 function love.conf(t)
     t.identity = "siena"
-    t.version = "0.9.1"
+    t.version = "0.10.0"
     t.console = false
 
     t.window.title = "Sienna"
@@ -12,7 +12,6 @@ function love.conf(t)
     t.window.minwidth = 1
     t.window.minheight = 1
     t.window.fullscreen = false
-    t.window.fullscreentype = "normal"
     t.window.vsync = true
     t.window.fsaa = 0
     t.window.display = 1
