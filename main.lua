@@ -230,7 +230,7 @@ end
 
 function love.keypressed(k)
 	if gamestate == STATE_INGAME then
-		if k == " " or k == "z" or k == "x" then
+		if k == "space" or k == "z" or k == "x" then
 			player:keypressed(k)
 		elseif k == "escape" then
 			gamestate = STATE_INGAME_MENU

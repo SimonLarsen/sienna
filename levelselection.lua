@@ -65,7 +65,7 @@ function LevelSelection.keypressed(k)
 	elseif k == "left" or k == "down" then
 		LevelSelection.selected = math.max(LevelSelection.selected-1, 1)
 		love.audio.play(snd.Blip)
-	elseif k == "return" or k == " " then
+	elseif k == "return" or k == "space" then
 		loadMap(LevelSelection.selected)
 	elseif k == "escape" then
 		gamestate = STATE_MAINMENU
