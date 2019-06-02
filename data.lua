@@ -1,7 +1,7 @@
 require("TSerial")
 
 function loadSettings()
-	if love.filesystem.exists("settings") then
+	if love.filesystem.getInfo("settings") ~= nil then
 		local data = love.filesystem.read("settings")
 		local set = TSerial.unpack(data)
 		setScale(set.scale)
@@ -17,7 +17,7 @@ function loadSettings()
 end
 
 function loadData()
-	if love.filesystem.exists("status") then
+	if love.filesystem.getInfo("status") ~= nil then
 		local data = love.filesystem.read("status")
 		local set = TSerial.unpack(data)
 

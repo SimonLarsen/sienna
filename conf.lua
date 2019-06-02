@@ -1,6 +1,6 @@
 function love.conf(t)
     t.identity = "siena"
-    t.version = "0.10.0"
+    t.version = "11.2"
     t.console = false
 
     t.window.title = "Sienna"
@@ -24,7 +24,7 @@ end
 
 function love.conf(t)
     t.identity = "dk.tangramgames.sienna"
-    t.version = "0.10.0"
+    t.version = "11.2"
     t.console = false
     t.accelerometerjoystick = false
     t.gammacorrect = false

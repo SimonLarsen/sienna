@@ -34,10 +34,10 @@ function LevelSelection.draw()
 		lg.line(positions[i][1],positions[i][2], positions[i+1][1], positions[i+1][2])
 	end
 
-	lg.setColor(0,0,0,200)
+	lg.setColor(0,0,0,200/255)
 	lg.rectangle("fill",9,9, 95,55)
 
-	lg.setColor(255,255,255)
+	lg.setColor(1,1,1)
 
 	for i=1,9 do
 		if i <= unlocked then

@@ -5,15 +5,15 @@ local lg = love.graphics
 local la = love.audio
 
 COLORS = {
-	yellow 		= {237,201,81},
-	red 		= {204,51,63},
-	orange 		= {235,104,65},
-	offwhite 	= {231,231,231},
-	lightblue   = {105,188,188},
-	darkblue	= {0,160,176},
-	darkbrown   = {71,44,31},
-	lightbrown  = {106,75,60},
-	green       = {105,188,109}
+	yellow 		= {237/255,201/255,81/255},
+	red 		= {204/255,51/255,63/255},
+	orange 		= {235/255,104/255,65/255},
+	offwhite 	= {231/255,231/255,231/255},
+	lightblue   = {105/255,188/255,188/255},
+	darkblue	= {0,160/255,176/255},
+	darkbrown   = {71/255,44/255,31/255},
+	lightbrown  = {106/255,75/255,60/255},
+	green       = {105/255,188/255,109/255}
 }
 
 function loadImages()
@@ -28,9 +28,9 @@ function loadImages()
 	imgLevels  = lg.newImage("art/levelscreen.png")
 	imgLevels:setFilter("linear","linear")
 
-	local imgFontSmall = lg.newImage("art/font_small.png")
-	local imgFontBold = lg.newImage("art/font_bold.png")
-	local imgFontMedium = lg.newImage("art/font_medium.png")
+	local imgFontSmall = "art/font_small.png"
+	local imgFontBold = "art/font_bold.png"
+	local imgFontMedium = "art/font_medium.png"
 	fontSmall = lg.newImageFont(imgFontSmall, " abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.,-!$:;'", 1)
 	fontMedium = lg.newImageFont(imgFontMedium, " 0123456789abcdefghijklmnopqrstuvxyzABCDEFGHIJKLMNOPQRSTUVXYZ!-.,$", 1)
 	fontBold = lg.newImageFont(imgFontBold, " ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789*:|=-<>./'\"+", 1)
