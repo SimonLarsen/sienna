@@ -293,7 +293,7 @@ function Player:draw()
 			for i,v in ipairs(self.ghosts) do
 				love.graphics.draw(imgPlayerW, v[3], v[1], v[2], 0,v[4],1,6.5)
 			end
-			love.graphics.setColor(255,255,255,255)
+			love.graphics.setColor(1,1,1,1)
 		end
 		-- Draw player
 		if blink == false then

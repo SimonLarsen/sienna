@@ -1,8 +1,13 @@
 require("TSerial")
 
+local settingsFilename = "settings"
+local statusFilename   = "status"
+
+
 function loadSettings()
-	if love.filesystem.exists("settings") then
-		local data = love.filesystem.read("settings")
+	local info = love.filesystem.getInfo(settingsFilename, "file")
+	if info then
+		local data = love.filesystem.read(settingsFilename)
 		local set = TSerial.unpack(data)
 		setScale(set.scale)
 		SCROLL_SPEED = set.scroll_speed
@@ -17,8 +22,9 @@ function loadSettings()
 end
 
 function loadData()
-	if love.filesystem.exists("status") then
-		local data = love.filesystem.read("status")
+	local info = love.filesystem.getInfo(statusFilename, "file")
+	if info then
+		local data = love.filesystem.read(statusFilename)
 		local set = TSerial.unpack(data)
 
 		unlocked = set.unlocked
