@@ -20,6 +20,7 @@ local min = math.min
 local max = math.max
 local floor = math.floor
 local lg = love.graphics
+local last_setScale
 
 TILEW = 16
 WIDTH = 300
@@ -30,6 +31,8 @@ STATE_INGAME_MENU = 1
 STATE_INGAME = 2
 STATE_LEVEL_MENU = 3
 STATE_LEVEL_COMPLETED = 4
+
+local SETSCALE_COOLDOWN = 0.1
 
 function love.load()
 	loadSettings()
@@ -342,8 +345,10 @@ function love.focus(f)
 end
 
 function setScale(scale)
+	if last_setScale and love.timer.getTime()-last_setScale < SETSCALE_COOLDOWN then return end
 	if scale < 1 or scale == SCALE then return end
 
+	last_setScale = love.timer.getTime()
 	SCALE = scale
 
 	if host.isTouchDevice() then
