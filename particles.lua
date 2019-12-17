@@ -52,7 +52,7 @@ function Sparkle:draw()
 	for i,v in ipairs(self.particles) do
 		lg.rectangle("fill", 0.5+v.x, 0.5+v.y, 1, 1)
 	end
-	lg.setColor(255,255,255,255)
+	lg.setColor(1,1,1,1)
 end
 
 -------------------------------------------
@@ -91,7 +91,7 @@ function Dust:draw()
 	lg.rectangle("fill", self.x+self.time*16, self.y-self.time*16, 1,1)
 	lg.rectangle("fill", self.x-self.time*16, self.y+self.time*16, 1,1)
 	lg.rectangle("fill", self.x+self.time*16, self.y+self.time*16, 1,1)
-	lg.setColor(255,255,255)
+	lg.setColor(1,1,1)
 end
 
 -------------------------------------------
@@ -134,5 +134,5 @@ function Ring:draw()
 		local py = self.y + math.sin((i/self.count)*2*math.pi)*(0.25-self.time)*self.radius
 		lg.rectangle("fill", px, py, 1, 1)
 	end
-	lg.setColor(255,255,255,255)
+	lg.setColor(1,1,1,1)
 end

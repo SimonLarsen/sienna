@@ -13,8 +13,15 @@ COLORS = {
 	darkblue	= {0,160,176},
 	darkbrown   = {71,44,31},
 	lightbrown  = {106,75,60},
-	green       = {105,188,109}
+	green       = {105,188,109},
+	
+	menu        = {0,0,0,200},
 }
+
+for k, v in pairs(COLORS) do
+	v[1], v[2], v[3] = v[1] / 255, v[2] / 255, v[3] / 255
+	if v[4] then v[4] = v[4] / 255 end
+end
 
 function loadImages()
 	imgPlayer = lg.newImage("art/player.png")
@@ -28,9 +35,9 @@ function loadImages()
 	imgLevels  = lg.newImage("art/levelscreen.png")
 	imgLevels:setFilter("linear","linear")
 
-	local imgFontSmall = lg.newImage("art/font_small.png")
-	local imgFontBold = lg.newImage("art/font_bold.png")
-	local imgFontMedium = lg.newImage("art/font_medium.png")
+	local imgFontSmall  = "art/font_small.png"
+	local imgFontBold   = "art/font_bold.png"
+	local imgFontMedium = "art/font_medium.png"
 	fontSmall = lg.newImageFont(imgFontSmall, " abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.,-!$:;'", 1)
 	fontMedium = lg.newImageFont(imgFontMedium, " 0123456789abcdefghijklmnopqrstuvxyzABCDEFGHIJKLMNOPQRSTUVXYZ!-.,$", 1)
 	fontBold = lg.newImageFont(imgFontBold, " ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789*:|=-<>./'\"+", 1)

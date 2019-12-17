@@ -22,7 +22,7 @@ function ObjectLayer:new(map, name, color, opacity, prop)
 	
 	ol.map = map							-- The map this layer belongs to
 	ol.name = name or "Unnamed ObjectLayer"	-- The name of this layer
-	ol.color = color or {128,128,128,255}	-- The color theme
+	ol.color = color or {0.5,0.5,0.5,1}	-- The color theme
 	ol.opacity = opacity or 1				-- The opacity
 	ol.objects = {}							-- The layer's objects indexed by type
 	ol.properties = prop or {}				-- Properties set by Tiled.
@@ -56,7 +56,7 @@ function ObjectLayer:draw()
 	local drawList = {}							-- A list of the objects to be drawn
 	local r,g,b,a = love.graphics.getColor()	-- Save the color so we can set it back at the end
 	local line	= love.graphics.getLineWidth()	-- Save the line width too
-	self.color[4] = 255 * self.opacity			-- Set the opacity
+	self.color[4] = self.opacity			-- Set the opacity
 	
 	-- Put only objects that are on the screen in the draw list. If the screen range isn't defined
 	-- add all objects

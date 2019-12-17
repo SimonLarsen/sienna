@@ -52,9 +52,9 @@ end
 function Menu:draw()
 	local top = (HEIGHT-self.height)/2
 
-	lg.setColor(0,0,0,200)
+	lg.setColor(COLORS.menu)
 	lg.rectangle("fill",(WIDTH-self.width)/2-6, top-6, self.width+12, self.height+12)
-	lg.setColor(255,255,255,255)
+	lg.setColor(1,1,1,1)
 
 	lg.setFont(fontBold)
 	for i=1,self.length do
@@ -194,7 +194,7 @@ function createMenus()
 	)
 
 	function main_menu:draw()
-		lg.setColor(255,255,255,255)
+		lg.setColor(1,1,1,1)
 		for i=1,self.length do
 			if i == self.selected then
 				lg.printf("* "..self.names[i].." *", 123, 59+(i-1)*12, 166, "center")
@@ -213,9 +213,9 @@ function createMenus()
 	function credits_menu:draw()
 		local top = (HEIGHT-self.height)/2
 
-		lg.setColor(0,0,0,200)
+		lg.setColor(COLORS.menu)
 		lg.rectangle("fill",(WIDTH-self.width)/2-6, top-6, self.width+12, self.height+12)
-		lg.setColor(255,255,255,255)
+		lg.setColor(1,1,1,1)
 
 		lg.setFont(fontBold)
 		local offset = top+8
@@ -239,9 +239,9 @@ function createMenus()
 	function stats_menu:draw()
 		local top = (HEIGHT-self.height)/2
 
-		lg.setColor(0,0,0,200)
+		lg.setColor(COLORS.menu)
 		lg.rectangle("fill",(WIDTH-self.width)/2-6, top-6, self.width+12, self.height+12)
-		lg.setColor(255,255,255,255)
+		lg.setColor(1,1,1,1)
 
 		lg.setFont(fontBold)
 		lg.printf("TOTAL DEATHS: "..deaths, 0, top, WIDTH, "center")

@@ -1,3 +1,4 @@
+--[[
 function love.conf(t)
     t.identity = "siena"
     t.version = "0.10.0"
@@ -21,10 +22,11 @@ function love.conf(t)
     t.modules.joystick = false
     t.modules.thread = false
 end
+--]]
 
 function love.conf(t)
     t.identity = "dk.tangramgames.sienna"
-    t.version = "0.10.0"
+    t.version = "11.0"
     t.console = false
     t.accelerometerjoystick = false
     t.gammacorrect = false

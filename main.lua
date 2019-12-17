@@ -20,6 +20,7 @@ local min = math.min
 local max = math.max
 local floor = math.floor
 local lg = love.graphics
+local last_setScale
 
 TILEW = 16
 WIDTH = 300
@@ -30,6 +31,8 @@ STATE_INGAME_MENU = 1
 STATE_INGAME = 2
 STATE_LEVEL_MENU = 3
 STATE_LEVEL_COMPLETED = 4
+
+local SETSCALE_COOLDOWN = 0.1
 
 function love.load()
 	loadSettings()
@@ -170,16 +173,16 @@ function drawIngameHUD()
 	-- Draw text
 	lg.draw(imgHUD, quads.hud_coin, 9, 10)
 	lg.draw(imgHUD, quads.hud_skull, 48, 10)
-	lg.setColor(255,255,255,255)
+	lg.setColor(1,1,1,1)
 	lg.print(map.numcoins.."/5", 21, 13)
 	lg.print(map.deaths, 67, 13)
 	lg.printf(time, WIDTH-120, 13, 100, "right")
 end
 
 function drawCompletionHUD()
-	lg.setColor(0,0,0,200)
+	lg.setColor(COLORS.menu)
 	lg.rectangle("fill", 0,0, WIDTH,HEIGHT)
-	lg.setColor(255,255,255,255)
+	lg.setColor(1,1,1,1)
 	lg.draw(imgHUD, quads.text_level, 48,40)
 	lg.draw(imgHUD, quads.text_cleared, 140,40)
 
@@ -217,7 +220,7 @@ function drawCompletionHUD()
 	end
 
 
-	lg.setColor(255,255,255,255)
+	lg.setColor(1,1,1,1)
 	lg.print("PRESS ANY KEY TO CONTINUE", 55, 165)
 end
 
@@ -342,8 +345,10 @@ function love.focus(f)
 end
 
 function setScale(scale)
+	if last_setScale and love.timer.getTime()-last_setScale < SETSCALE_COOLDOWN then return end
 	if scale < 1 or scale == SCALE then return end
 
+	last_setScale = love.timer.getTime()
 	SCALE = scale
 
 	if host.isTouchDevice() then
